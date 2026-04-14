@@ -1,0 +1,36 @@
+If:
+  PathMatch: .*\.c
+CompileFlags:
+  Add: [-Wno-declaration-after-statement, -Wwrite-strings]
+---
+If:
+  PathMatch: library\+\+/.*\.hpp
+CompileFlags:
+  Add: [
+    -I_deps/neargye.magic_enum-src/include,
+    -I_deps/gabime.spdlog-src/include,
+    -I../../../library++,
+    -I../../../vst,
+  ]
+---
+CompileFlags:
+  Add:
+    [
+      -Weverything,
+      -Wno-c99-designator,
+      -Wno-c++98-compat,
+      -Wno-c++20-designator,
+      -Wno-newline-eof,
+      -Wno-c++98-compat-pedantic,
+      -Wno-covered-switch-default,
+      -Wno-old-style-cast, # duplicate of cppcoreguidelines-pro-type-cstyle-cast/google-readability-casting
+    ]
+  Remove: -Werror
+Hover:
+  ShowAKA: true
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+Diagnostics:
+  UnusedIncludes: Strict
