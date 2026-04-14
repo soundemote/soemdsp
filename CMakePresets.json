@@ -1,0 +1,149 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "base-ninja_multi",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": {
+                    "type": "BOOL",
+                    "value": "ON"
+                }
+            }
+        },
+        {
+            "name": "windows-cl-vs17",
+            "displayName": "MSVC",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "hostOS": "Windows",
+                    "enableMicrosoftCodeAnalysis": false,
+                    "enableClangTidyCodeAnalysis": true
+                }
+            }
+        },
+        {
+            "name": "windows-clang-ninja_multi",
+            "displayName": "Clang",
+            "inherits": "base-ninja_multi",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "linux-clang-ninja_multi",
+            "inherits": "base-ninja_multi",
+            "displayName": "Clang",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "linux-gnu-ninja_multi",
+            "inherits": "base-ninja_multi",
+            "displayName": "GNU",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-cl-vs17",
+            "configurePreset": "windows-cl-vs17"
+        },
+        {
+            "name": "windows-cl-vs17-Debug",
+            "configuration": "Debug",
+            "displayName": "Debug",
+            "configurePreset": "windows-cl-vs17"
+        },
+        {
+            "name": "windows-cl-vs17-Release",
+            "configuration": "Release",
+            "displayName": "Release",
+            "configurePreset": "windows-cl-vs17"
+        },
+        {
+            "name": "windows-clang-ninja_multi",
+            "configurePreset": "windows-clang-ninja_multi"
+        },
+        {
+            "name": "windows-clang-ninja_multi-Debug",
+            "configuration": "Debug",
+            "displayName": "Debug",
+            "configurePreset": "windows-clang-ninja_multi"
+        },
+        {
+            "name": "windows-clang-ninja_multi-Release",
+            "configuration": "Release",
+            "displayName": "Release",
+            "configurePreset": "windows-clang-ninja_multi"
+        },
+        {
+            "name": "linux-clang-ninja_multi",
+            "configurePreset": "linux-clang-ninja_multi"
+        },
+        {
+            "name": "linux-clang-ninja_multi-Debug",
+            "configuration": "Debug",
+            "displayName": "Debug",
+            "configurePreset": "linux-clang-ninja_multi"
+        },
+        {
+            "name": "linux-clang-ninja_multi-Release",
+            "configuration": "Release",
+            "displayName": "Release",
+            "configurePreset": "linux-clang-ninja_multi"
+        },
+        {
+            "name": "linux-gnu-ninja_multi",
+            "configurePreset": "linux-gnu-ninja_multi"
+        },
+        {
+            "name": "linux-gnu-ninja_multi-Debug",
+            "configuration": "Debug",
+            "displayName": "Debug",
+            "configurePreset": "linux-gnu-ninja_multi"
+        },
+        {
+            "name": "linux-gnu-ninja_multi-Release",
+            "configuration": "Release",
+            "displayName": "Release",
+            "configurePreset": "linux-gnu-ninja_multi"
+        }
+    ]
+}

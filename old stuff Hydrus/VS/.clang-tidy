@@ -1,0 +1,2 @@
+Checks: "*,-llvm-*,-llvmlibc-*,-fuchsia-*,-modernize-use-trailing-return-type,-cppcoreguidelines-pro-type-vararg,-hicpp-vararg"
+HeaderFilterRegex: ".*"

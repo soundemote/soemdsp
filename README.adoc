@@ -1,0 +1,101 @@
+# Conventions
+
+## dsp class format
+* Denote what change function each parameter requires.
+* Connections are a convenient optional.
+* use an appropriate namespace such as filter, delay, etc.
+* You're not allowed to use bool for Var!
+* io -> functions that most classes have like init/reset/isIdle/run and listing variables that hold in/out signals.
+* parameters -> changed functions and their corresponding variable
+* coefficients -> variables that are calculated based on other variables and should not be directly manipulated
+* objects -> put all dsp child objects here
+```cpp
+namespace soemdsp::delay
+{
+
+class Reverb {
+  public:
+    Reverb(){ init(); }
+
+    struct Connections {
+        Var<double> mix;
+    };
+    void connect(Connections connections);
+
+    // io
+    void init();
+    void reset();
+    bool isIdle() { return false; };
+    void run(double inL, double inR);
+    double inL_{}, inR_{}; // input signal
+    double fbL_{}, fbR_{}; // feedback signal
+    double outL{}, outR{}; // output signal
+
+    // parameters
+    void sampleRateChanged();
+    void mixChanged();
+    var<double> mix; // mixChanged()
+
+    // coefficients
+    Var<double> lfoSpeed_;
+
+    // objects
+    filter::OnePoleLP lpfL, lpfR;
+
+    private:
+    // stuff goes here that are completely useless to be manipulated and accessed, not much will go here
+};
+} // soemdsp::delay
+```
+
+## SampleRate Class
+
+Whatever is dependent on samplerate you will see `SampleRate::freq_` for example or `SampleRate::samplesToTime(x)`. This makes it easy to go through code and see for example what about a dsp class needs to be updated when sample rate is updated.
+
+## Shorthands
+```
+* atk attack
+* dec decay decrement
+* sus sustain
+* rel release
+
+* bi bipolar
+* uni unipolar
+
+* dbl double
+* flt float
+* s str string
+* v val value
+* k constant
+
+* par param parameter
+* var variable
+
+* i inc increment
+* id identifier
+* idx index
+
+* def default
+* min minimum
+* max maximum
+
+* buf buffer
+* fb feedback
+* ch chan, channel
+* obj object
+* cc constinuouscontroller
+* impl implementation
+* init initializer
+* mod modulation
+* p ph phase
+* rnd rand random
+```
+
+## Function Names
+* `run([double input]);` The main function that calculates the very final audio sample or does the work, usually used in a per-sample block. If there are multiple run functions, name them with the format of `runFoo()` `runBar()` where only one is required to be called.
+* `foobarChanged();` variable update
+* avoid get/set
+* `isIdle();` idle check
+* `reset();` the general reset function
+* `calculateState();` If able, for saving CPU, separate out the per-sample function into `run()` and `calculateState()`.
+* `getModeString();` output the string that corresponds to the current slope/shape/mode of the module
