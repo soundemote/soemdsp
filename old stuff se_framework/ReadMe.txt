@@ -1,0 +1,1 @@
+The code that is shared between all Soundemote products is encapsulated into this juce module for convenient reuse.
