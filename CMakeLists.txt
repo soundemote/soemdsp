@@ -102,3 +102,4 @@ target_compile_features(soemdsp PUBLIC cxx_std_20)
 set_property(TARGET soemdsp PROPERTY FOLDER "Libs")
 
 add_subdirectory(src)
+add_subdirectory(examples)
