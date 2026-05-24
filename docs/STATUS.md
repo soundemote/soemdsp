@@ -26,6 +26,9 @@ Implemented runtime capabilities include:
 - resetAllParameterValues helper
 - resetAllParameterValues returns the number of changed parameters reset
 - resetAllParameterValues supports future global editor reset, preset cleanup, and save-state cleanup behavior
+- ParameterSnapshot value type
+- parameterSnapshot() captures node id, parameter id, and raw value
+- parameterSnapshot() supports future preset, undo, dirty diff, and save-state groundwork but is not full serialization
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

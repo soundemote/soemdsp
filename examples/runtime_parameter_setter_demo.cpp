@@ -88,5 +88,22 @@ int main()
               << "\n";
     printCircuit(circuit);
 
+    const auto snapshot = circuit.parameterSnapshot();
+
+    std::cout << "\n[SNAPSHOT]\n";
+    std::cout << "snapshot size: "
+              << snapshot.size()
+              << "\n";
+    for (const auto& item : snapshot)
+    {
+        std::cout << "node "
+                  << item.nodeId
+                  << " param "
+                  << item.parameterId
+                  << " value "
+                  << item.value
+                  << "\n";
+    }
+
     return 0;
 }

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <string>
 #include <string_view>
 #include <vector>
 #include <soemdsp/runtime/Connection.hpp>
@@ -10,6 +11,13 @@ namespace soemdsp::runtime
 {
 using NodeId = std::uint64_t;
 using ParameterId = std::string_view;
+
+struct ParameterSnapshot
+{
+    NodeId nodeId{};
+    std::string parameterId;
+    float value{};
+};
 
 struct Circuit
 {
@@ -434,6 +442,24 @@ struct Circuit
         }
 
         return changedCount;
+    }
+
+    std::vector<ParameterSnapshot> parameterSnapshot() const
+    {
+        std::vector<ParameterSnapshot> snapshot;
+
+        for (const auto& node : nodes)
+        {
+            for (const auto& parameter : node->parameters)
+            {
+                snapshot.push_back({
+                  node->id,
+                  parameter.id,
+                  parameter.value });
+            }
+        }
+
+        return snapshot;
     }
 
     void allocateBuffers()
