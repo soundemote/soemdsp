@@ -3,7 +3,6 @@
 #include <array>
 #include <memory>
 #include <vector>
-
 #include <soemdsp/runtime/Connection.hpp>
 #include <soemdsp/runtime/Node.hpp>
 
@@ -31,22 +30,56 @@ struct Circuit
                  Node& destinationNode,
                  Port& destinationPort)
     {
-        connections.push_back({
-            &sourceNode,
-            &sourcePort,
-            &destinationNode,
-            &destinationPort
-        });
+        connections.push_back({ &sourceNode,
+                                &sourcePort,
+                                &destinationNode,
+                                &destinationPort });
+    }
+
+    void allocateBuffers()
+    {
+        audioBuffers.clear();
+
+        std::size_t audioOutputCount = 0;
+
+        for (auto& node : nodes)
+        {
+            for (auto& port : node->outputs)
+            {
+                if (port.type == PortType::Audio)
+                {
+                    ++audioOutputCount;
+                }
+            }
+        }
+
+        audioBuffers.resize(audioOutputCount);
+
+        std::size_t bufferIndex = 0;
+
+        for (auto& node : nodes)
+        {
+            for (auto& port : node->outputs)
+            {
+                if (port.type == PortType::Audio)
+                {
+                    port.audioBuffer = audioBuffers[bufferIndex].data();
+                    port.audioFrames = blockSize;
+
+                    ++bufferIndex;
+                }
+            }
+        }
     }
 
     void process()
     {
-        audioBuffers.clear();
-        audioBuffers.reserve(nodes.size());
-
+        for (auto& buffer : audioBuffers)
+        {
+            buffer.fill(0.0f);
+        }
         for (auto& node : nodes)
         {
-            // Pull connected values into this node before it runs
             for (auto& connection : connections)
             {
                 if (connection.destinationNode == node.get() &&
@@ -54,30 +87,18 @@ struct Circuit
                     connection.destinationPort)
                 {
                     connection.destinationPort->value =
-                        connection.sourcePort->value;
+                      connection.sourcePort->value;
 
                     connection.destinationPort->audioBuffer =
-                        connection.sourcePort->audioBuffer;
+                      connection.sourcePort->audioBuffer;
 
                     connection.destinationPort->audioFrames =
-                        connection.sourcePort->audioFrames;
+                      connection.sourcePort->audioFrames;
                 }
             }
-
-            for (auto& output : node->outputs)
-            {
-                if (output.type == PortType::Audio)
-                {
-                    audioBuffers.emplace_back();
-
-                    output.audioBuffer = audioBuffers.back().data();
-                    output.audioFrames = blockSize;
-                }
-            }
-
             node->process();
         }
     }
 };
 
-} // namespace soemdsp::runtime
+} //namespace soemdsp::runtime
