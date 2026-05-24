@@ -34,6 +34,9 @@ Implemented runtime capabilities include:
 - CircuitSnapshot preserves parameter minValue, midValue, and maxValue
 - CircuitSnapshot is serialization groundwork, not a committed file format
 - CircuitSnapshot does not implement load/save yet
+- PrintCircuitSnapshot.hpp text export helper
+- CircuitSnapshot can be inspected as compact text
+- CircuitSnapshot text inspection is debug/export groundwork, not a committed serialization format
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

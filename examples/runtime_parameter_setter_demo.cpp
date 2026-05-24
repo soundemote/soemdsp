@@ -7,6 +7,7 @@
 #include <thread>
 
 #include <soemdsp/runtime/debug/ConsoleStyle.hpp>
+#include <soemdsp/runtime/serialization/PrintCircuitSnapshot.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 namespace
@@ -206,6 +207,7 @@ void printSnapshot(const Circuit& circuit)
               << " | connections "
               << circuitSnapshot.connections.size()
               << "\n";
+    printCircuitSnapshot(circuitSnapshot);
 
     console::debug(std::cout, "presentation-only demo output");
 }
