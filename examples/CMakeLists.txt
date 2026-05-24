@@ -17,3 +17,7 @@ target_link_libraries(runtime_control_graph_validation_demo soemdsp)
 add_executable(runtime_control_curve_demo runtime_control_curve_demo.cpp)
 
 target_link_libraries(runtime_control_curve_demo soemdsp)
+
+add_executable(runtime_control_midpoint_apply_demo runtime_control_midpoint_apply_demo.cpp)
+
+target_link_libraries(runtime_control_midpoint_apply_demo soemdsp)

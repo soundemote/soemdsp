@@ -28,6 +28,8 @@ The midpoint curve shape is a ControlGraph shaping feature distinct from Circuit
 
 Parameter `midValue` can now be converted explicitly into a normalized ControlGraph midpoint curve setting. This is opt-in metadata setup, not automatic global behavior.
 
+`runtime_control_midpoint_apply_demo` is the first full proof of parameter `midValue` feeding ControlGraph shaping while raw normalized Circuit transport stays linear.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text
