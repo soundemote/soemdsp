@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <array>
 #include <memory>
 #include <string_view>
@@ -120,6 +121,29 @@ struct Circuit
         return nullptr;
     }
 
+    Parameter* findParameter(NodeId nodeId, ParameterId parameterId)
+    {
+        for (auto& node : nodes)
+        {
+            if (node->id != nodeId)
+            {
+                continue;
+            }
+
+            for (auto& parameter : node->parameters)
+            {
+                if (parameter.id == parameterId)
+                {
+                    return &parameter;
+                }
+            }
+
+            return nullptr;
+        }
+
+        return nullptr;
+    }
+
     const Parameter* findParameterByName(NodeId nodeId, std::string_view name) const
     {
         for (const auto& node : nodes)
@@ -141,6 +165,57 @@ struct Circuit
         }
 
         return nullptr;
+    }
+
+    Parameter* findParameterByName(NodeId nodeId, std::string_view name)
+    {
+        for (auto& node : nodes)
+        {
+            if (node->id != nodeId)
+            {
+                continue;
+            }
+
+            for (auto& parameter : node->parameters)
+            {
+                if (parameter.name == name)
+                {
+                    return &parameter;
+                }
+            }
+
+            return nullptr;
+        }
+
+        return nullptr;
+    }
+
+    bool setParameterValue(NodeId nodeId, ParameterId parameterId, float value)
+    {
+        auto* parameter = findParameter(nodeId, parameterId);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        parameter->value =
+          std::clamp(value, parameter->minValue, parameter->maxValue);
+
+        return true;
+    }
+
+    bool setParameterValueByName(NodeId nodeId, std::string_view name, float value)
+    {
+        auto* parameter = findParameterByName(nodeId, name);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        parameter->value =
+          std::clamp(value, parameter->minValue, parameter->maxValue);
+
+        return true;
     }
 
     void allocateBuffers()

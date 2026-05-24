@@ -12,6 +12,9 @@ Implemented runtime capabilities include:
 - trigger routing
 - disconnect support
 - parameter lookup helpers
+- parameter value setter helpers
+- parameter values clamp to minValue/maxValue
+- parameter midValue is preserved as metadata and is not used for clamping
 
 Reflection metadata exists for nodes:
 - name
