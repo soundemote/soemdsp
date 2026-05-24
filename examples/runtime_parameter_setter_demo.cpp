@@ -77,5 +77,16 @@ int main()
               << "\n";
     printCircuit(circuit);
 
+    const auto resetCount = circuit.resetAllParameterValues();
+
+    std::cout << "\n[AFTER RESET ALL]\n";
+    std::cout << "reset count: "
+              << resetCount
+              << "\n";
+    std::cout << "dirty count: "
+              << circuit.dirtyParameterCount()
+              << "\n";
+    printCircuit(circuit);
+
     return 0;
 }

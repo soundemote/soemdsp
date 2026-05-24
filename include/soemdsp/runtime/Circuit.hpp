@@ -414,6 +414,28 @@ struct Circuit
         return false;
     }
 
+    std::size_t resetAllParameterValues()
+    {
+        std::size_t changedCount = 0;
+
+        for (auto& node : nodes)
+        {
+            for (auto& parameter : node->parameters)
+            {
+                const float value =
+                  std::clamp(parameter.defaultValue, parameter.minValue, parameter.maxValue);
+
+                if (parameter.value != value)
+                {
+                    parameter.value = value;
+                    ++changedCount;
+                }
+            }
+        }
+
+        return changedCount;
+    }
+
     void allocateBuffers()
     {
         audioBuffers.clear();
