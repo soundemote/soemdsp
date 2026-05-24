@@ -1,109 +1,106 @@
 // clang-format off
-#include <soemdsp/utility/operations_vector.hpp>
-
-#include <soemdsp/oscillator/Supersaw.hpp>
-#include <soemdsp/oscillator/Hypersaw.hpp>
-#include <soemdsp/delay/Reverb.hpp>
-
-#include <soemdsp/envelope/PluckEnvelope.hpp>
-#include <soemdsp/random/FlexibleRandomWalk.hpp>
-#include <soemdsp/modulator/VibratoGenerator.hpp>
-#include <soemdsp/modulator/WowAndFlutter.hpp>
-
-#include <soemdsp/additive/HarmonicManager.hpp>
-#include <soemdsp/additive/additive.hpp>
-#include <soemdsp/additive/harmonic_algorithms.hpp>
-#include <soemdsp/additive/harmonic_profiles.hpp>
-#include <soemdsp/additive/layer.hpp>
-#include <soemdsp/additive/layer/waveform.hpp>
-#include <soemdsp/delay/ModulatedDelay.hpp>
-
-#include <soemdsp/dynamics/EarProtector.hpp>
-#include <soemdsp/dynamics/EnvelopeFollower.hpp>
-#include <soemdsp/dynamics/SilenceDetector.hpp>
-#include <soemdsp/dynamics/SoftClipper.hpp>
-#include <soemdsp/envelope/DigitalCurveEnvelope.hpp>
-#include <soemdsp/envelope/ExponentialEnvelope.hpp>
-#include <soemdsp/envelope/LinearEnvelope.hpp>
-
-#include <soemdsp/filter/MultiStageFilter.hpp>
-#include <soemdsp/filter/OnePoleFilter.hpp>
-#include <soemdsp/filter/Smoother.hpp>
-#include <soemdsp/filter/Superlove.hpp>
-#include <soemdsp/modulator/Attractor.hpp>
-#include <soemdsp/modulator/Parabol.hpp>
-#include <soemdsp/musical/BeatDivision.hpp>
-#include <soemdsp/musical/Transport.hpp>
-#include <soemdsp/oscillator/DSFOscillator.hpp>
-#include <soemdsp/oscillator/DistortionOscillator.hpp>
-#include <soemdsp/oscillator/Ellipsoid.hpp>
-#include <soemdsp/oscillator/PolyBLEP.hpp>
-#include <soemdsp/oscillator/SineWavetable.hpp>
-#include <soemdsp/plugin/DirtyUpdater.hpp>
-#include <soemdsp/plugin/Parameter.hpp>
-#include <soemdsp/plugin/ParameterPrototype.hpp>
-#include <soemdsp/plugin/SmootherManager.hpp>
-#include <soemdsp/plugin/VoiceManager.hpp>
-#include <soemdsp/random/FractalBrownianMotion.hpp>
-#include <soemdsp/random/NoiseGenerator.hpp>
-#include <soemdsp/random/Random.hpp>
-#include <soemdsp/random/oracle.hpp>
-#include <soemdsp/utility/EnumArray.hpp>
-
-#include <soemdsp/utility/MaxMSPHelper.hpp>
-#include <soemdsp/utility/StringIterator.hpp>
-#include <soemdsp/utility/curve_functions.hpp>
-#include <soemdsp/utility/operations_area.hpp>
-#include <soemdsp/utility/operations_char.hpp>
-#include <soemdsp/utility/operations_string.hpp>
-
-#include <soemdsp/utility/Cache.hpp>
-#include <soemdsp/utility/Graph.hpp>
-#include <soemdsp/utility/Hash.hpp>
-
-#include <soemdsp/timer/Counter.hpp>
-#include <soemdsp/timer/DelayedTrigger.hpp>
-#include <soemdsp/timer/SampleAndHold.hpp>
-#include <soemdsp/timer/SampleAndHoldSmoothed.hpp>
-#include <soemdsp/timer/Timer.hpp>
-
-#include <soemdsp/meta.hpp>
-#include <soemdsp/sehelper.hpp>
-#include <soemdsp/semath.hpp>
-#include <soemdsp/semidi.hpp>
-#include <soemdsp/Wire.hpp>
-#include <soemdsp/SampleRate.hpp>
-#include <soemdsp/Phasor.hpp>
+#include <soemdsp/soemdsp.hpp>
 // clang-format on
+
 #include <iostream>
-#include <string>
-#include <filesystem>
-//Industrial ANSI constants
-namespace ansi {
-constexpr const char* reset = "\033[0m";
-constexpr const char* cyan  = "\033[0;36m";
-constexpr const char* green = "\033[0;32m";
-} //namespace ansi
+#include <memory>
 
-void printExecutionPath() {
-    // get the current directory
-    auto path = std::filesystem::current_path();
-    
-    // print it
-    std::cout << "[SYSTEM] I am executing from: " << path << std::endl;
-}
+int main()
+{
+    using namespace soemdsp::runtime;
+    using namespace soemdsp::runtime::nodes;
 
-int main() {
-    //Startup success message
-    std::cout << ansi::cyan << "soemdsp "
-              << ansi::green << "successfully compiled."
-              << ansi::reset << std::endl;
-    printExecutionPath();
-    std::cout << ansi::cyan << "press any key to exit"
-              << ansi::reset << std::endl;
+    Graph graph;
+
+    // Nodes
+    auto a    = std::make_unique<Constant>(137.42857f);
+    auto b    = std::make_unique<Constant>(9021.333f);
+    auto c    = std::make_unique<Constant>(0.03125f);
+    auto d    = std::make_unique<Constant>(444.4444f);
+
+    auto add1 = std::make_unique<Add>();
+    auto add2 = std::make_unique<Add>();
+    auto add3 = std::make_unique<Add>();
+
+    // Cache raw pointers BEFORE move
+    auto* aOut = &a->outputs[0];
+    auto* bOut = &b->outputs[0];
+    auto* cOut = &c->outputs[0];
+    auto* dOut = &d->outputs[0];
+
+    auto* add1In0 = &add1->inputs[0];
+    auto* add1In1 = &add1->inputs[1];
+    auto* add1Out = &add1->outputs[0];
+
+    auto* add2In0 = &add2->inputs[0];
+    auto* add2In1 = &add2->inputs[1];
+    auto* add2Out = &add2->outputs[0];
+
+    auto* add3In0 = &add3->inputs[0];
+    auto* add3In1 = &add3->inputs[1];
+    auto* add3Out = &add3->outputs[0];
+
+    // Move nodes into graph
+    graph.nodes.push_back(std::move(a));
+    graph.nodes.push_back(std::move(b));
+    graph.nodes.push_back(std::move(c));
+    graph.nodes.push_back(std::move(d));
+
+    graph.nodes.push_back(std::move(add1));
+    graph.nodes.push_back(std::move(add2));
+    graph.nodes.push_back(std::move(add3));
+
+    // Connections
+    graph.connections.push_back({
+        graph.nodes[0].get(),
+        aOut,
+        graph.nodes[4].get(),
+        add1In0
+    });
+
+    graph.connections.push_back({
+        graph.nodes[1].get(),
+        bOut,
+        graph.nodes[4].get(),
+        add1In1
+    });
+
+    graph.connections.push_back({
+        graph.nodes[4].get(),
+        add1Out,
+        graph.nodes[5].get(),
+        add2In0
+    });
+
+    graph.connections.push_back({
+        graph.nodes[2].get(),
+        cOut,
+        graph.nodes[5].get(),
+        add2In1
+    });
+
+    graph.connections.push_back({
+        graph.nodes[5].get(),
+        add2Out,
+        graph.nodes[6].get(),
+        add3In0
+    });
+
+    graph.connections.push_back({
+        graph.nodes[3].get(),
+        dOut,
+        graph.nodes[6].get(),
+        add3In1
+    });
+
+    // Process graph
+    graph.process();
+
+    // Final result
+    std::cout << "[GRAPH] result = "
+              << add3Out->value
+              << std::endl;
 
     std::cin.get();
     return 0;
 }
-
-
