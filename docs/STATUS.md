@@ -18,6 +18,9 @@ Implemented runtime capabilities include:
 - parameter reset uses defaultValue clamped to minValue/maxValue
 - normalized parameter helpers
 - normalized parameter mapping is currently linear
+- parameter dirty/default helpers
+- parameter dirty/default comparison uses exact float comparison for now
+- parameter dirty/default helpers support future editor reset, highlight, and preset diff behavior
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

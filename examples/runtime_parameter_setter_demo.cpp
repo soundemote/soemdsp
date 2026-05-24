@@ -32,21 +32,34 @@ int main()
     std::cout << std::fixed << std::setprecision(2);
 
     std::cout << "[BEFORE]\n";
+    std::cout << "dirty: "
+              << std::boolalpha
+              << circuit.isParameterDirty(gainNode->id, "gain")
+              << "\n";
     printCircuit(circuit);
 
     circuit.setParameterValue(gainNode->id, "gain", 2.0f);
 
     std::cout << "\n[AFTER SET]\n";
+    std::cout << "dirty: "
+              << circuit.isParameterDirty(gainNode->id, "gain")
+              << "\n";
     printCircuit(circuit);
 
     circuit.resetParameterValue(gainNode->id, "gain");
 
     std::cout << "\n[AFTER RESET]\n";
+    std::cout << "dirty: "
+              << circuit.isParameterDirty(gainNode->id, "gain")
+              << "\n";
     printCircuit(circuit);
 
     circuit.setParameterNormalizedValue(gainNode->id, "gain", 0.25f);
 
     std::cout << "\n[AFTER NORMALIZED SET]\n";
+    std::cout << "dirty: "
+              << circuit.isParameterDirty(gainNode->id, "gain")
+              << "\n";
     printCircuit(circuit);
 
     return 0;

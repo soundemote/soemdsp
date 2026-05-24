@@ -324,6 +324,50 @@ struct Circuit
         return setParameterValueByName(nodeId, name, value);
     }
 
+    bool isParameterAtDefault(NodeId nodeId, ParameterId parameterId) const
+    {
+        const auto* parameter = findParameter(nodeId, parameterId);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        return parameter->value == parameter->defaultValue;
+    }
+
+    bool isParameterAtDefaultByName(NodeId nodeId, std::string_view name) const
+    {
+        const auto* parameter = findParameterByName(nodeId, name);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        return parameter->value == parameter->defaultValue;
+    }
+
+    bool isParameterDirty(NodeId nodeId, ParameterId parameterId) const
+    {
+        const auto* parameter = findParameter(nodeId, parameterId);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        return parameter->value != parameter->defaultValue;
+    }
+
+    bool isParameterDirtyByName(NodeId nodeId, std::string_view name) const
+    {
+        const auto* parameter = findParameterByName(nodeId, name);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        return parameter->value != parameter->defaultValue;
+    }
+
     void allocateBuffers()
     {
         audioBuffers.clear();
