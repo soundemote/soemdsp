@@ -1,12 +1,15 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <cstdint>
 #include <soemdsp/runtime/Port.hpp>
 namespace soemdsp::runtime
 {
 struct Node
 {
     std::string name;
+    std::uint64_t id{ 0 };
+
     bool bypassed{ false };
     bool muted{ false };
 

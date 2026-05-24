@@ -8,6 +8,7 @@ namespace soemdsp::runtime
 {
 struct Circuit
 {
+    std::uint64_t nextNodeId{ 1 };
     static constexpr std::size_t blockSize{ 64 };
     std::vector<std::array<float, blockSize>> audioBuffers;
     std::vector<std::unique_ptr<Node>> nodes;
@@ -16,6 +17,16 @@ struct Circuit
     float* outputBuffer() noexcept
     {
         return output ? output->audioBuffer : nullptr;
+    }
+    void assignNodeIds()
+    {
+        for (auto& node : nodes)
+        {
+            if (node->id == 0)
+            {
+                node->id = nextNodeId++;
+            }
+        }
     }
     bool connect(Node& sourceNode,
                  Port& sourcePort,
@@ -85,6 +96,7 @@ struct Circuit
     }
     void prepare()
     {
+        assignNodeIds();
         allocateBuffers();
         for (auto& node : nodes)
         {
