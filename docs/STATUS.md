@@ -36,6 +36,8 @@ Implemented runtime capabilities include:
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_parameter_setter_demo has styled terminal output for real console screenshots/recordings
 - styled terminal demo output is presentation-only and not core runtime behavior
+- runtime_parameter_setter_demo supports --loop for real terminal recordings
+- runtime_parameter_setter_demo supports --no-color for plain terminal output
 - reference/dsp/noise.hpp exists as the low-level DSP object north-star reference
 - docs/DSP_OBJECT_CONTRACT.md documents low-level DSP object design principles
 - DSP object reference files are reference-only and not part of the build/runtime yet
