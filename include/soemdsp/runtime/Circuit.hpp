@@ -124,6 +124,10 @@ struct Circuit
                     connection.destinationPort->connected = true;
                 }
             }
+            if (node->bypassed)
+            {
+                continue;
+            }
             node->process();
         }
     }
