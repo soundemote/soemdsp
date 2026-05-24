@@ -36,6 +36,7 @@
 #include <soemdsp/runtime/Connection.hpp>
 #include <soemdsp/runtime/Circuit.hpp>
 #include <soemdsp/runtime/Node.hpp>
+#include <soemdsp/runtime/Parameter.hpp>
 #include <soemdsp/runtime/Port.hpp>
 #include <soemdsp/runtime/nodes/Add.hpp>
 #include <soemdsp/runtime/nodes/Constant.hpp>

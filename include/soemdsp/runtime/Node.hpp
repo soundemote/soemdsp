@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <soemdsp/runtime/Parameter.hpp>
 #include <soemdsp/runtime/Port.hpp>
 namespace soemdsp::runtime
 {
@@ -20,6 +21,7 @@ struct Node
 
     std::vector<Port> inputs;
     std::vector<Port> outputs;
+    std::vector<Parameter> parameters;
 
     virtual ~Node() = default;
 
