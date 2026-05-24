@@ -15,6 +15,7 @@ struct Node
 
     virtual void prepare() {}
     virtual void process() {}
+    virtual void reset() {}
 };
 
 } //namespace soemdsp::runtime

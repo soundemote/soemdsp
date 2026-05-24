@@ -1,71 +1,56 @@
 #pragma once
-
 #include <array>
 #include <memory>
 #include <vector>
 #include <soemdsp/runtime/Connection.hpp>
 #include <soemdsp/runtime/Node.hpp>
-
 namespace soemdsp::runtime
 {
-
 struct Circuit
 {
     static constexpr std::size_t blockSize{ 64 };
-
     std::vector<std::array<float, blockSize>> audioBuffers;
-
     std::vector<std::unique_ptr<Node>> nodes;
     std::vector<Connection> connections;
-
     Port* output = nullptr;
-
     float* outputBuffer() noexcept
     {
         return output ? output->audioBuffer : nullptr;
     }
-
-bool connect(Node& sourceNode,
-             Port& sourcePort,
-             Node& destinationNode,
-             Port& destinationPort)
-{
-    if (sourcePort.direction != PortDirection::Output)
+    bool connect(Node& sourceNode,
+                 Port& sourcePort,
+                 Node& destinationNode,
+                 Port& destinationPort)
     {
-        return false;
-    }
-
-    if (destinationPort.direction != PortDirection::Input)
-    {
-        return false;
-    }
-
-    if (sourcePort.type != destinationPort.type)
-    {
-        const bool audioToFloat =
-            sourcePort.type == PortType::Audio &&
-            destinationPort.type == PortType::Control;
-
-        if (!audioToFloat)
+        if (sourcePort.direction != PortDirection::Output)
         {
             return false;
         }
+        if (destinationPort.direction != PortDirection::Input)
+        {
+            return false;
+        }
+        if (sourcePort.type != destinationPort.type)
+        {
+            const bool audioToFloat =
+              sourcePort.type == PortType::Audio &&
+              destinationPort.type == PortType::Control;
+            if (!audioToFloat)
+            {
+                return false;
+            }
+        }
+        connections.push_back({ &sourceNode,
+                                &sourcePort,
+                                &destinationNode,
+                                &destinationPort });
+        return true;
     }
-
-    connections.push_back({ &sourceNode,
-                            &sourcePort,
-                            &destinationNode,
-                            &destinationPort });
-
-    return true;
-}
 
     void allocateBuffers()
     {
         audioBuffers.clear();
-
         std::size_t audioOutputCount = 0;
-
         for (auto& node : nodes)
         {
             for (auto& port : node->outputs)
@@ -76,11 +61,8 @@ bool connect(Node& sourceNode,
                 }
             }
         }
-
         audioBuffers.resize(audioOutputCount);
-
         std::size_t bufferIndex = 0;
-
         for (auto& node : nodes)
         {
             for (auto& port : node->outputs)
@@ -89,16 +71,21 @@ bool connect(Node& sourceNode,
                 {
                     port.audioBuffer = audioBuffers[bufferIndex].data();
                     port.audioFrames = blockSize;
-
                     ++bufferIndex;
                 }
             }
         }
     }
+    void reset()
+    {
+        for (auto& node : nodes)
+        {
+            node->reset();
+        }
+    }
     void prepare()
     {
         allocateBuffers();
-
         for (auto& node : nodes)
         {
             node->prepare();
@@ -128,16 +115,12 @@ bool connect(Node& sourceNode,
                 {
                     connection.destinationPort->value =
                       connection.sourcePort->value;
-
                     connection.destinationPort->audioBuffer =
                       connection.sourcePort->audioBuffer;
-
                     connection.destinationPort->audioFrames =
                       connection.sourcePort->audioFrames;
-
                     connection.destinationPort->triggered =
-                        connection.sourcePort->triggered;
-
+                      connection.sourcePort->triggered;
                     connection.destinationPort->connected = true;
                 }
             }
@@ -145,5 +128,4 @@ bool connect(Node& sourceNode,
         }
     }
 };
-
 } //namespace soemdsp::runtime

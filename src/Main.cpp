@@ -149,6 +149,7 @@ int main()
         circuit.nodes[7].get()
     )->trigger();
 
+    circuit.reset();
     circuit.process();
 
     //=====================================================

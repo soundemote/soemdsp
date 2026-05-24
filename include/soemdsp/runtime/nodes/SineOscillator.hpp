@@ -29,7 +29,7 @@ struct SineOscillator : Node {
         outputs[0].direction = PortDirection::Output;
     }
 
-    void reset()
+    void reset() override
     {
         phase = 0.0;
     }
