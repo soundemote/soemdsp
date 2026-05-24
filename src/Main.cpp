@@ -150,7 +150,6 @@ int main()
     )->trigger();
 
     circuit.reset();
-    circuit.nodes[4]->bypassed = true;
     circuit.process();
 
     //=====================================================

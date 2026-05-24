@@ -8,6 +8,7 @@ struct Node
 {
     std::string name;
     bool bypassed{ false };
+    bool muted{ false };
 
     std::vector<Port> inputs;
     std::vector<Port> outputs;

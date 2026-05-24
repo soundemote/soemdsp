@@ -124,10 +124,16 @@ struct Circuit
                     connection.destinationPort->connected = true;
                 }
             }
+            if (node->muted)
+            {
+                continue;
+            }
+
             if (node->bypassed)
             {
                 continue;
             }
+
             node->process();
         }
     }
