@@ -98,6 +98,8 @@ Implemented runtime capabilities include:
 - runtime_control_curve_demo previews ControlGraph curve shapes as normalized 0.0-1.0 tables
 - ControlGraph midpoint curve shaping
 - ControlGraph midpoint curve shaping belongs to ControlGraph and does not change raw Circuit normalized transport
+- helper to derive ControlGraph midpoint curves from Circuit parameter min/mid/max metadata
+- parameter midpoint helper does not change raw normalized transport
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo

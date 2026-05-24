@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <soemdsp/runtime/control/EvaluateControlGraph.hpp>
+#include <soemdsp/runtime/control/ControlGraphParameterMidpoint.hpp>
 
 using namespace soemdsp::runtime;
 
@@ -34,6 +35,54 @@ void printRow(float input)
               << "\n";
 }
 
+Parameter makeCutoffParameter()
+{
+    Parameter parameter;
+    parameter.id       = "cutoff";
+    parameter.name     = "Cutoff";
+    parameter.minValue = 20.0f;
+    parameter.midValue = 1000.0f;
+    parameter.maxValue = 20000.0f;
+    return parameter;
+}
+
+void printParameterMidpointCurve()
+{
+    const auto parameter = makeCutoffParameter();
+    const auto normalizedMidpoint =
+      normalizedMidpointForParameter(parameter);
+
+    ControlNode curveNode;
+    curveNode.kind = ControlNodeKind::Curve;
+    curveNode.name = "Cutoff midpoint curve";
+
+    const auto applied =
+      applyParameterMidpointToCurveNode(curveNode, parameter);
+
+    std::cout << "\n[PARAMETER MIDPOINT CURVE]\n"
+              << "normalized midpoint: ";
+
+    if (normalizedMidpoint.has_value())
+    {
+        std::cout << *normalizedMidpoint << "\n";
+    }
+    else
+    {
+        std::cout << "<none>\n";
+    }
+
+    std::cout << "applied: "
+              << (applied ? "true" : "false")
+              << "\n";
+
+    if (curveNode.curveSettings.has_value())
+    {
+        std::cout << "curve midpoint: "
+                  << curveNode.curveSettings->midpoint
+                  << "\n";
+    }
+}
+
 } // namespace
 
 int main()
@@ -47,6 +96,7 @@ int main()
     printRow(0.5f);
     printRow(0.75f);
     printRow(1.0f);
+    printParameterMidpointCurve();
 
     return 0;
 }

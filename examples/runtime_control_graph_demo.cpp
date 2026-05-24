@@ -3,6 +3,7 @@
 
 #include <soemdsp/runtime/control/ApplyControlGraph.hpp>
 #include <soemdsp/runtime/control/EvaluateControlGraph.hpp>
+#include <soemdsp/runtime/control/ControlGraphParameterMidpoint.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphApplyReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
@@ -171,6 +172,23 @@ void printExpectedCutoff()
     std::cout << "expected cutoff for 0.25 smoothstep: 3141.875\n";
 }
 
+void printNormalizedCutoffMidpoint(const Circuit& circuit)
+{
+    const auto* cutoff = circuit.findParameter(100, "cutoff");
+    if (cutoff == nullptr)
+    {
+        return;
+    }
+
+    const auto midpoint = normalizedMidpointForParameter(*cutoff);
+    if (midpoint.has_value())
+    {
+        std::cout << "normalized cutoff midpoint: "
+                  << *midpoint
+                  << "\n";
+    }
+}
+
 } // namespace
 
 int main()
@@ -214,5 +232,6 @@ int main()
       makeControlGraphApplyReport(graph, { 1, 0.25f }, circuit),
       circuit);
     printExpectedCutoff();
+    printNormalizedCutoffMidpoint(circuit);
     return 0;
 }
