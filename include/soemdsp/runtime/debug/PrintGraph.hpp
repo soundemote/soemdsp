@@ -21,6 +21,40 @@ inline void printNodes(const Circuit& circuit)
     }
 }
 
+inline void printPorts(const Circuit& circuit)
+{
+    std::cout << "\n[PORTS]\n";
+
+    for (const auto& node : circuit.nodes)
+    {
+        std::cout
+            << node->id
+            << " : "
+            << node->displayName()
+            << "\n";
+
+        for (const auto& port : node->inputs)
+        {
+            std::cout
+                << "  in  "
+                << port.id
+                << " : "
+                << port.summary()
+                << "\n";
+        }
+
+        for (const auto& port : node->outputs)
+        {
+            std::cout
+                << "  out "
+                << port.id
+                << " : "
+                << port.summary()
+                << "\n";
+        }
+    }
+}
+
 inline void printConnections(const Circuit& circuit)
 {
     std::cout << "\n[CONNECTIONS]\n";
