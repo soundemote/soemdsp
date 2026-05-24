@@ -27,6 +27,14 @@ inline void printCircuitValidation(
   std::ostream& os = std::cout)
 {
     os << "[VALIDATION]\n";
+    os << "summary: "
+       << report.infoCount()
+       << " info, "
+       << report.warningCount()
+       << " warnings, "
+       << report.errorCount()
+       << " errors\n";
+
     if (report.ok())
     {
         os << "<ok>\n";

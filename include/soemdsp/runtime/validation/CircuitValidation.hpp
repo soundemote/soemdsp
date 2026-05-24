@@ -25,6 +25,56 @@ struct CircuitValidationReport
 {
     std::vector<ValidationMessage> messages;
 
+    std::size_t infoCount() const
+    {
+        std::size_t count = 0;
+
+        for (const auto& message : messages)
+        {
+            if (message.severity == ValidationSeverity::Info)
+            {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    std::size_t warningCount() const
+    {
+        std::size_t count = 0;
+
+        for (const auto& message : messages)
+        {
+            if (message.severity == ValidationSeverity::Warning)
+            {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    std::size_t errorCount() const
+    {
+        std::size_t count = 0;
+
+        for (const auto& message : messages)
+        {
+            if (message.severity == ValidationSeverity::Error)
+            {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    std::size_t messageCount() const
+    {
+        return messages.size();
+    }
+
     bool hasErrors() const
     {
         for (const auto& message : messages)
