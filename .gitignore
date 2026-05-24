@@ -1,0 +1,42 @@
+# Visual Studio
+**/.vs/
+**/x64
+out/
+
+
+# VSCode
+**/.vscode/*
+!/.vscode/extensions.json
+
+
+# CMake
+CMakeUserPresets.json
+compile_commands.json
+build*/
+
+
+.cache
+
+# IGNORE BUILD FILES
+*.def
+*.dll
+*.exe
+*.[oad]
+*.lib
+
+# IGNORE AUDIO FILES
+*.flac
+*.mp3
+*.wav
+*.ogg
+
+Midi.Bank.Cache.txt
+
+*.log
+
+# Python
+/venv*/
+/.venv*/
+
+
+*.bak

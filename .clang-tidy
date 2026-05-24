@@ -1,0 +1,50 @@
+---
+Checks: >
+  *,
+  -altera-*,
+  -fuchsia-*,
+  -llvmlibc-*,
+  -modernize-use-trailing-return-type,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -misc-non-private-member-variables-in-classes,
+  -misc-const-correctness,
+
+  -hicpp-uppercase-literal-suffix, # duplicate of readability-uppercase-literal-suffix
+
+  -readability-identifier-length, # short variable names are used everywhere in low level math
+
+  -readability-else-after-return, # this warning suggests bug-prone code
+
+  -llvm-else-after-return, # duplicate of readability-else-after-return
+
+  -modernize-use-auto, # no thx?
+
+  -hicpp-use-auto, # duplicate of modernize-use-auto
+
+  -cppcoreguidelines-avoid-magic-numbers, # duplicate of readability-magic-numbers
+
+  # temporary warning removals #
+
+  -cppcoreguidelines-pro-bounds-constant-array-index, # not sure how to fix
+
+  -readability-simplify-boolean-expr, # not sure how to fix
+
+  -bugprone-easily-swappable-parameters, # not sure how to fix
+
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic, # not sure how to fix
+
+  -readability-make-member-function-const, # when the arch is stable, then we can sacrifice flexibility for const-correctness
+
+  -readability-function-cognitive-complexity,
+  -hicpp-signed-bitwise,
+  -bugprone-branch-clone
+
+FormatStyle: none
+CheckOptions:
+  - key: 'readability-uppercase-literal-suffix.NewSuffixes'
+    value: 'L;LL;LU;LLU'
+  - key: 'readability-identifier-naming.MemberSuffix'
+    value: '_'
+  - key: 'readability-identifier-naming.MacroDefinitionCase'
+    value: 'UPPER_CASE'
+...
