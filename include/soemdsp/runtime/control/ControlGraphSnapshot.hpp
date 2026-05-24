@@ -16,6 +16,9 @@ struct ControlNodeSnapshotEntry
     std::string description;
     float editorX{};
     float editorY{};
+    bool hasParameterTarget{};
+    NodeId targetNodeId{};
+    std::string targetParameterId;
 };
 
 struct ControlConnectionSnapshotEntry
@@ -45,7 +48,10 @@ inline ControlGraphSnapshot snapshotControlGraph(
           node.name,
           node.description,
           node.editorX,
-          node.editorY });
+          node.editorY,
+          node.parameterTarget.has_value(),
+          node.parameterTarget ? node.parameterTarget->nodeId : NodeId{},
+          node.parameterTarget ? node.parameterTarget->parameterId : std::string{} });
     }
 
     for (const auto& connection : graph.connections)

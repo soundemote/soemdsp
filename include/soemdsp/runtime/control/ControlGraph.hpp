@@ -1,8 +1,10 @@
 #pragma once
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
+#include <soemdsp/runtime/Ids.hpp>
 
 namespace soemdsp::runtime
 {
@@ -19,6 +21,12 @@ enum class ControlNodeKind
     Split
 };
 
+struct ControlParameterTarget
+{
+    NodeId nodeId{};
+    std::string parameterId;
+};
+
 struct ControlNode
 {
     std::uint64_t id{};
@@ -27,6 +35,7 @@ struct ControlNode
     std::string description;
     float editorX{};
     float editorY{};
+    std::optional<ControlParameterTarget> parameterTarget;
 };
 
 struct ControlConnection

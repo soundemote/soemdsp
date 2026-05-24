@@ -1,15 +1,11 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
 #include <vector>
+#include <soemdsp/runtime/Ids.hpp>
 
 namespace soemdsp::runtime
 {
-
-using NodeId = std::uint64_t;
-using PortId = std::uint64_t;
-using ConnectionId = std::uint64_t;
 
 struct ParameterSnapshotEntry
 {

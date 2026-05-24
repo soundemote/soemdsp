@@ -30,6 +30,14 @@ ControlGraph createInvalidGraph()
       160.0f,
       0.0f });
 
+    graph.nodes.push_back({
+      2,
+      ControlNodeKind::ParameterTarget,
+      "Missing Target Metadata",
+      "ParameterTarget without target metadata",
+      320.0f,
+      0.0f });
+
     graph.connections.push_back({
       1,
       "",

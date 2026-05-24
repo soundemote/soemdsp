@@ -55,6 +55,7 @@ ControlGraph createDemoGraph()
       makeNode(4, ControlNodeKind::Scale, "Cutoff Scale", 540.0f, 0.0f));
     graph.nodes.push_back(
       makeNode(5, ControlNodeKind::ParameterTarget, "Osc Cutoff", 720.0f, 0.0f));
+    graph.nodes.back().parameterTarget = ControlParameterTarget{ 100, "cutoff" };
 
     graph.connections.push_back(makeConnection(1, "value", 2, "input"));
     graph.connections.push_back(makeConnection(2, "output", 3, "input"));

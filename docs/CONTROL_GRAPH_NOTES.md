@@ -8,6 +8,8 @@ The value model also has basic validation diagnostics for duplicate node IDs, em
 
 The first evaluator is intentionally narrow. It follows a single-output linear chain, clamps incoming macro values to 0.0-1.0, treats Curve, Scale, and Smooth as pass-through placeholders for now, and emits a ParameterTarget output without mutating Circuit parameters.
 
+ParameterTarget metadata is part of the value model. A ParameterTarget node can record the intended Circuit node id and parameter id it may drive later, but actual Circuit binding and mutation remain future work.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

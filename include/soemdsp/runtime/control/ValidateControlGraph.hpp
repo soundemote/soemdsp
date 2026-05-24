@@ -165,6 +165,28 @@ inline ControlGraphValidationReport validateControlGraph(
               "control node " + std::to_string(node.id) +
                 " has an empty name");
         }
+
+        if (node.kind == ControlNodeKind::ParameterTarget)
+        {
+            if (!node.parameterTarget.has_value())
+            {
+                addControlGraphValidationMessage(
+                  report,
+                  ControlGraphValidationSeverity::Warning,
+                  "parameter target control node " +
+                    std::to_string(node.id) +
+                    " has no parameter target metadata");
+            }
+            else if (node.parameterTarget->parameterId.empty())
+            {
+                addControlGraphValidationMessage(
+                  report,
+                  ControlGraphValidationSeverity::Warning,
+                  "parameter target control node " +
+                    std::to_string(node.id) +
+                    " has an empty target parameter id");
+            }
+        }
     }
 
     for (const auto& connection : graph.connections)

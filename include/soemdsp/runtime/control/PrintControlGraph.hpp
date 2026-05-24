@@ -25,7 +25,16 @@ inline void printControlGraph(
                << node.name
                << " ("
                << toString(node.kind)
-               << ")\n";
+               << ")";
+            if (node.kind == ControlNodeKind::ParameterTarget &&
+                node.parameterTarget.has_value())
+            {
+                os << " -> node "
+                   << node.parameterTarget->nodeId
+                   << " param "
+                   << node.parameterTarget->parameterId;
+            }
+            os << "\n";
         }
     }
 

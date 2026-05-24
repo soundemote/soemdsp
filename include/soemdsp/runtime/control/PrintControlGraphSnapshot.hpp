@@ -25,7 +25,15 @@ inline void printControlGraphSnapshot(
                << node.name
                << " ("
                << node.kind
-               << ")\n";
+               << ")";
+            if (node.hasParameterTarget)
+            {
+                os << " -> node "
+                   << node.targetNodeId
+                   << " param "
+                   << node.targetParameterId;
+            }
+            os << "\n";
         }
     }
 

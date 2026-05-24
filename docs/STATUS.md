@@ -78,6 +78,8 @@ Implemented runtime capabilities include:
 - minimal linear ControlGraph evaluator
 - minimal ControlGraph evaluator proves normalized macro values can flow through a simple control chain
 - ControlGraph evaluator does not bind to Circuit parameters yet
+- ControlGraph ParameterTarget metadata
+- ControlGraph ParameterTarget metadata records intended Circuit node/parameter targets but does not bind or mutate yet
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
