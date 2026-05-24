@@ -39,3 +39,4 @@
 #include <soemdsp/runtime/Circuit.hpp>
 #include <soemdsp/runtime/nodes/Constant.hpp>
 #include <soemdsp/runtime/nodes/Add.hpp>
+#include <soemdsp/runtime/nodes/TriggerButton.hpp>
