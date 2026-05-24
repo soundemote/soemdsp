@@ -45,5 +45,6 @@
 #include <soemdsp/runtime/nodes/AudioMultiply.hpp>
 #include <soemdsp/runtime/nodes/SineOscillator.hpp>
 #include <soemdsp/runtime/nodes/FloatConstant.hpp>
+#include <soemdsp/runtime/nodes/RampGenerator.hpp>
 
 #include <soemdsp/version.hpp>

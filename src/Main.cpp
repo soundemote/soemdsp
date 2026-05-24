@@ -14,7 +14,7 @@ int main()
     //- audio buffers
     Graph graph;
 
-    auto osc = std::make_unique<SineOscillator>();
+    auto osc = std::make_unique<RampGenerator>();
 
     auto* freqIn = &osc->inputs[0];
     auto* oscOut = &osc->outputs[0];
@@ -32,7 +32,7 @@ int main()
               << SOEMDSP_VERSION_STRING
               << std::endl;
 
-    std::cout << "[SINE] ";
+    std::cout << "[RAMP] ";
     for (std::size_t i = 0; i < 8; ++i)
     {
         std::cout << oscOut->audioBuffer[i] << " ";
