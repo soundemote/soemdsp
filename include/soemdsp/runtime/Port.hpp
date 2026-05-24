@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstddef>
 
 namespace soemdsp::runtime {
 
@@ -20,6 +21,9 @@ struct Port {
     PortDirection direction { PortDirection::Input };
 
     float value { 0.0f };
+
+    float* audioBuffer { nullptr };
+    std::size_t audioFrames { 0 };
 
     void* backing { nullptr };
 };

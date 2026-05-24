@@ -59,14 +59,25 @@ int main()
     graph.connections.push_back({ graph.nodes[4].get(), add1Out, graph.nodes[6].get(), mulIn0 });
     graph.connections.push_back({ graph.nodes[5].get(), add2Out, graph.nodes[6].get(), mulIn1 });
 
-    //Process graph
+ 
+
+    std::array<float, 8> buffer {};
+    auto audio = std::make_unique<AudioConstant>(0.25f);
+auto* audioOut = &audio->outputs[0];
+audioOut->audioBuffer = buffer.data();
+audioOut->audioFrames = buffer.size();
+
+graph.nodes.push_back(std::move(audio));
+
+   //Process graph
     graph.process();
 
     //Final result
-    std::cout << "[GRAPH] result = "
-              << mulOut->value
-              << std::endl;
-
-    std::cin.get();
+std::cout << "[AUDIO] ";
+for (auto v : buffer)
+{
+    std::cout << v << " ";
+}
+std::cout << std::endl;
     return 0;
 }
