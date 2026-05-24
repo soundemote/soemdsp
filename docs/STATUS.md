@@ -85,6 +85,8 @@ Implemented runtime capabilities include:
 - ControlGraph apply mapping is still raw linear and does not use midValue yet
 - ControlGraph target validation against Circuit
 - ControlGraph target validation checks ParameterTarget metadata without applying values
+- safe ControlGraph apply helper
+- safe ControlGraph apply gates structural validation and target validation before applying
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo

@@ -6,6 +6,7 @@
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
+#include <soemdsp/runtime/control/SafeApplyControlGraph.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -132,6 +133,36 @@ void printApplyResult(
     }
 }
 
+void printSafeApplyResult(
+  const ControlGraphSafeApplyResult& result,
+  const Circuit& circuit)
+{
+    const auto* cutoff = circuit.findParameter(100, "cutoff");
+
+    std::cout << "graph valid: "
+              << (result.graphValid ? "true" : "false")
+              << "\n"
+              << "targets valid: "
+              << (result.targetsValid ? "true" : "false")
+              << "\n"
+              << "evaluated: "
+              << (result.evaluated ? "true" : "false")
+              << "\n"
+              << "applied: "
+              << (result.applied ? "true" : "false")
+              << "\n"
+              << "message: "
+              << result.message
+              << "\n";
+
+    if (cutoff != nullptr)
+    {
+        std::cout << "cutoff: "
+                  << cutoff->value
+                  << "\n";
+    }
+}
+
 } // namespace
 
 int main()
@@ -169,6 +200,11 @@ int main()
       circuit);
     printApplyResult(
       applyControlGraphLinearToCircuit(graph, { 1, 1.25f }, circuit),
+      circuit);
+    circuit.resetParameterValueByName(100, "cutoff");
+    std::cout << "\n[CONTROL GRAPH SAFE APPLY]\n";
+    printSafeApplyResult(
+      safeApplyControlGraphLinearToCircuit(graph, { 1, 0.25f }, circuit),
       circuit);
     return 0;
 }

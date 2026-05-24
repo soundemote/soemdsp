@@ -4,6 +4,7 @@
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
+#include <soemdsp/runtime/control/SafeApplyControlGraph.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -83,12 +84,33 @@ Circuit createValidationCircuit()
     return circuit;
 }
 
+void printSafeApplyResult(
+  const ControlGraphSafeApplyResult& result)
+{
+    std::cout << "\n[CONTROL GRAPH SAFE APPLY]\n"
+              << "graph valid: "
+              << (result.graphValid ? "true" : "false")
+              << "\n"
+              << "targets valid: "
+              << (result.targetsValid ? "true" : "false")
+              << "\n"
+              << "evaluated: "
+              << (result.evaluated ? "true" : "false")
+              << "\n"
+              << "applied: "
+              << (result.applied ? "true" : "false")
+              << "\n"
+              << "message: "
+              << result.message
+              << "\n";
+}
+
 } // namespace
 
 int main()
 {
     const auto graph = createInvalidGraph();
-    const auto circuit = createValidationCircuit();
+    auto circuit = createValidationCircuit();
     printControlGraph(graph);
     const auto targetValidation =
       validateControlGraphTargets(graph, circuit);
@@ -109,5 +131,7 @@ int main()
     std::cout << "control report file: "
               << (wroteReport ? "wrote" : "failed")
               << "\n";
+    printSafeApplyResult(
+      safeApplyControlGraphLinearToCircuit(graph, { 1, 0.25f }, circuit));
     return 0;
 }

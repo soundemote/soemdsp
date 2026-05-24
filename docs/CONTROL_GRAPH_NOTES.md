@@ -14,6 +14,8 @@ The first apply helper uses ParameterTarget metadata and `Circuit::setParameterN
 
 Target validation is separate from ControlGraph structural validation. It checks intended Circuit node/parameter targets before apply, and it does not execute, evaluate, or mutate anything.
 
+Safe apply is the preferred helper for demos and tools that want to mutate Circuit parameters. It gates structural validation and target validation before applying; warnings currently do not block apply, but errors do.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text
