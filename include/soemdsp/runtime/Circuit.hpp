@@ -1,11 +1,15 @@
 #pragma once
 #include <array>
 #include <memory>
+#include <string_view>
 #include <vector>
 #include <soemdsp/runtime/Connection.hpp>
 #include <soemdsp/runtime/Node.hpp>
 namespace soemdsp::runtime
 {
+using NodeId = std::uint64_t;
+using ParameterId = std::string_view;
+
 struct Circuit
 {
     std::uint64_t nextNodeId{ 1 };
@@ -93,6 +97,52 @@ struct Circuit
 
     return false;
 }
+    const Parameter* findParameter(NodeId nodeId, ParameterId parameterId) const
+    {
+        for (const auto& node : nodes)
+        {
+            if (node->id != nodeId)
+            {
+                continue;
+            }
+
+            for (const auto& parameter : node->parameters)
+            {
+                if (parameter.id == parameterId)
+                {
+                    return &parameter;
+                }
+            }
+
+            return nullptr;
+        }
+
+        return nullptr;
+    }
+
+    const Parameter* findParameterByName(NodeId nodeId, std::string_view name) const
+    {
+        for (const auto& node : nodes)
+        {
+            if (node->id != nodeId)
+            {
+                continue;
+            }
+
+            for (const auto& parameter : node->parameters)
+            {
+                if (parameter.name == name)
+                {
+                    return &parameter;
+                }
+            }
+
+            return nullptr;
+        }
+
+        return nullptr;
+    }
+
     void allocateBuffers()
     {
         audioBuffers.clear();

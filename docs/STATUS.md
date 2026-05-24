@@ -11,6 +11,7 @@ Implemented runtime capabilities include:
 - audio-rate modulation
 - trigger routing
 - disconnect support
+- parameter lookup helpers
 
 Reflection metadata exists for nodes:
 - name
@@ -31,6 +32,7 @@ Debug helpers exist:
 - printConnections
 - printCircuit
 - printLayout
+- printParameters
 - printAudio
 - validateCircuit
 - node search/sort helpers
