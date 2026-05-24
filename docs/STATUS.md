@@ -29,6 +29,11 @@ Implemented runtime capabilities include:
 - ParameterSnapshot value type
 - parameterSnapshot() captures node id, parameter id, and raw value
 - parameterSnapshot() supports future preset, undo, dirty diff, and save-state groundwork but is not full serialization
+- CircuitSnapshot value model
+- Circuit::snapshot() captures graph metadata into plain value structs
+- CircuitSnapshot preserves parameter minValue, midValue, and maxValue
+- CircuitSnapshot is serialization groundwork, not a committed file format
+- CircuitSnapshot does not implement load/save yet
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

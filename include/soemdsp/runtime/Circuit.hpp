@@ -7,9 +7,9 @@
 #include <vector>
 #include <soemdsp/runtime/Connection.hpp>
 #include <soemdsp/runtime/Node.hpp>
+#include <soemdsp/runtime/serialization/CircuitSnapshot.hpp>
 namespace soemdsp::runtime
 {
-using NodeId = std::uint64_t;
 using ParameterId = std::string_view;
 
 struct ParameterSnapshot
@@ -31,6 +31,34 @@ struct Circuit
     std::vector<Connection> connections;
 
     Port* output = nullptr;
+
+    static std::string snapshotPortTypeName(PortType type)
+    {
+        switch (type)
+        {
+            case PortType::Control:
+                return "control";
+            case PortType::Audio:
+                return "audio";
+            case PortType::Trigger:
+                return "trigger";
+        }
+
+        return "unknown";
+    }
+
+    static std::string snapshotPortDirectionName(PortDirection direction)
+    {
+        switch (direction)
+        {
+            case PortDirection::Input:
+                return "in";
+            case PortDirection::Output:
+                return "out";
+        }
+
+        return "unknown";
+    }
 
     float* outputBuffer() noexcept
     {
@@ -460,6 +488,77 @@ struct Circuit
         }
 
         return snapshot;
+    }
+
+    CircuitSnapshot snapshot() const
+    {
+        CircuitSnapshot result;
+
+        for (const auto& node : nodes)
+        {
+            result.nodes.push_back({
+              node->id,
+              node->typeName(),
+              node->name,
+              node->displayName(),
+              node->category,
+              node->description,
+              node->editorX,
+              node->editorY });
+
+            for (const auto& port : node->inputs)
+            {
+                result.ports.push_back({
+                  node->id,
+                  port.id,
+                  snapshotPortDirectionName(port.direction),
+                  snapshotPortTypeName(port.type),
+                  port.name,
+                  port.displayName(),
+                  port.description,
+                  port.visible });
+            }
+
+            for (const auto& port : node->outputs)
+            {
+                result.ports.push_back({
+                  node->id,
+                  port.id,
+                  snapshotPortDirectionName(port.direction),
+                  snapshotPortTypeName(port.type),
+                  port.name,
+                  port.displayName(),
+                  port.description,
+                  port.visible });
+            }
+
+            for (const auto& parameter : node->parameters)
+            {
+                result.parameters.push_back({
+                  node->id,
+                  parameter.id,
+                  parameter.name,
+                  parameter.value,
+                  parameter.defaultValue,
+                  parameter.minValue,
+                  parameter.midValue,
+                  parameter.maxValue,
+                  parameter.visible,
+                  parameter.automatable });
+            }
+        }
+
+        for (const auto& connection : connections)
+        {
+            result.connections.push_back({
+              connection.id,
+              connection.sourceNode ? connection.sourceNode->id : 0,
+              connection.sourcePort ? connection.sourcePort->id : 0,
+              connection.destinationNode ? connection.destinationNode->id : 0,
+              connection.destinationPort ? connection.destinationPort->id : 0 });
+        }
+
+        return result;
     }
 
     void allocateBuffers()

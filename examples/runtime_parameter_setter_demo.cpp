@@ -181,6 +181,7 @@ void printParameterState(
 void printSnapshot(const Circuit& circuit)
 {
     const auto snapshot = circuit.parameterSnapshot();
+    const auto circuitSnapshot = circuit.snapshot();
 
     std::cout << "snapshot size: "
               << snapshot.size()
@@ -195,6 +196,17 @@ void printSnapshot(const Circuit& circuit)
                   << item.value
                   << "\n";
     }
+
+    std::cout << "circuit snapshot: nodes "
+              << circuitSnapshot.nodes.size()
+              << " | ports "
+              << circuitSnapshot.ports.size()
+              << " | parameters "
+              << circuitSnapshot.parameters.size()
+              << " | connections "
+              << circuitSnapshot.connections.size()
+              << "\n";
+
     console::debug(std::cout, "presentation-only demo output");
 }
 
