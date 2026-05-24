@@ -22,6 +22,8 @@ ControlGraph apply reports can be exported as text for future editor and tool di
 
 First real shaping exists in the minimal evaluator: linear, ease-in, ease-out, and smoothstep curve shapes. Scale settings also exist, but final normalized/raw target semantics are still being refined.
 
+Curve behavior can be inspected in `runtime_control_curve_demo`, which prints normalized 0.0-1.0 tables for reasoning about future knob feel.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

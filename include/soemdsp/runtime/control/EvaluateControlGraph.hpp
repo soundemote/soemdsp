@@ -60,6 +60,27 @@ inline const ControlConnection* findFirstControlConnectionFrom(
     return nullptr;
 }
 
+inline float evaluateControlCurveShape(
+  ControlCurveShape shape,
+  float value)
+{
+    const auto x = std::clamp(value, 0.0f, 1.0f);
+
+    switch (shape)
+    {
+        case ControlCurveShape::Linear:
+            return x;
+        case ControlCurveShape::EaseIn:
+            return x * x;
+        case ControlCurveShape::EaseOut:
+            return 1.0f - ((1.0f - x) * (1.0f - x));
+        case ControlCurveShape::Smoothstep:
+            return x * x * (3.0f - (2.0f * x));
+    }
+
+    return x;
+}
+
 inline ControlGraphEvaluationResult evaluateControlGraphLinear(
   const ControlGraph& graph,
   ControlGraphEvaluationInput input)
@@ -95,21 +116,9 @@ inline ControlGraphEvaluationResult evaluateControlGraphLinear(
             case ControlNodeKind::Curve:
                 if (node->curveSettings.has_value())
                 {
-                    value = std::clamp(value, 0.0f, 1.0f);
-                    switch (node->curveSettings->shape)
-                    {
-                        case ControlCurveShape::Linear:
-                            break;
-                        case ControlCurveShape::EaseIn:
-                            value = value * value;
-                            break;
-                        case ControlCurveShape::EaseOut:
-                            value = 1.0f - ((1.0f - value) * (1.0f - value));
-                            break;
-                        case ControlCurveShape::Smoothstep:
-                            value = value * value * (3.0f - (2.0f * value));
-                            break;
-                    }
+                    value = evaluateControlCurveShape(
+                      node->curveSettings->shape,
+                      value);
                 }
                 break;
             case ControlNodeKind::Clamp01:
