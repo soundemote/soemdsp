@@ -124,6 +124,7 @@ struct Circuit
         {
             node->assignPortIds();
         }
+
         allocateBuffers();
         for (auto& node : nodes)
         {

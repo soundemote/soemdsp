@@ -165,7 +165,6 @@ int main()
 
     circuit.reset();
 
-
     std::cout << "\n[DISCONNECT 5]\n";
 
     circuit.disconnect(5);
@@ -190,10 +189,16 @@ int main()
           << connection.sourceNode->name
           << "."
           << connection.sourcePort->name
+          << "("
+          << connection.sourcePort->id
+          << ")"
           << " -> "
           << connection.destinationNode->name
           << "."
           << connection.destinationPort->name
+          << "("
+          << connection.destinationPort->id
+          << ")"
           << "\n";
     }
 
@@ -209,10 +214,16 @@ int main()
           << connection.sourceNode->name
           << "."
           << connection.sourcePort->name
+          << "("
+          << connection.sourcePort->id
+          << ")"
           << " -> "
           << connection.destinationNode->name
           << "."
           << connection.destinationPort->name
+          << "("
+          << connection.destinationPort->id
+          << ")"
           << "\n";
     }
 
