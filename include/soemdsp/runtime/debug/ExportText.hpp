@@ -41,16 +41,16 @@ inline void exportText(const Circuit& circuit,
     out << "soemdsp circuit\n\n";
 
     out << "[nodes]\n";
-    out << "id type category name x y\n";
+    out << "id type name category x y\n";
     for (const auto& node : circuit.nodes)
     {
         out << node->id
             << " "
             << node->typeName()
             << " "
-            << node->category
-            << " "
             << node->name
+            << " "
+            << node->category
             << " "
             << node->editorX
             << " "
