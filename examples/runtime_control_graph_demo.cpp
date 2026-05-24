@@ -7,6 +7,7 @@
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
+#include <soemdsp/runtime/control/WriteControlGraphApplyReport.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -152,6 +153,13 @@ void printApplyReport(
 {
     printControlGraphApplyReport(report);
     printApplyReportCutoff(circuit);
+    const auto wroteApplyReport =
+      writeControlGraphApplyReportTextFile(
+        report,
+        "runtime_control_graph_demo.control_apply_report.txt");
+    std::cout << "control apply report file: "
+              << (wroteApplyReport ? "wrote" : "failed")
+              << "\n";
 }
 
 } // namespace

@@ -5,6 +5,7 @@
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
+#include <soemdsp/runtime/control/WriteControlGraphApplyReport.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -110,7 +111,15 @@ int main()
     std::cout << "control report file: "
               << (wroteReport ? "wrote" : "failed")
               << "\n";
-    printControlGraphApplyReport(
-      makeControlGraphApplyReport(graph, { 1, 0.25f }, circuit));
+    const auto applyReport =
+      makeControlGraphApplyReport(graph, { 1, 0.25f }, circuit);
+    printControlGraphApplyReport(applyReport);
+    const auto wroteApplyReport =
+      writeControlGraphApplyReportTextFile(
+        applyReport,
+        "runtime_control_graph_validation_demo.control_apply_report.txt");
+    std::cout << "control apply report file: "
+              << (wroteApplyReport ? "wrote" : "failed")
+              << "\n";
     return 0;
 }

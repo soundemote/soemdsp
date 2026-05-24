@@ -18,6 +18,8 @@ Safe apply is the preferred helper for demos and tools that want to mutate Circu
 
 ControlGraph apply reports package structural validation, target validation, and apply results together as future editor and tooling groundwork.
 
+ControlGraph apply reports can be exported as text for future editor and tool diagnostics.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

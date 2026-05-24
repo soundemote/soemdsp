@@ -89,6 +89,8 @@ Implemented runtime capabilities include:
 - safe ControlGraph apply gates structural validation and target validation before applying
 - ControlGraph apply report
 - ControlGraph apply report captures graph validation, target validation, and apply result for tools/editors
+- ControlGraph apply report text export
+- ControlGraph demos can write apply report files for inspection
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
