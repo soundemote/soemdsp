@@ -11,6 +11,7 @@
 #include <soemdsp/runtime/serialization/WriteConnections.hpp>
 #include <soemdsp/runtime/serialization/WriteCircuitSnapshot.hpp>
 #include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
+#include <soemdsp/runtime/validation/ValidationGate.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 namespace
@@ -231,6 +232,14 @@ void printSnapshot(const Circuit& circuit)
     const auto validationReport =
       soemdsp::runtime::validateCircuit(circuit);
     printCircuitValidation(validationReport);
+    const auto gateResult =
+      validationGateResult(validationReport);
+    std::cout << "validation gate: "
+              << toString(gateResult)
+              << "\nallows execution: "
+              << std::boolalpha
+              << validationGateAllowsExecution(validationReport)
+              << "\n";
 
     console::debug(std::cout, "presentation-only demo output");
 }

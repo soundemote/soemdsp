@@ -2,6 +2,7 @@
 #include <memory>
 
 #include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
+#include <soemdsp/runtime/validation/ValidationGate.hpp>
 #include <soemdsp/runtime/validation/WriteCircuitValidation.hpp>
 #include <soemdsp/soemdsp.hpp>
 
@@ -80,6 +81,14 @@ int main()
               << report.warningCount()
               << "\nerrorCount: "
               << report.errorCount()
+              << "\n";
+
+    const auto gateResult = validationGateResult(report);
+    std::cout << "gate: "
+              << toString(gateResult)
+              << "\nallows execution: "
+              << std::boolalpha
+              << validationGateAllowsExecution(report)
               << "\n";
 
     return 0;

@@ -25,6 +25,8 @@ Circuit validation diagnostics exist as groundwork before real load/save. Valida
 
 Validation reports can be exported as text for future load/save diagnostics. This is diagnostic/export groundwork, not a serialization format.
 
+ValidationGate can be used by future load/save/runtime entry points before accepting or running a graph.
+
 CircuitSnapshot is groundwork only. It is not a committed file format, parser, or load/save system.
 
 Serialization is not implemented yet.

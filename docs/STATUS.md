@@ -50,6 +50,9 @@ Implemented runtime capabilities include:
 - validation text file export
 - runtime_validation_demo writes a validation report file for inspection
 - generated validation report files are not committed
+- ValidationGate helper
+- validation warnings currently allow execution, while validation errors block execution
+- ValidationGate is future loader, editor, and run-button groundwork
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet
