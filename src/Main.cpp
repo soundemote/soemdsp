@@ -127,7 +127,7 @@ int main()
     //=====================================================
 
     circuit.prepare();
-
+    validateCircuit(circuit);
    printNodes(circuit);
 
     std::cout << "\n\n";
