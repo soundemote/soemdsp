@@ -8,6 +8,7 @@
 
 #include <soemdsp/runtime/debug/ConsoleStyle.hpp>
 #include <soemdsp/runtime/report/PrintCircuitReport.hpp>
+#include <soemdsp/runtime/report/WriteCircuitReport.hpp>
 #include <soemdsp/runtime/serialization/WriteConnections.hpp>
 #include <soemdsp/runtime/serialization/WriteCircuitSnapshot.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -225,6 +226,14 @@ void printSnapshot(const Circuit& circuit)
         "runtime_parameter_setter_demo.connections.txt");
     std::cout << "connections file: "
               << (wroteConnections ? "wrote" : "failed")
+              << "\n";
+
+    const auto wroteReport =
+      writeCircuitReportTextFile(
+        report,
+        "runtime_parameter_setter_demo.report.txt");
+    std::cout << "report file: "
+              << (wroteReport ? "wrote" : "failed")
               << "\n";
 
     console::debug(std::cout, "presentation-only demo output");

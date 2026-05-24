@@ -2,6 +2,7 @@
 #include <memory>
 
 #include <soemdsp/runtime/report/PrintCircuitReport.hpp>
+#include <soemdsp/runtime/report/WriteCircuitReport.hpp>
 #include <soemdsp/runtime/validation/WriteCircuitValidation.hpp>
 #include <soemdsp/soemdsp.hpp>
 
@@ -70,6 +71,14 @@ int main()
         "runtime_validation_demo.validation.txt");
     std::cout << "validation file: "
               << (wroteValidation ? "wrote" : "failed")
+              << "\n";
+
+    const auto wroteReport =
+      writeCircuitReportTextFile(
+        report,
+        "runtime_validation_demo.report.txt");
+    std::cout << "report file: "
+              << (wroteReport ? "wrote" : "failed")
               << "\n";
 
     std::cout << "messageCount: "

@@ -58,6 +58,8 @@ Implemented runtime capabilities include:
 - CircuitReport helper
 - CircuitReport combines CircuitSnapshot, CircuitValidationReport, and ValidationSummary
 - CircuitReport is future editor, load/save, and debug reporting groundwork
+- CircuitReport text file export
+- demos can write combined CircuitReport files for inspection
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet
