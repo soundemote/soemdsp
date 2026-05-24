@@ -10,6 +10,8 @@ struct Node
     std::string name;
     std::string category;
     std::string description;
+    float editorX { 0.0f };
+    float editorY { 0.0f };
     std::uint64_t id{ 0 };
     std::uint64_t nextPortId{ 1 };
 

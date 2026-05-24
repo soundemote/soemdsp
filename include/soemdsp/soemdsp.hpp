@@ -52,5 +52,6 @@
 #include <soemdsp/runtime/nodes/AudioCopy.hpp>
 #include <soemdsp/runtime/debug/FindNodes.hpp>
 #include <soemdsp/runtime/debug/PrintCircuit.hpp>
+#include <soemdsp/runtime/debug/PrintLayout.hpp>
 
 #include <soemdsp/version.hpp>
