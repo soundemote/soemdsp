@@ -14,6 +14,7 @@ struct Parameter
     float value{ 0.0f };
     float defaultValue{ 0.0f };
     float minValue{ 0.0f };
+    float midValue{ 0.5f };
     float maxValue{ 1.0f };
 
     bool visible{ true };
