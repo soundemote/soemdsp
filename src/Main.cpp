@@ -164,6 +164,12 @@ int main()
       ->trigger();
 
     circuit.reset();
+
+
+    std::cout << "\n[DISCONNECT 5]\n";
+
+    circuit.disconnect(5);
+
     circuit.process();
 
     //=====================================================
@@ -192,7 +198,23 @@ int main()
     }
 
     std::cout << "\n";
-    ;
+
+    std::cout << "\n[CONNECTIONS AFTER]\n";
+
+    for (auto& connection : circuit.connections)
+    {
+        std::cout
+          << connection.id
+          << " : "
+          << connection.sourceNode->name
+          << "."
+          << connection.sourcePort->name
+          << " -> "
+          << connection.destinationNode->name
+          << "."
+          << connection.destinationPort->name
+          << "\n";
+    }
 
     std::cout << "[LFO] ";
     for (std::size_t i = 0; i < 8; ++i)

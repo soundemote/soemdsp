@@ -136,8 +136,10 @@ struct Circuit
         {
             for (auto& input : node->inputs)
             {
-                input.connected = false;
-                input.triggered = false;
+                input.connected   = false;
+                input.triggered   = false;
+                input.audioBuffer = nullptr;
+                input.audioFrames = 0;
             }
         }
         for (auto& node : nodes)
