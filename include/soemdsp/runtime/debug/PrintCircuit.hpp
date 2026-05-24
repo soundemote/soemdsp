@@ -11,6 +11,7 @@ inline void printCircuit(const Circuit& circuit)
 {
     printNodes(circuit);
     printPorts(circuit);
+    printParameters(circuit);
     printLayout(circuit);
     printConnections(circuit);
 }

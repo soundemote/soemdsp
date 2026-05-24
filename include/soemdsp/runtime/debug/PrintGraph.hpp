@@ -55,6 +55,52 @@ inline void printPorts(const Circuit& circuit)
     }
 }
 
+inline void printParameters(const Circuit& circuit)
+{
+    std::cout << "\n[PARAMETERS]\n";
+
+    bool foundParameters = false;
+
+    for (const auto& node : circuit.nodes)
+    {
+        if (node->parameters.empty())
+        {
+            continue;
+        }
+
+        foundParameters = true;
+
+        std::cout
+            << node->id
+            << " : "
+            << node->displayName()
+            << "\n";
+
+        for (const auto& parameter : node->parameters)
+        {
+            std::cout
+                << "  "
+                << parameter.id
+                << " : "
+                << parameter.name
+                << " = "
+                << parameter.value
+                << " ["
+                << parameter.minValue
+                << ", "
+                << parameter.midValue
+                << ", "
+                << parameter.maxValue
+                << "]\n";
+        }
+    }
+
+    if (!foundParameters)
+    {
+        std::cout << "<none>\n";
+    }
+}
+
 inline void printConnections(const Circuit& circuit)
 {
     std::cout << "\n[CONNECTIONS]\n";
