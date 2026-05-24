@@ -31,6 +31,7 @@ struct Port
 
     std::string name;
     std::string description;
+    bool visible{ true };
     std::uint64_t id{ 0 };
     float value{ 0.0f };
 

@@ -30,6 +30,11 @@ struct Node
             : category + "/" + name;
     }
 
+    virtual std::string typeName() const
+    {
+        return name;
+    }
+
     virtual std::string summary() const
     {
         return description.empty()
