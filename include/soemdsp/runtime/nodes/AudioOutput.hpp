@@ -9,6 +9,7 @@ struct AudioOutput : Node
     AudioOutput()
     {
         name = "AudioOutput";
+        category = "Output";
         inputs.emplace_back(PortType::Audio, PortDirection::Input);
         inputs[0].name = "In"; 
     }

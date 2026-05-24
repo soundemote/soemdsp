@@ -15,6 +15,7 @@ struct SineOscillator : Node {
     SineOscillator()
     {
         name = "SineOscillator";
+        category = "Generator";
 
         inputs.resize(1);
         outputs.resize(1);

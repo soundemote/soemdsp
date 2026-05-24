@@ -11,6 +11,7 @@ struct FloatConstant : Node {
       : constant(v)
     {
         name = "FloatConstant";
+        category = "Generator";
 
         outputs.resize(1);
 

@@ -12,6 +12,7 @@ struct TriggerEdge : Node
     TriggerEdge()
     {
         name = "TriggerEdge";
+        category = "Trigger";
 
         inputs.emplace_back(
             PortType::Trigger,

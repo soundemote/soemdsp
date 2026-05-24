@@ -12,6 +12,7 @@ struct TriggerPrinter : Node
     TriggerPrinter()
     {
         name = "TriggerPrinter";
+        category = "Debug";
 
         inputs.emplace_back(
             PortType::Trigger,

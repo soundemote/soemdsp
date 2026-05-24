@@ -10,6 +10,7 @@ struct AudioMultiplyAdd : Node {
     AudioMultiplyAdd()
     {
         name = "AudioMultiplyAdd";
+        category = "Math";
 
         inputs.resize(3);
         outputs.resize(1);

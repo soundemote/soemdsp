@@ -8,6 +8,7 @@ namespace soemdsp::runtime
 struct Node
 {
     std::string name;
+    std::string category;
     std::uint64_t id{ 0 };
     std::uint64_t nextPortId{ 1 };
 

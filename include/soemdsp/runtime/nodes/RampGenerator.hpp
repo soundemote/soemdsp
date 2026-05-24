@@ -12,6 +12,7 @@ struct RampGenerator : Node {
     RampGenerator()
     {
         name = "RampGenerator";
+        category = "Generator";
 
         inputs.resize(1);
         outputs.resize(1);

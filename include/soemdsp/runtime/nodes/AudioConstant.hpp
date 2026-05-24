@@ -11,6 +11,7 @@ struct AudioConstant : Node {
       : value(v)
     {
         name = "AudioConstant";
+        category = "Generator";
 
         outputs.resize(1);
 
