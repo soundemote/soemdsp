@@ -41,3 +41,4 @@
 #include <soemdsp/runtime/nodes/Constant.hpp>
 #include <soemdsp/runtime/nodes/Multiply.hpp>
 #include <soemdsp/runtime/nodes/AudioConstant.hpp>
+#include <soemdsp/runtime/nodes/AudioAdd.hpp>
