@@ -134,8 +134,7 @@ struct Circuit
             for (auto& connection : connections)
             {
                 if (connection.destinationNode == node.get() &&
-                    connection.sourcePort &&
-                    connection.destinationPort)
+                    connection.valid())
                 {
                     connection.destinationPort->value =
                       connection.sourcePort->value;

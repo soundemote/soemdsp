@@ -12,5 +12,13 @@ struct Connection
     Port* sourcePort{ nullptr };
     Node* destinationNode{ nullptr };
     Port* destinationPort{ nullptr };
+
+    bool valid() const
+    {
+        return sourceNode &&
+               sourcePort &&
+               destinationNode &&
+               destinationPort;
+    }
 };
 } //namespace soemdsp::runtime
