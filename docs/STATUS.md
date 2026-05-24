@@ -14,7 +14,10 @@ Implemented runtime capabilities include:
 - parameter lookup helpers
 - parameter value setter helpers
 - parameter values clamp to minValue/maxValue
+- parameter reset helpers
+- parameter reset uses defaultValue clamped to minValue/maxValue
 - parameter midValue is preserved as metadata and is not used for clamping
+- parameter midValue remains UI/perceptual metadata only
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 

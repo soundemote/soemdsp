@@ -36,7 +36,12 @@ int main()
 
     circuit.setParameterValue(gainNode->id, "gain", 2.0f);
 
-    std::cout << "\n[AFTER]\n";
+    std::cout << "\n[AFTER SET]\n";
+    printCircuit(circuit);
+
+    circuit.resetParameterValue(gainNode->id, "gain");
+
+    std::cout << "\n[AFTER RESET]\n";
     printCircuit(circuit);
 
     return 0;

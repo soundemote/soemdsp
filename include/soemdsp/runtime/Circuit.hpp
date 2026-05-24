@@ -218,6 +218,34 @@ struct Circuit
         return true;
     }
 
+    bool resetParameterValue(NodeId nodeId, ParameterId parameterId)
+    {
+        auto* parameter = findParameter(nodeId, parameterId);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        parameter->value =
+          std::clamp(parameter->defaultValue, parameter->minValue, parameter->maxValue);
+
+        return true;
+    }
+
+    bool resetParameterValueByName(NodeId nodeId, std::string_view name)
+    {
+        auto* parameter = findParameterByName(nodeId, name);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        parameter->value =
+          std::clamp(parameter->defaultValue, parameter->minValue, parameter->maxValue);
+
+        return true;
+    }
+
     void allocateBuffers()
     {
         audioBuffers.clear();
