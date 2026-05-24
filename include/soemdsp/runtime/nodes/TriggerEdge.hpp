@@ -29,6 +29,11 @@ struct TriggerEdge : Node
         outputs[0].name = "Out";
     }
 
+    std::string typeName() const override
+    {
+        return "trigger_edge";
+    }
+
     void process() override
     {
         const bool current =

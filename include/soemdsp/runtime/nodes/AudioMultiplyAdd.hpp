@@ -39,6 +39,11 @@ struct AudioMultiplyAdd : Node {
         inputs[1].value = 1.0f;
     }
 
+    std::string typeName() const override
+    {
+        return "audio_multiply_add";
+    }
+
     void process() override
     {
         auto& value  = inputs[0];

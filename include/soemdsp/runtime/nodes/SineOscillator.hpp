@@ -33,6 +33,11 @@ struct SineOscillator : Node {
         outputs[0].direction = PortDirection::Output;
     }
 
+    std::string typeName() const override
+    {
+        return "sine_oscillator";
+    }
+
     void reset() override
     {
         phase = 0.0;

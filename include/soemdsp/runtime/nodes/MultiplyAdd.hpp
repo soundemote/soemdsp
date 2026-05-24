@@ -30,6 +30,11 @@ struct MultiplyAdd : Node {
         inputs[1].value = 1.0f;
     }
 
+    std::string typeName() const override
+    {
+        return "multiply_add";
+    }
+
     void process() override
     {
         outputs[0].value =

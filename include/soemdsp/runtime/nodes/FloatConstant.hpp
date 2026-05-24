@@ -21,6 +21,11 @@ struct FloatConstant : Node {
         outputs[0].direction = PortDirection::Output;
     }
 
+    std::string typeName() const override
+    {
+        return "float_constant";
+    }
+
     void process() override
     {
         outputs[0].value = constant;

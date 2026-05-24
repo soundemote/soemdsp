@@ -24,6 +24,11 @@ struct TriggerButton : Node
         outputs[0].description = "Manual trigger pulse";
     }
 
+    std::string typeName() const override
+    {
+        return "trigger_button";
+    }
+
     void trigger()
     {
         pressed = true;

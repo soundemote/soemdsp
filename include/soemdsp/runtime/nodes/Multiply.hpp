@@ -22,6 +22,11 @@ struct Multiply : Node {
         outputs[0].direction = PortDirection::Output;
     }
 
+    std::string typeName() const override
+    {
+        return "multiply";
+    }
+
     void process() override
     {
         outputs[0].value = inputs[0].value * inputs[1].value;

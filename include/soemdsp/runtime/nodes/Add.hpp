@@ -22,6 +22,11 @@ struct Add : Node {
         outputs[0].direction = PortDirection::Output;
     }
 
+    std::string typeName() const override
+    {
+        return "add";
+    }
+
     void process() override
     {
         outputs[0].value =

@@ -24,6 +24,11 @@ struct TriggerPrinter : Node
         inputs[0].description = "Trigger input";
     }
 
+    std::string typeName() const override
+    {
+        return "trigger_printer";
+    }
+
     void process() override
     {
         if (inputs[0].triggered)

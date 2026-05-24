@@ -28,6 +28,11 @@ struct RampGenerator : Node {
         outputs[0].direction = PortDirection::Output;
     }
 
+    std::string typeName() const override
+    {
+        return "ramp_generator";
+    }
+
     void reset()
     {
         phase = 0.0;

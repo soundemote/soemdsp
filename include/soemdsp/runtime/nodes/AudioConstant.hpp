@@ -21,6 +21,11 @@ struct AudioConstant : Node {
         outputs[0].direction = PortDirection::Output;        
     }
 
+    std::string typeName() const override
+    {
+        return "audio_constant";
+    }
+
     void process() override
     {
         auto& out = outputs[0];

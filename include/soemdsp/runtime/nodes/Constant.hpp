@@ -15,6 +15,11 @@ struct Constant : Node {
         outputs[0].value = v;
     }
 
+    std::string typeName() const override
+    {
+        return "constant";
+    }
+
     void set(float v)
     {
         outputs[0].value = v;

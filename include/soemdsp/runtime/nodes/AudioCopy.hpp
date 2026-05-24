@@ -14,6 +14,11 @@ struct AudioCopy : Node
         outputs.emplace_back(PortType::Audio);
     }
 
+    std::string typeName() const override
+    {
+        return "audio_copy";
+    }
+
     void process() override
     {
         auto* input  = inputs[0].audioBuffer;

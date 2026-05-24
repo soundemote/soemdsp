@@ -27,6 +27,11 @@ struct AudioAdd : Node {
         outputs[0].name = "Out";
     }
 
+    std::string typeName() const override
+    {
+        return "audio_add";
+    }
+
     void process() override
     {
         auto& a = inputs[0];

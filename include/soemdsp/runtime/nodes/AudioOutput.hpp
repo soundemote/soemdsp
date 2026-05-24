@@ -16,6 +16,11 @@ struct AudioOutput : Node
         inputs[0].description = "Final audio signal";
     }
 
+    std::string typeName() const override
+    {
+        return "audio_output";
+    }
+
     void process() override
     {
     //sink node

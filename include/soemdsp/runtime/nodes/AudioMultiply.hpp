@@ -27,6 +27,11 @@ struct AudioMultiply : Node {
         outputs[0].name = "Out";
     }
 
+    std::string typeName() const override
+    {
+        return "audio_multiply";
+    }
+
     void process() override
     {
         auto& a = inputs[0];
