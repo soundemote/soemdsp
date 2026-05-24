@@ -131,6 +131,24 @@ int main()
       circuit.nodes[7].get())
       ->trigger();
 
+    std::cout << "[PROCESS 1]\n";
+
+    static_cast<TriggerButton*>(
+        circuit.nodes[7].get()
+    )->trigger();
+
+    circuit.process();
+
+    std::cout << "[PROCESS 2]\n";
+
+    circuit.process();
+
+    std::cout << "[PROCESS 3]\n";
+
+    static_cast<TriggerButton*>(
+        circuit.nodes[7].get()
+    )->trigger();
+
     circuit.process();
 
     //=====================================================
