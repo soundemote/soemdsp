@@ -40,13 +40,17 @@ struct Port
 
     void* backing{ nullptr };
 
-    bool isAudio() const
+    bool carriesAudio() const
     {
         return type == PortType::Audio;
     }
-    bool isControl() const
+    bool carriesControl() const
     {
         return type == PortType::Control;
+    }
+    bool carriesTrigger() const
+    {
+        return type == PortType::Trigger;
     }
     bool isTriggered() const
     {
@@ -56,7 +60,6 @@ struct Port
     {
         return audioBuffer != nullptr;
     }
-
     bool hasValue() const
     {
         return connected || value != 0.0f;

@@ -46,8 +46,8 @@ struct Circuit
         if (sourcePort.type != destinationPort.type)
         {
             const bool audioToControl =
-              sourcePort.type == PortType::Audio &&
-              destinationPort.type == PortType::Control;
+              sourcePort.carriesAudio() &&
+              destinationPort.carriesControl();
             if (!audioToControl)
             {
                 return false;
@@ -89,7 +89,7 @@ struct Circuit
         {
             for (auto& port : node->outputs)
             {
-                if (port.type == PortType::Audio)
+                if (port.carriesAudio())
                 {
                     ++audioOutputCount;
                 }
@@ -101,7 +101,7 @@ struct Circuit
         {
             for (auto& port : node->outputs)
             {
-                if (port.type == PortType::Audio)
+                if (port.carriesAudio())
                 {
                     port.audioBuffer = audioBuffers[bufferIndex].data();
                     port.audioFrames = blockSize;
@@ -149,7 +149,7 @@ struct Circuit
                 if (connection.destinationNode == node.get() &&
                     connection.valid())
                 {
-                    if (connection.sourcePort->type == PortType::Control)
+                    if (connection.sourcePort->carriesControl())
                     {
                         connection.destinationPort->value =
                           connection.sourcePort->value;
