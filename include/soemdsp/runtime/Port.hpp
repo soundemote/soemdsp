@@ -23,6 +23,8 @@ struct Port
     std::string name;
     float value{ 0.0f };
 
+    bool connected{};
+
     float* audioBuffer{ nullptr };
     std::size_t audioFrames{ 0 };
 
