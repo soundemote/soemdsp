@@ -120,6 +120,10 @@ struct Circuit
     void prepare()
     {
         assignNodeIds();
+        for (auto& node : nodes)
+        {
+            node->assignPortIds();
+        }
         allocateBuffers();
         for (auto& node : nodes)
         {

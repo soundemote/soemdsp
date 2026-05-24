@@ -30,6 +30,7 @@ struct Port
     PortDirection direction{ PortDirection::Input };
 
     std::string name;
+    std::uint64_t id{ 0 };
     float value{ 0.0f };
 
     bool connected{};
