@@ -21,6 +21,7 @@ struct TriggerPrinter : Node
         );
 
         inputs[0].name = "Trigger";
+        inputs[0].description = "Trigger input";
     }
 
     void process() override

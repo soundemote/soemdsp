@@ -21,6 +21,7 @@ struct TriggerButton : Node
         );
 
         outputs[0].name = "Trigger";
+        outputs[0].description = "Manual trigger pulse";
     }
 
     void trigger()

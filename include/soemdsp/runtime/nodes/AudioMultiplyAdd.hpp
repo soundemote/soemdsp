@@ -21,6 +21,11 @@ struct AudioMultiplyAdd : Node {
         inputs[2].name = "Offset";
         outputs[0].name = "Out";
 
+        inputs[0].description = "Input signal";
+        inputs[1].description = "Multiplier";
+        inputs[2].description = "Added offset";
+        outputs[0].description = "Processed output";
+
         inputs[0].type = PortType::Audio;
         inputs[1].type = PortType::Control;
         inputs[2].type = PortType::Control;

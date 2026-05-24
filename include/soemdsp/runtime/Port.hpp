@@ -30,6 +30,7 @@ struct Port
     PortDirection direction{ PortDirection::Input };
 
     std::string name;
+    std::string description;
     std::uint64_t id{ 0 };
     float value{ 0.0f };
 
@@ -44,6 +45,18 @@ struct Port
     bool carriesAudio() const
     {
         return type == PortType::Audio;
+    }
+    std::string displayName() const
+    {
+        return name.empty()
+            ? "Port"
+            : name;
+    }
+    std::string summary() const
+    {
+        return description.empty()
+            ? displayName()
+            : displayName() + " - " + description;
     }
     bool carriesControl() const
     {

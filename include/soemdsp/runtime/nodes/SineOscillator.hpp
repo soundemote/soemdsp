@@ -22,11 +22,13 @@ struct SineOscillator : Node {
         outputs.resize(1);
 
         inputs[0].name = "Frequency";
+        inputs[0].description = "Oscillator frequency in Hz";
         inputs[0].type = PortType::Control;
         inputs[0].direction = PortDirection::Input;
         inputs[0].value = 440.0f;
 
         outputs[0].name = "Out";
+        outputs[0].description = "Sine wave output";
         outputs[0].type = PortType::Audio;
         outputs[0].direction = PortDirection::Output;
     }

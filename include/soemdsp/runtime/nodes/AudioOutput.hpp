@@ -13,6 +13,7 @@ struct AudioOutput : Node
         description = "Final audio sink";
         inputs.emplace_back(PortType::Audio, PortDirection::Input);
         inputs[0].name = "In"; 
+        inputs[0].description = "Final audio signal";
     }
 
     void process() override
