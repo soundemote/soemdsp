@@ -17,6 +17,15 @@ enum class PortDirection : std::uint8_t
 };
 struct Port
 {
+    Port() = default;
+
+    Port(PortType t,
+         PortDirection d = PortDirection::Input)
+      : type(t)
+      , direction(d)
+    {
+    }
+
     PortType type{ PortType::Float };
     PortDirection direction{ PortDirection::Input };
 
