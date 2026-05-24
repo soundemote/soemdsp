@@ -1,7 +1,6 @@
-#include <soemdsp/soemdsp.hpp>
-
 #include <iostream>
 #include <memory>
+#include <soemdsp/soemdsp.hpp>
 
 int main()
 {
@@ -10,25 +9,28 @@ int main()
 
     Circuit circuit;
 
-    // =====================================================
-    // CREATE NODES
-    // =====================================================
+    //=====================================================
+    //CREATE NODES
+    //=====================================================
 
-    auto lfoFreq    = std::make_unique<FloatConstant>(20.0f);
-    auto lfo        = std::make_unique<SineOscillator>();
+    auto lfoFreq = std::make_unique<FloatConstant>(20.0f);
+    auto lfo     = std::make_unique<SineOscillator>();
 
-    auto lfoDepth   = std::make_unique<FloatConstant>(2000.0f);
-    auto carrierHz  = std::make_unique<FloatConstant>(440.0f);
+    auto lfoDepth  = std::make_unique<FloatConstant>(2000.0f);
+    auto carrierHz = std::make_unique<FloatConstant>(440.0f);
 
     auto modulation = std::make_unique<AudioMultiplyAdd>();
 
-    auto carrier    = std::make_unique<SineOscillator>();
+    auto carrier = std::make_unique<SineOscillator>();
 
-    auto output     = std::make_unique<AudioOutput>();
+    auto output = std::make_unique<AudioOutput>();
 
-    // =====================================================
-    // CACHE PORTS
-    // =====================================================
+    auto triggerButton  = std::make_unique<TriggerButton>();
+    auto triggerPrinter = std::make_unique<TriggerPrinter>();
+
+    //=====================================================
+    //CACHE PORTS
+    //=====================================================
 
     auto* lfoFreqOut = &lfoFreq->outputs[0];
 
@@ -48,82 +50,92 @@ int main()
 
     auto* outputIn = &output->inputs[0];
 
-    // =====================================================
-    // MOVE INTO CIRCUIT
-    // =====================================================
+    auto* triggerOut = &triggerButton->outputs[0];
+    auto* triggerIn  = &triggerPrinter->inputs[0];
 
-    circuit.nodes.push_back(std::move(lfoFreq));    // 0
-    circuit.nodes.push_back(std::move(lfo));        // 1
-    circuit.nodes.push_back(std::move(lfoDepth));   // 2
-    circuit.nodes.push_back(std::move(carrierHz));  // 3
-    circuit.nodes.push_back(std::move(modulation)); // 4
-    circuit.nodes.push_back(std::move(carrier));    // 5
-    circuit.nodes.push_back(std::move(output));     // 6
+    //=====================================================
+    //MOVE INTO CIRCUIT
+    //=====================================================
 
-    // =====================================================
-    // CONNECTIONS
-    // =====================================================
+    circuit.nodes.push_back(std::move(lfoFreq));    //0
+    circuit.nodes.push_back(std::move(lfo));        //1
+    circuit.nodes.push_back(std::move(lfoDepth));   //2
+    circuit.nodes.push_back(std::move(carrierHz));  //3
+    circuit.nodes.push_back(std::move(modulation)); //4
+    circuit.nodes.push_back(std::move(carrier));    //5
+    circuit.nodes.push_back(std::move(output));     //6
+    circuit.nodes.push_back(std::move(triggerButton));  //7
+    circuit.nodes.push_back(std::move(triggerPrinter)); //8
 
-    // LFO frequency
+    //=====================================================
+    //CONNECTIONS
+    //=====================================================
+
+    //LFO frequency
     circuit.connect(
-        *circuit.nodes[0],
-        *lfoFreqOut,
-        *circuit.nodes[1],
-        *lfoFreqIn
-    );
+      *circuit.nodes[0],
+      *lfoFreqOut,
+      *circuit.nodes[1],
+      *lfoFreqIn);
 
-    // LFO output -> modulation value
+    //LFO output -> modulation value
     circuit.connect(
-        *circuit.nodes[1],
-        *lfoOut,
-        *circuit.nodes[4],
-        *modValue
-    );
+      *circuit.nodes[1],
+      *lfoOut,
+      *circuit.nodes[4],
+      *modValue);
 
-    // depth -> modulation scale
+    //depth -> modulation scale
     circuit.connect(
-        *circuit.nodes[2],
-        *depthOut,
-        *circuit.nodes[4],
-        *modScale
-    );
+      *circuit.nodes[2],
+      *depthOut,
+      *circuit.nodes[4],
+      *modScale);
 
-    // base pitch -> modulation offset
+    //base pitch -> modulation offset
     circuit.connect(
-        *circuit.nodes[3],
-        *baseOut,
-        *circuit.nodes[4],
-        *modOffset
-    );
+      *circuit.nodes[3],
+      *baseOut,
+      *circuit.nodes[4],
+      *modOffset);
 
-    // modulation result -> carrier frequency
+    //modulation result -> carrier frequency
     circuit.connect(
-        *circuit.nodes[4],
-        *modOut,
-        *circuit.nodes[5],
-        *carrierFreq
-    );
+      *circuit.nodes[4],
+      *modOut,
+      *circuit.nodes[5],
+      *carrierFreq);
 
-    // carrier -> output
+    //carrier -> output
     circuit.connect(
-        *circuit.nodes[5],
-        *carrierOut,
-        *circuit.nodes[6],
-        *outputIn
-    );
+      *circuit.nodes[5],
+      *carrierOut,
+      *circuit.nodes[6],
+      *outputIn);
+
+    circuit.connect(
+      *circuit.nodes[7],
+      *triggerOut,
+      *circuit.nodes[8],
+      *triggerIn);
 
     circuit.output = outputIn;
 
-    // =====================================================
-    // PROCESS
-    // =====================================================
+    //=====================================================
+    //PROCESS
+    //=====================================================
 
     circuit.prepare();
+
+    static_cast<TriggerButton*>(
+      circuit.nodes[7].get())
+      ->trigger();
+
     circuit.process();
 
-    // =====================================================
-    // PRINT
-    // =====================================================
+    //=====================================================
+    //PRINT
+    //=====================================================
 
     std::cout << "soemdsp v "
               << SOEMDSP_VERSION_STRING
