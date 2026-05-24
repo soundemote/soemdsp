@@ -149,8 +149,11 @@ struct Circuit
                 if (connection.destinationNode == node.get() &&
                     connection.valid())
                 {
-                    connection.destinationPort->value =
-                      connection.sourcePort->value;
+                    if (connection.sourcePort->type == PortType::Control)
+                    {
+                        connection.destinationPort->value =
+                          connection.sourcePort->value;
+                    }
                     connection.destinationPort->audioBuffer =
                       connection.sourcePort->audioBuffer;
                     connection.destinationPort->audioFrames =

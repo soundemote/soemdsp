@@ -48,7 +48,8 @@ struct SineOscillator : Node {
     {
         float hz = frequency.value;
 
-        if (frequency.audioBuffer)
+        if (frequency.connected &&
+            frequency.audioBuffer)
         {
             hz = frequency.audioBuffer[i];
         }
