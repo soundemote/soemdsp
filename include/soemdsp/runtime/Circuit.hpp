@@ -81,6 +81,18 @@ struct Circuit
 
         return false;
     }
+    bool hasConnectionTo(const Port& port) const
+{
+    for (const auto& connection : connections)
+    {
+        if (connection.destinationPort == &port)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
     void allocateBuffers()
     {
         audioBuffers.clear();
