@@ -17,7 +17,7 @@ struct RampGenerator : Node {
         outputs.resize(1);
 
         inputs[0].name = "Frequency";
-        inputs[0].type = PortType::Float;
+        inputs[0].type = PortType::Control;
         inputs[0].direction = PortDirection::Input;
         inputs[0].value = 1.0f;
 

@@ -15,7 +15,7 @@ struct FloatConstant : Node {
         outputs.resize(1);
 
         outputs[0].name = "Value";
-        outputs[0].type = PortType::Float;
+        outputs[0].type = PortType::Control;
         outputs[0].direction = PortDirection::Output;
     }
 

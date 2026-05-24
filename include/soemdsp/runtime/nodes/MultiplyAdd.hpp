@@ -20,11 +20,11 @@ struct MultiplyAdd : Node {
 
         for (auto& input : inputs)
         {
-            input.type = PortType::Float;
+            input.type = PortType::Control;
             input.direction = PortDirection::Input;
         }
 
-        outputs[0].type = PortType::Float;
+        outputs[0].type = PortType::Control;
         outputs[0].direction = PortDirection::Output;
 
         inputs[1].value = 1.0f;

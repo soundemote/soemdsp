@@ -20,8 +20,8 @@ struct AudioMultiplyAdd : Node {
         outputs[0].name = "Out";
 
         inputs[0].type = PortType::Audio;
-        inputs[1].type = PortType::Float;
-        inputs[2].type = PortType::Float;
+        inputs[1].type = PortType::Control;
+        inputs[2].type = PortType::Control;
         outputs[0].type = PortType::Audio;
 
         inputs[0].direction = PortDirection::Input;

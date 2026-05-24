@@ -44,7 +44,7 @@ bool connect(Node& sourceNode,
     {
         const bool audioToFloat =
             sourcePort.type == PortType::Audio &&
-            destinationPort.type == PortType::Float;
+            destinationPort.type == PortType::Control;
 
         if (!audioToFloat)
         {

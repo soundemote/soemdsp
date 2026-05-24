@@ -10,7 +10,7 @@ struct Constant : Node {
         name = "Constant";
 
         outputs.resize(1);
-        outputs[0].type = PortType::Float;
+        outputs[0].type = PortType::Control;
         outputs[0].direction = PortDirection::Output;
         outputs[0].value = v;
     }

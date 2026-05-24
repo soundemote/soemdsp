@@ -6,7 +6,7 @@ namespace soemdsp::runtime
 {
 enum class PortType : std::uint8_t
 {
-    Float,
+    Control,
     Audio,
     Trigger
 };
@@ -26,7 +26,7 @@ struct Port
     {
     }
 
-    PortType type{ PortType::Float };
+    PortType type{ PortType::Control };
     PortDirection direction{ PortDirection::Input };
 
     std::string name;
@@ -43,9 +43,9 @@ struct Port
     {
         return type == PortType::Audio;
     }
-    bool isFloat() const
+    bool isControl() const
     {
-        return type == PortType::Float;
+        return type == PortType::Control;
     }
     bool hasAudio() const
     {

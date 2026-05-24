@@ -12,13 +12,13 @@ struct Multiply : Node {
         inputs.resize(2);
         outputs.resize(1);
 
-        inputs[0].type = PortType::Float;
-        inputs[1].type = PortType::Float;
+        inputs[0].type = PortType::Control;
+        inputs[1].type = PortType::Control;
 
         inputs[0].direction = PortDirection::Input;
         inputs[1].direction = PortDirection::Input;
 
-        outputs[0].type = PortType::Float;
+        outputs[0].type = PortType::Control;
         outputs[0].direction = PortDirection::Output;
     }
 
