@@ -30,6 +30,8 @@ Parameter `midValue` can now be converted explicitly into a normalized ControlGr
 
 `runtime_control_midpoint_apply_demo` is the first full proof of parameter `midValue` feeding ControlGraph shaping while raw normalized Circuit transport stays linear.
 
+The midpoint apply proof now uses ControlGraph apply report diagnostics so validation and apply status can be inspected alongside the min/mid/max result.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

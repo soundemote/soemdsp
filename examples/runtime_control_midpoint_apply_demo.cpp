@@ -4,7 +4,8 @@
 #include <string>
 
 #include <soemdsp/runtime/control/ControlGraphParameterMidpoint.hpp>
-#include <soemdsp/runtime/control/SafeApplyControlGraph.hpp>
+#include <soemdsp/runtime/control/ControlGraphApplyReport.hpp>
+#include <soemdsp/runtime/control/WriteControlGraphApplyReport.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -102,24 +103,37 @@ ControlGraph createControlGraph(const Parameter& cutoff)
     return graph;
 }
 
-void applyAndPrint(
+ControlGraphApplyReport applyAndPrint(
   const ControlGraph& graph,
   Circuit& circuit,
   float input)
 {
-    safeApplyControlGraphLinearToCircuit(graph, { 1, input }, circuit);
+    auto report =
+      makeControlGraphApplyReport(graph, { 1, input }, circuit);
 
     const auto* cutoff = circuit.findParameter(100, "cutoff");
     if (cutoff == nullptr)
     {
-        return;
+        return report;
     }
 
     std::cout << "input "
               << input
               << " -> cutoff "
               << cutoff->value
+              << " | graph errors "
+              << report.graphValidation.errorCount()
+              << " | target errors "
+              << report.targetValidation.errorCount()
+              << " | evaluated "
+              << (report.applyResult.evaluated ? "true" : "false")
+              << " | applied "
+              << (report.applyResult.applied ? "true" : "false")
+              << " | message "
+              << report.applyResult.message
               << "\n";
+
+    return report;
 }
 
 } // namespace
@@ -148,7 +162,16 @@ int main()
     std::cout << std::setprecision(2);
     applyAndPrint(graph, circuit, 0.0f);
     applyAndPrint(graph, circuit, 0.5f);
-    applyAndPrint(graph, circuit, 1.0f);
+    const auto finalReport =
+      applyAndPrint(graph, circuit, 1.0f);
+
+    const auto wroteReport =
+      writeControlGraphApplyReportTextFile(
+        finalReport,
+        "runtime_control_midpoint_apply_demo.control_apply_report.txt");
+    std::cout << "control apply report file: "
+              << (wroteReport ? "wrote" : "failed")
+              << "\n";
 
     return 0;
 }
