@@ -1,9 +1,9 @@
 #include <iostream>
 
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
-#include <soemdsp/runtime/control/PrintControlGraphValidation.hpp>
-#include <soemdsp/runtime/control/PrintControlGraphSnapshot.hpp>
+#include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
+#include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 
 using namespace soemdsp::runtime;
 
@@ -45,16 +45,21 @@ int main()
 {
     const auto graph = createInvalidGraph();
     printControlGraph(graph);
-    const auto report = validateControlGraph(graph);
-    printControlGraphValidation(report);
-    const auto snapshot = snapshotControlGraph(graph);
-    printControlGraphSnapshot(snapshot);
+    const auto report = makeControlGraphReport(graph);
+    printControlGraphReport(report);
     const auto wroteSnapshot =
       writeControlGraphSnapshotTextFile(
-        snapshot,
+        report.snapshot,
         "runtime_control_graph_validation_demo.control_snapshot.txt");
     std::cout << "control snapshot file: "
               << (wroteSnapshot ? "wrote" : "failed")
+              << "\n";
+    const auto wroteReport =
+      writeControlGraphReportTextFile(
+        report,
+        "runtime_control_graph_validation_demo.control_report.txt");
+    std::cout << "control report file: "
+              << (wroteReport ? "wrote" : "failed")
               << "\n";
     return 0;
 }

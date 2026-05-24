@@ -73,6 +73,8 @@ Implemented runtime capabilities include:
 - runtime_control_graph_validation_demo
 - ControlGraph snapshot and text export
 - ControlGraph demos write control graph snapshot text files for inspection
+- ControlGraphReport helper
+- ControlGraph demos can write combined control report files for inspection
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
