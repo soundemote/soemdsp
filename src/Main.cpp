@@ -118,7 +118,7 @@ int main()
     // PROCESS
     // =====================================================
 
-    circuit.allocateBuffers();
+    circuit.prepare();
     circuit.process();
 
     // =====================================================

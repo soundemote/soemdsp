@@ -71,13 +71,17 @@ struct Circuit
             }
         }
     }
+    void prepare()
+    {
+        allocateBuffers();
 
+        for (auto& node : nodes)
+        {
+            node->prepare();
+        }
+    }
     void process()
     {
-        for (auto& buffer : audioBuffers)
-        {
-            buffer.fill(0.0f);
-        }
         for (auto& node : nodes)
         {
             for (auto& connection : connections)

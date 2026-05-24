@@ -1,13 +1,11 @@
 #pragma once
-
 #include <string>
 #include <vector>
-
 #include <soemdsp/runtime/Port.hpp>
-
-namespace soemdsp::runtime {
-
-struct Node {
+namespace soemdsp::runtime
+{
+struct Node
+{
     std::string name;
 
     std::vector<Port> inputs;
@@ -15,7 +13,8 @@ struct Node {
 
     virtual ~Node() = default;
 
+    virtual void prepare() {}
     virtual void process() {}
 };
 
-} // namespace soemdsp::runtime
+} //namespace soemdsp::runtime
