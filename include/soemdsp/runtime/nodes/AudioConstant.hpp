@@ -14,8 +14,9 @@ struct AudioConstant : Node {
 
         outputs.resize(1);
 
-        outputs[0].type = PortType::Audio;
-        outputs[0].direction = PortDirection::Output;
+        outputs[0].name = "Out"; 
+        outputs[0].type = PortType::Audio;               
+        outputs[0].direction = PortDirection::Output;        
     }
 
     void process() override

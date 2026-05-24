@@ -129,15 +129,14 @@ int main()
 
     std::cout << std::endl
               << "[NODES]\n";
-             
 
     for (auto& node : circuit.nodes)
     {
         std::cout
-            << node->id
-            << " : "
-            << node->name
-            << "\n";
+          << node->id
+          << " : "
+          << node->name
+          << "\n";
     }
 
     std::cout << "\n\n";
@@ -149,8 +148,8 @@ int main()
     std::cout << "[PROCESS 1]\n";
 
     static_cast<TriggerButton*>(
-        circuit.nodes[7].get()
-    )->trigger();
+      circuit.nodes[7].get())
+      ->trigger();
 
     circuit.process();
 
@@ -161,8 +160,8 @@ int main()
     std::cout << "[PROCESS 3]\n";
 
     static_cast<TriggerButton*>(
-        circuit.nodes[7].get()
-    )->trigger();
+      circuit.nodes[7].get())
+      ->trigger();
 
     circuit.reset();
     circuit.process();
@@ -174,6 +173,26 @@ int main()
     std::cout << "soemdsp v "
               << SOEMDSP_VERSION_STRING
               << std::endl;
+
+    std::cout << "\n[CONNECTIONS]\n";
+
+    for (auto& connection : circuit.connections)
+    {
+        std::cout
+          << connection.id
+          << " : "
+          << connection.sourceNode->name
+          << "."
+          << connection.sourcePort->name
+          << " -> "
+          << connection.destinationNode->name
+          << "."
+          << connection.destinationPort->name
+          << "\n";
+    }
+
+    std::cout << "\n";
+    ;
 
     std::cout << "[LFO] ";
     for (std::size_t i = 0; i < 8; ++i)

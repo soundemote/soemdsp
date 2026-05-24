@@ -9,9 +9,8 @@ struct AudioOutput : Node
     AudioOutput()
     {
         name = "AudioOutput";
-        inputs.emplace_back(
-          PortType::Audio,
-          PortDirection::Input);
+        inputs.emplace_back(PortType::Audio, PortDirection::Input);
+        inputs[0].name = "In"; 
     }
 
     void process() override
