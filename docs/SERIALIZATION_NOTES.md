@@ -29,6 +29,8 @@ ValidationGate can be used by future load/save/runtime entry points before accep
 
 ValidationSummary can travel beside future circuit snapshots and save/load reports.
 
+CircuitReport can travel beside future save/load/export operations as a combined structure and validation status report.
+
 CircuitSnapshot is groundwork only. It is not a committed file format, parser, or load/save system.
 
 Serialization is not implemented yet.

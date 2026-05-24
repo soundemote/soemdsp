@@ -1,9 +1,7 @@
 #include <iostream>
 #include <memory>
 
-#include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
-#include <soemdsp/runtime/validation/PrintValidationSummary.hpp>
-#include <soemdsp/runtime/validation/ValidationGate.hpp>
+#include <soemdsp/runtime/report/PrintCircuitReport.hpp>
 #include <soemdsp/runtime/validation/WriteCircuitValidation.hpp>
 #include <soemdsp/soemdsp.hpp>
 
@@ -62,36 +60,34 @@ Circuit createInvalidCircuit()
 int main()
 {
     const auto circuit = createInvalidCircuit();
-    const auto report = validateCircuit(circuit);
+    const auto report = makeCircuitReport(circuit);
 
-    printCircuitValidation(report);
+    printCircuitReport(report);
 
     const auto wroteValidation =
       writeCircuitValidationTextFile(
-        report,
+        report.validation,
         "runtime_validation_demo.validation.txt");
     std::cout << "validation file: "
               << (wroteValidation ? "wrote" : "failed")
               << "\n";
 
     std::cout << "messageCount: "
-              << report.messageCount()
+              << report.validation.messageCount()
               << "\ninfoCount: "
-              << report.infoCount()
+              << report.validation.infoCount()
               << "\nwarningCount: "
-              << report.warningCount()
+              << report.validation.warningCount()
               << "\nerrorCount: "
-              << report.errorCount()
+              << report.validation.errorCount()
               << "\n";
 
-    const auto gateResult = validationGateResult(report);
     std::cout << "gate: "
-              << toString(gateResult)
+              << toString(report.validationSummary.gate)
               << "\nallows execution: "
               << std::boolalpha
-              << validationGateAllowsExecution(report)
+              << report.validationSummary.allowsExecution
               << "\n";
-    printValidationSummary(validationSummary(report));
 
     return 0;
 }

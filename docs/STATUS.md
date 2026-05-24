@@ -55,6 +55,9 @@ Implemented runtime capabilities include:
 - ValidationGate is future loader, editor, and run-button groundwork
 - ValidationSummary value type
 - ValidationSummary captures validation counts, gate result, and execution allowance for future editor, load/save, and reporting workflows
+- CircuitReport helper
+- CircuitReport combines CircuitSnapshot, CircuitValidationReport, and ValidationSummary
+- CircuitReport is future editor, load/save, and debug reporting groundwork
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

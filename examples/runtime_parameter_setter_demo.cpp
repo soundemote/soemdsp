@@ -7,12 +7,9 @@
 #include <thread>
 
 #include <soemdsp/runtime/debug/ConsoleStyle.hpp>
-#include <soemdsp/runtime/serialization/PrintCircuitSnapshot.hpp>
+#include <soemdsp/runtime/report/PrintCircuitReport.hpp>
 #include <soemdsp/runtime/serialization/WriteConnections.hpp>
 #include <soemdsp/runtime/serialization/WriteCircuitSnapshot.hpp>
-#include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
-#include <soemdsp/runtime/validation/PrintValidationSummary.hpp>
-#include <soemdsp/runtime/validation/ValidationGate.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 namespace
@@ -187,7 +184,7 @@ void printParameterState(
 void printSnapshot(const Circuit& circuit)
 {
     const auto snapshot = circuit.parameterSnapshot();
-    const auto circuitSnapshot = circuit.snapshot();
+    const auto report = makeCircuitReport(circuit);
 
     std::cout << "snapshot size: "
               << snapshot.size()
@@ -204,19 +201,19 @@ void printSnapshot(const Circuit& circuit)
     }
 
     std::cout << "circuit snapshot: nodes "
-              << circuitSnapshot.nodes.size()
+              << report.snapshot.nodes.size()
               << " | ports "
-              << circuitSnapshot.ports.size()
+              << report.snapshot.ports.size()
               << " | parameters "
-              << circuitSnapshot.parameters.size()
+              << report.snapshot.parameters.size()
               << " | connections "
-              << circuitSnapshot.connections.size()
+              << report.snapshot.connections.size()
               << "\n";
-    printCircuitSnapshot(circuitSnapshot);
+    printCircuitReport(report);
 
     const auto wroteSnapshot =
       writeCircuitSnapshotTextFile(
-        circuitSnapshot,
+        report.snapshot,
         "runtime_parameter_setter_demo.snapshot.txt");
     std::cout << "snapshot file: "
               << (wroteSnapshot ? "wrote" : "failed")
@@ -224,24 +221,11 @@ void printSnapshot(const Circuit& circuit)
 
     const auto wroteConnections =
       writeConnectionsTextFile(
-        circuitSnapshot,
+        report.snapshot,
         "runtime_parameter_setter_demo.connections.txt");
     std::cout << "connections file: "
               << (wroteConnections ? "wrote" : "failed")
               << "\n";
-
-    const auto validationReport =
-      soemdsp::runtime::validateCircuit(circuit);
-    printCircuitValidation(validationReport);
-    const auto gateResult =
-      validationGateResult(validationReport);
-    std::cout << "validation gate: "
-              << toString(gateResult)
-              << "\nallows execution: "
-              << std::boolalpha
-              << validationGateAllowsExecution(validationReport)
-              << "\n";
-    printValidationSummary(validationSummary(validationReport));
 
     console::debug(std::cout, "presentation-only demo output");
 }
