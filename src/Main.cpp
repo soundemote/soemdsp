@@ -14,15 +14,22 @@ int main()
     //- audio buffers
     Graph graph;
 
-    auto osc = std::make_unique<RampGenerator>();
+    auto freq = std::make_unique<FloatConstant>(440.0f);
+    auto ramp = std::make_unique<RampGenerator>();
 
-    auto* freqIn = &osc->inputs[0];
-    auto* oscOut = &osc->outputs[0];
+    auto* freqOut = &freq->outputs[0];
+    auto* rampFreq = &ramp->inputs[0];
+    auto* rampOut = &ramp->outputs[0];
 
-    freqIn->value = 440.0f;
+    graph.nodes.push_back(std::move(freq)); // 0
+    graph.nodes.push_back(std::move(ramp)); // 1
 
-    graph.nodes.push_back(std::move(osc));
-
+    graph.connect(
+    *graph.nodes[0],
+    *freqOut,
+    *graph.nodes[1],
+    *rampFreq
+);
     graph.process();
 
     std::cout << std::endl
@@ -35,7 +42,7 @@ int main()
     std::cout << "[RAMP] ";
     for (std::size_t i = 0; i < 8; ++i)
     {
-        std::cout << oscOut->audioBuffer[i] << " ";
+        std::cout << rampOut->audioBuffer[i] << " ";
     }
     std::cout << std::endl;
 
