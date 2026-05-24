@@ -6,6 +6,7 @@ int main()
 {
     using namespace soemdsp::runtime;
     using namespace soemdsp::runtime::nodes;
+    using namespace soemdsp::runtime::debug;
 
     Circuit circuit;
 
@@ -127,17 +128,7 @@ int main()
 
     circuit.prepare();
 
-    std::cout << std::endl
-              << "[NODES]\n";
-
-    for (auto& node : circuit.nodes)
-    {
-        std::cout
-          << node->id
-          << " : "
-          << node->name
-          << "\n";
-    }
+   printNodes(circuit);
 
     std::cout << "\n\n";
 
@@ -175,57 +166,11 @@ int main()
     //PRINT
     //=====================================================
 
-    std::cout << "soemdsp v "
-              << SOEMDSP_VERSION_STRING
+    std::cout << "<3 soemdsp v "
+              << SOEMDSP_VERSION_STRING 
               << std::endl;
 
-    std::cout << "\n[CONNECTIONS]\n";
-
-    for (auto& connection : circuit.connections)
-    {
-        std::cout
-          << connection.id
-          << " : "
-          << connection.sourceNode->name
-          << "."
-          << connection.sourcePort->name
-          << "("
-          << connection.sourcePort->id
-          << ")"
-          << " -> "
-          << connection.destinationNode->name
-          << "."
-          << connection.destinationPort->name
-          << "("
-          << connection.destinationPort->id
-          << ")"
-          << "\n";
-    }
-
-    std::cout << "\n";
-
-    std::cout << "\n[CONNECTIONS AFTER]\n";
-
-    for (auto& connection : circuit.connections)
-    {
-        std::cout
-          << connection.id
-          << " : "
-          << connection.sourceNode->name
-          << "."
-          << connection.sourcePort->name
-          << "("
-          << connection.sourcePort->id
-          << ")"
-          << " -> "
-          << connection.destinationNode->name
-          << "."
-          << connection.destinationPort->name
-          << "("
-          << connection.destinationPort->id
-          << ")"
-          << "\n";
-    }
+    printConnections(circuit);
 
     std::cout << "[LFO] ";
     for (std::size_t i = 0; i < 8; ++i)

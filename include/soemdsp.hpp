@@ -42,3 +42,4 @@
 #include <soemdsp/runtime/nodes/TriggerButton.hpp>
 #include <soemdsp/runtime/nodes/TriggerPrinter.hpp>
 #include <soemdsp/runtime/nodes/TriggerEdge.hpp>
+#include <soemdsp/runtime/debug/PrintGraph.hpp>
