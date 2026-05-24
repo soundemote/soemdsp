@@ -33,6 +33,7 @@ struct Port
     float value{ 0.0f };
 
     bool connected{};
+    bool triggered{ false };
 
     float* audioBuffer{ nullptr };
     std::size_t audioFrames{ 0 };
@@ -46,6 +47,10 @@ struct Port
     bool isControl() const
     {
         return type == PortType::Control;
+    }
+    bool isTriggered() const
+    {
+        return triggered;
     }
     bool hasAudio() const
     {
