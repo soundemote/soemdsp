@@ -1,7 +1,6 @@
-#include <soemdsp/soemdsp.hpp>
-
 #include <iostream>
 #include <memory>
+#include <soemdsp/soemdsp.hpp>
 
 int main()
 {
@@ -10,38 +9,125 @@ int main()
 
     Circuit circuit;
 
-    auto value  = std::make_unique<FloatConstant>(7.0f);
-    auto scale  = std::make_unique<FloatConstant>(3.0f);
-    auto offset = std::make_unique<FloatConstant>(100.0f);
-    auto madd   = std::make_unique<MultiplyAdd>();
+    //=====================================================
+    //CREATE NODES
+    //=====================================================
 
-    auto* valueOut  = &value->outputs[0];
-    auto* scaleOut  = &scale->outputs[0];
-    auto* offsetOut = &offset->outputs[0];
+    auto lfoFreq  = std::make_unique<FloatConstant>(20.0f);
+    auto lfoDepth = std::make_unique<FloatConstant>(2000.0f);
 
-    auto* maddValue  = &madd->inputs[0];
-    auto* maddScale  = &madd->inputs[1];
-    auto* maddOffset = &madd->inputs[2];
-    auto* maddOut    = &madd->outputs[0];
+    auto lfo      = std::make_unique<SineOscillator>();
+    auto carrierHz = std::make_unique<FloatConstant>(440.0f);
 
-    circuit.nodes.push_back(std::move(value));
-    circuit.nodes.push_back(std::move(scale));
-    circuit.nodes.push_back(std::move(offset));
-    circuit.nodes.push_back(std::move(madd));
+    auto modulation = std::make_unique<AudioMultiplyAdd>();
+    auto carrier = std::make_unique<SineOscillator>();
 
-    circuit.connect(*circuit.nodes[0], *valueOut,  *circuit.nodes[3], *maddValue);
-    circuit.connect(*circuit.nodes[1], *scaleOut,  *circuit.nodes[3], *maddScale);
-    circuit.connect(*circuit.nodes[2], *offsetOut, *circuit.nodes[3], *maddOffset);
+    //=====================================================
+    //CACHE PORTS
+    //=====================================================
+
+    auto* lfoFreqOut = &lfoFreq->outputs[0];
+
+    auto* lfoFreqIn = &lfo->inputs[0];
+    auto* lfoOut    = &lfo->outputs[0];
+
+    auto* depthOut = &lfoDepth->outputs[0];
+    auto* baseOut  = &carrierHz->outputs[0];
+
+    auto* modValue  = &modulation->inputs[0];
+    auto* modScale  = &modulation->inputs[1];
+    auto* modOffset = &modulation->inputs[2];
+    auto* modOut    = &modulation->outputs[0];
+
+    auto* carrierFreq = &carrier->inputs[0];
+    auto* carrierOut  = &carrier->outputs[0];
+
+    //=====================================================
+    //MOVE INTO CIRCUIT
+    //=====================================================
+
+    circuit.nodes.push_back(std::move(lfoFreq));    //0
+    circuit.nodes.push_back(std::move(lfo));        //1
+    circuit.nodes.push_back(std::move(lfoDepth));   //2
+    circuit.nodes.push_back(std::move(carrierHz));  //3
+    circuit.nodes.push_back(std::move(modulation)); //4
+    circuit.nodes.push_back(std::move(carrier));    //5
+
+    //=====================================================
+    //CONNECTIONS
+    //=====================================================
+
+    //LFO frequency
+    circuit.connect(
+      *circuit.nodes[0],
+      *lfoFreqOut,
+      *circuit.nodes[1],
+      *lfoFreqIn);
+
+    //LFO output -> modulation value
+    circuit.connect(
+      *circuit.nodes[1],
+      *lfoOut,
+      *circuit.nodes[4],
+      *modValue);
+
+    //depth -> modulation scale
+    circuit.connect(
+      *circuit.nodes[2],
+      *depthOut,
+      *circuit.nodes[4],
+      *modScale);
+
+    //base pitch -> modulation offset
+    circuit.connect(
+      *circuit.nodes[3],
+      *baseOut,
+      *circuit.nodes[4],
+      *modOffset);
+
+    //modulation result -> carrier frequency
+    circuit.connect(
+      *circuit.nodes[4],
+      *modOut,
+      *circuit.nodes[5],
+      *carrierFreq);
+
+    //=====================================================
+    //PROCESS
+    //=====================================================
 
     circuit.process();
 
-    std::cout << "soemdsp v"
+    //=====================================================
+    //PRINT
+    //=====================================================
+
+    std::cout << "soemdsp v "
               << SOEMDSP_VERSION_STRING
               << std::endl;
 
-    std::cout << "[MADD] "
-              << maddOut->value
-              << std::endl;
+    std::cout << "[LFO] ";
+    for (std::size_t i = 0; i < 8; ++i)
+    {
+        std::cout << lfoOut->audioBuffer[i] << " ";
+    }
+    std::cout << "\n";
+
+    std::cout << "[MOD] ";
+    for (std::size_t i = 0; i < 8; ++i)
+    {
+        std::cout << modOut->audioBuffer[i] << " ";
+    }
+    std::cout << "\n";
+
+    std::cout << "[FM] ";
+    for (std::size_t i = 0; i < 8; ++i)
+    {
+        std::cout << carrierOut->audioBuffer[i] << " ";
+    }
+    std::cout << "\n";
+
+    std::cout << std::endl;
 
     return 0;
 }

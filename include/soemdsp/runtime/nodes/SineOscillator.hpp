@@ -35,26 +35,33 @@ struct SineOscillator : Node {
     }
 
     void process() override
-    {
-        auto& frequency = inputs[0];
-        auto& out = outputs[0];
+{
+    auto& frequency = inputs[0];
+    auto& out = outputs[0];
 
-        if (!out.audioBuffer)
+    if (!out.audioBuffer)
+    {
+        return;
+    }
+
+    for (std::size_t i = 0; i < out.audioFrames; ++i)
+    {
+        float hz = frequency.value;
+
+        if (frequency.audioBuffer)
         {
-            return;
+            hz = frequency.audioBuffer[i];
         }
 
         const double increment =
-            soemdsp::SampleRate::frequencyToIncrement(frequency.value);
+            soemdsp::SampleRate::frequencyToIncrement(hz);
 
-        for (std::size_t i = 0; i < out.audioFrames; ++i)
-        {
-            out.audioBuffer[i] =
-                static_cast<float>(wavetable.sin(phase));
+        out.audioBuffer[i] =
+            static_cast<float>(wavetable.sin(phase));
 
-            phase = soemdsp::math::wrap(phase + increment);
-        }
+        phase = soemdsp::math::wrap(phase + increment);
     }
+}
 };
 
 } // namespace soemdsp::runtime::nodes

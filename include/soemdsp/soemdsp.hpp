@@ -47,5 +47,6 @@
 #include <soemdsp/runtime/nodes/FloatConstant.hpp>
 #include <soemdsp/runtime/nodes/RampGenerator.hpp>
 #include <soemdsp/runtime/nodes/MultiplyAdd.hpp>
+#include <soemdsp/runtime/nodes/AudioMultiplyAdd.hpp>
 
 #include <soemdsp/version.hpp>
