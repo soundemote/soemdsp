@@ -31,6 +31,9 @@ Implemented runtime capabilities include:
 - parameter midValue is intentionally not used by normalized helpers yet
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
+- reference/dsp/noise.hpp exists as the low-level DSP object north-star reference
+- docs/DSP_OBJECT_CONTRACT.md documents low-level DSP object design principles
+- DSP object reference files are reference-only and not part of the build/runtime yet
 
 Reflection metadata exists for nodes:
 - name
