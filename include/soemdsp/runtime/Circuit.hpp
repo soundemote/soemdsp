@@ -33,10 +33,7 @@ struct Circuit
             }
         }
     }
-    bool connect(Node& sourceNode,
-                 Port& sourcePort,
-                 Node& destinationNode,
-                 Port& destinationPort)
+    bool connect(Node& sourceNode, Port& sourcePort, Node& destinationNode, Port& destinationPort)
     {
         if (sourcePort.direction != PortDirection::Output)
         {
@@ -69,7 +66,21 @@ struct Circuit
 
         return true;
     }
+    bool disconnect(std::uint64_t connectionId)
+    {
+        for (auto it = connections.begin();
+             it != connections.end();
+             ++it)
+        {
+            if (it->id == connectionId)
+            {
+                connections.erase(it);
+                return true;
+            }
+        }
 
+        return false;
+    }
     void allocateBuffers()
     {
         audioBuffers.clear();
