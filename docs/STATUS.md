@@ -123,6 +123,8 @@ Implemented runtime capabilities include:
 - DSP_OBJECT_CONTRACT distinguishes low-level DSP objects, runtime graph nodes, and a future binding layer
 - docs/DSP_BINDING_NOTES.md documents the future runtime-to-DSP binding layer
 - DSP binding layer is documented but intentionally not implemented
+- docs/DSP_BINDING_MILESTONE_PLAN.md documents the first DSP binding prototype direction
+- DSP binding is the next big-ticket architecture track after the ControlGraph milestone
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
