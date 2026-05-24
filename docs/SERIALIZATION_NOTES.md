@@ -27,6 +27,8 @@ Validation reports can be exported as text for future load/save diagnostics. Thi
 
 ValidationGate can be used by future load/save/runtime entry points before accepting or running a graph.
 
+ValidationSummary can travel beside future circuit snapshots and save/load reports.
+
 CircuitSnapshot is groundwork only. It is not a committed file format, parser, or load/save system.
 
 Serialization is not implemented yet.

@@ -2,6 +2,7 @@
 #include <memory>
 
 #include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
+#include <soemdsp/runtime/validation/PrintValidationSummary.hpp>
 #include <soemdsp/runtime/validation/ValidationGate.hpp>
 #include <soemdsp/runtime/validation/WriteCircuitValidation.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -90,6 +91,7 @@ int main()
               << std::boolalpha
               << validationGateAllowsExecution(report)
               << "\n";
+    printValidationSummary(validationSummary(report));
 
     return 0;
 }

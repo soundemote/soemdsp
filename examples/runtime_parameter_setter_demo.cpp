@@ -11,6 +11,7 @@
 #include <soemdsp/runtime/serialization/WriteConnections.hpp>
 #include <soemdsp/runtime/serialization/WriteCircuitSnapshot.hpp>
 #include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
+#include <soemdsp/runtime/validation/PrintValidationSummary.hpp>
 #include <soemdsp/runtime/validation/ValidationGate.hpp>
 #include <soemdsp/soemdsp.hpp>
 
@@ -240,6 +241,7 @@ void printSnapshot(const Circuit& circuit)
               << std::boolalpha
               << validationGateAllowsExecution(validationReport)
               << "\n";
+    printValidationSummary(validationSummary(validationReport));
 
     console::debug(std::cout, "presentation-only demo output");
 }

@@ -53,6 +53,8 @@ Implemented runtime capabilities include:
 - ValidationGate helper
 - validation warnings currently allow execution, while validation errors block execution
 - ValidationGate is future loader, editor, and run-button groundwork
+- ValidationSummary value type
+- ValidationSummary captures validation counts, gate result, and execution allowance for future editor, load/save, and reporting workflows
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet
