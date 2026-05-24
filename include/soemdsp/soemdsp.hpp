@@ -34,7 +34,7 @@
 // clang-format on
 
 #include <soemdsp/runtime/Connection.hpp>
-#include <soemdsp/runtime/Graph.hpp>
+#include <soemdsp/runtime/Circuit.hpp>
 #include <soemdsp/runtime/Node.hpp>
 #include <soemdsp/runtime/Port.hpp>
 #include <soemdsp/runtime/nodes/Add.hpp>
@@ -46,5 +46,6 @@
 #include <soemdsp/runtime/nodes/SineOscillator.hpp>
 #include <soemdsp/runtime/nodes/FloatConstant.hpp>
 #include <soemdsp/runtime/nodes/RampGenerator.hpp>
+#include <soemdsp/runtime/nodes/MultiplyAdd.hpp>
 
 #include <soemdsp/version.hpp>
