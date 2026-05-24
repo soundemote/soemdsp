@@ -135,7 +135,10 @@ bool connect(Node& sourceNode,
                     connection.destinationPort->audioFrames =
                       connection.sourcePort->audioFrames;
 
-                    connection.destinationPort->connected = true;                    
+                    connection.destinationPort->triggered =
+                        connection.sourcePort->triggered;
+
+                    connection.destinationPort->connected = true;
                 }
             }
             node->process();
