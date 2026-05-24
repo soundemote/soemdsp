@@ -63,6 +63,9 @@ Implemented runtime capabilities include:
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet
+- docs/CONTROL_GRAPH_NOTES.md documents future macro/control-shaping graph direction
+- ControlGraph is documented as future macro/control-shaping groundwork
+- ControlGraph has no implementation yet
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
