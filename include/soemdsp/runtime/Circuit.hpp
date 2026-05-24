@@ -115,6 +115,7 @@ bool connect(Node& sourceNode,
             for (auto& input : node->inputs)
             {
                 input.connected = false;
+                input.triggered = false;
             }
         }
         for (auto& node : nodes)
@@ -134,7 +135,7 @@ bool connect(Node& sourceNode,
                     connection.destinationPort->audioFrames =
                       connection.sourcePort->audioFrames;
 
-                    connection.destinationPort->connected = true;
+                    connection.destinationPort->connected = true;                    
                 }
             }
             node->process();
