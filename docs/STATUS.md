@@ -36,6 +36,8 @@ Implemented runtime capabilities include:
 - DSP object reference files are reference-only and not part of the build/runtime yet
 - duplicate reference/noise.hpp upload copy was removed after moving the reference to reference/dsp/noise.hpp
 - DSP_OBJECT_CONTRACT distinguishes low-level DSP objects, runtime graph nodes, and a future binding layer
+- docs/DSP_BINDING_NOTES.md documents the future runtime-to-DSP binding layer
+- DSP binding layer is documented but intentionally not implemented
 
 Reflection metadata exists for nodes:
 - name
