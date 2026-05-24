@@ -1,4 +1,3 @@
-//AudioOutput.hpp
 #pragma once
 
 #include <soemdsp/runtime/Node.hpp>
@@ -9,6 +8,7 @@ struct AudioOutput : Node
 {
     AudioOutput()
     {
+        name = "AudioOutput";
         inputs.emplace_back(
           PortType::Audio,
           PortDirection::Input);

@@ -9,11 +9,16 @@ namespace soemdsp::runtime
 struct Circuit
 {
     std::uint64_t nextNodeId{ 1 };
+    std::uint64_t nextConnectionId{ 1 };
+
     static constexpr std::size_t blockSize{ 64 };
     std::vector<std::array<float, blockSize>> audioBuffers;
+
     std::vector<std::unique_ptr<Node>> nodes;
     std::vector<Connection> connections;
+
     Port* output = nullptr;
+
     float* outputBuffer() noexcept
     {
         return output ? output->audioBuffer : nullptr;
@@ -43,18 +48,25 @@ struct Circuit
         }
         if (sourcePort.type != destinationPort.type)
         {
-            const bool audioToFloat =
+            const bool audioToControl =
               sourcePort.type == PortType::Audio &&
               destinationPort.type == PortType::Control;
-            if (!audioToFloat)
+            if (!audioToControl)
             {
                 return false;
             }
         }
-        connections.push_back({ &sourceNode,
-                                &sourcePort,
-                                &destinationNode,
-                                &destinationPort });
+
+        Connection connection;
+
+        connection.id              = nextConnectionId++;
+        connection.sourceNode      = &sourceNode;
+        connection.sourcePort      = &sourcePort;
+        connection.destinationNode = &destinationNode;
+        connection.destinationPort = &destinationPort;
+
+        connections.push_back(connection);
+
         return true;
     }
 

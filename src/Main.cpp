@@ -127,6 +127,21 @@ int main()
 
     circuit.prepare();
 
+    std::cout << std::endl
+              << "[NODES]\n";
+             
+
+    for (auto& node : circuit.nodes)
+    {
+        std::cout
+            << node->id
+            << " : "
+            << node->name
+            << "\n";
+    }
+
+    std::cout << "\n\n";
+
     static_cast<TriggerButton*>(
       circuit.nodes[7].get())
       ->trigger();
