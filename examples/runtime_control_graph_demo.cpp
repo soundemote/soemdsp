@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <soemdsp/runtime/control/EvaluateControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
@@ -63,6 +64,23 @@ ControlGraph createDemoGraph()
     return graph;
 }
 
+void printEvaluation(
+  const ControlGraphEvaluationResult& result)
+{
+    std::cout << "success: " << (result.success ? "true" : "false") << "\n";
+    if (!result.message.empty())
+    {
+        std::cout << "message: " << result.message << "\n";
+    }
+
+    for (const auto& output : result.outputs)
+    {
+        std::cout << "output: node " << output.nodeId
+                  << " " << output.portId
+                  << " " << output.value << "\n";
+    }
+}
+
 } // namespace
 
 int main()
@@ -85,5 +103,10 @@ int main()
     std::cout << "control report file: "
               << (wroteReport ? "wrote" : "failed")
               << "\n";
+    std::cout << "\n[CONTROL GRAPH EVALUATION]\n";
+    printEvaluation(
+      evaluateControlGraphLinear(graph, { 1, 0.25f }));
+    printEvaluation(
+      evaluateControlGraphLinear(graph, { 1, 1.25f }));
     return 0;
 }

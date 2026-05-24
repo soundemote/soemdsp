@@ -75,6 +75,9 @@ Implemented runtime capabilities include:
 - ControlGraph demos write control graph snapshot text files for inspection
 - ControlGraphReport helper
 - ControlGraph demos can write combined control report files for inspection
+- minimal linear ControlGraph evaluator
+- minimal ControlGraph evaluator proves normalized macro values can flow through a simple control chain
+- ControlGraph evaluator does not bind to Circuit parameters yet
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
