@@ -5,3 +5,7 @@ target_link_libraries(runtime_parameter_setter_demo soemdsp)
 add_executable(runtime_validation_demo runtime_validation_demo.cpp)
 
 target_link_libraries(runtime_validation_demo soemdsp)
+
+add_executable(runtime_control_graph_demo runtime_control_graph_demo.cpp)
+
+target_link_libraries(runtime_control_graph_demo soemdsp)
