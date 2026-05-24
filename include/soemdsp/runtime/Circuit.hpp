@@ -82,6 +82,17 @@ struct Circuit
     }
     void process()
     {
+        for (auto& buffer : audioBuffers)
+        {
+            buffer.fill(0.0f);
+        }
+        for (auto& node : nodes)
+        {
+            for (auto& input : node->inputs)
+            {
+                input.connected = false;
+            }
+        }
         for (auto& node : nodes)
         {
             for (auto& connection : connections)
@@ -98,6 +109,8 @@ struct Circuit
 
                     connection.destinationPort->audioFrames =
                       connection.sourcePort->audioFrames;
+
+                    connection.destinationPort->connected = true;
                 }
             }
             node->process();
