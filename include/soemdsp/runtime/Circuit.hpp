@@ -1,12 +1,16 @@
 #pragma once
+
 #include <array>
 #include <memory>
 #include <vector>
+
 #include <soemdsp/runtime/Connection.hpp>
 #include <soemdsp/runtime/Node.hpp>
+
 namespace soemdsp::runtime
 {
-struct Graph
+
+struct Circuit
 {
     static constexpr std::size_t blockSize{ 64 };
 
@@ -15,26 +19,34 @@ struct Graph
     std::vector<std::unique_ptr<Node>> nodes;
     std::vector<Connection> connections;
 
+    Port* output = nullptr;
+
+    float* outputBuffer() noexcept
+    {
+        return output ? output->audioBuffer : nullptr;
+    }
+
     void connect(Node& sourceNode,
-             Port& sourcePort,
-             Node& destinationNode,
-             Port& destinationPort)
-{
-    connections.push_back({
-        &sourceNode,
-        &sourcePort,
-        &destinationNode,
-        &destinationPort
-    });
-}
+                 Port& sourcePort,
+                 Node& destinationNode,
+                 Port& destinationPort)
+    {
+        connections.push_back({
+            &sourceNode,
+            &sourcePort,
+            &destinationNode,
+            &destinationPort
+        });
+    }
 
     void process()
     {
         audioBuffers.clear();
         audioBuffers.reserve(nodes.size());
+
         for (auto& node : nodes)
         {
-        //Pull connected values into this node before it runs
+            // Pull connected values into this node before it runs
             for (auto& connection : connections)
             {
                 if (connection.destinationNode == node.get() &&
@@ -42,15 +54,16 @@ struct Graph
                     connection.destinationPort)
                 {
                     connection.destinationPort->value =
-                      connection.sourcePort->value;
+                        connection.sourcePort->value;
 
                     connection.destinationPort->audioBuffer =
-                      connection.sourcePort->audioBuffer;
+                        connection.sourcePort->audioBuffer;
 
                     connection.destinationPort->audioFrames =
-                      connection.sourcePort->audioFrames;
+                        connection.sourcePort->audioFrames;
                 }
             }
+
             for (auto& output : node->outputs)
             {
                 if (output.type == PortType::Audio)
@@ -66,4 +79,5 @@ struct Graph
         }
     }
 };
-} //namespace soemdsp::runtime
+
+} // namespace soemdsp::runtime

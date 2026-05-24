@@ -48,5 +48,6 @@
 #include <soemdsp/runtime/nodes/RampGenerator.hpp>
 #include <soemdsp/runtime/nodes/MultiplyAdd.hpp>
 #include <soemdsp/runtime/nodes/AudioMultiplyAdd.hpp>
+#include <soemdsp/runtime/nodes/AudioOutput.hpp>
 
 #include <soemdsp/version.hpp>
