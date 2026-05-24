@@ -73,11 +73,17 @@ graph.nodes.push_back(std::move(audio));
     graph.process();
 
     //Final result
-std::cout << "[AUDIO] ";
-for (auto v : buffer)
-{
-    std::cout << v << " ";
-}
-std::cout << std::endl;
+
+
+
+
+std::cout << "soemdsp v"
+          << SOEMDSP_VERSION_STRING
+          << std::endl;
+
+
+
+
+
     return 0;
 }
