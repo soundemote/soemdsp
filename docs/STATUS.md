@@ -43,6 +43,8 @@ Implemented runtime capabilities include:
 - connection-only text export helpers
 - connection-only dumps support graph wiring inspection, diffing, and sharing
 - connection-only text export remains debug/export groundwork, not a committed serialization/save format
+- basic Circuit validation diagnostics
+- Circuit validation checks duplicate node IDs, duplicate parameter IDs, parameter ranges, and straightforward connection endpoint sanity
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

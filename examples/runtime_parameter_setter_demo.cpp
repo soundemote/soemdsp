@@ -10,6 +10,7 @@
 #include <soemdsp/runtime/serialization/PrintCircuitSnapshot.hpp>
 #include <soemdsp/runtime/serialization/WriteConnections.hpp>
 #include <soemdsp/runtime/serialization/WriteCircuitSnapshot.hpp>
+#include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 namespace
@@ -226,6 +227,10 @@ void printSnapshot(const Circuit& circuit)
     std::cout << "connections file: "
               << (wroteConnections ? "wrote" : "failed")
               << "\n";
+
+    const auto validationReport =
+      soemdsp::runtime::validateCircuit(circuit);
+    printCircuitValidation(validationReport);
 
     console::debug(std::cout, "presentation-only demo output");
 }
