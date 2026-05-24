@@ -62,7 +62,8 @@ inline const ControlConnection* findFirstControlConnectionFrom(
 
 inline float evaluateControlCurveShape(
   ControlCurveShape shape,
-  float value)
+  float value,
+  float midpoint = 0.5f)
 {
     const auto x = std::clamp(value, 0.0f, 1.0f);
 
@@ -76,6 +77,14 @@ inline float evaluateControlCurveShape(
             return 1.0f - ((1.0f - x) * (1.0f - x));
         case ControlCurveShape::Smoothstep:
             return x * x * (3.0f - (2.0f * x));
+        case ControlCurveShape::Midpoint:
+        {
+            const auto m = std::clamp(midpoint, 0.0001f, 0.9999f);
+            const auto y = x <= 0.5f
+              ? (x / 0.5f) * m
+              : m + (((x - 0.5f) / 0.5f) * (1.0f - m));
+            return std::clamp(y, 0.0f, 1.0f);
+        }
     }
 
     return x;
@@ -118,7 +127,8 @@ inline ControlGraphEvaluationResult evaluateControlGraphLinear(
                 {
                     value = evaluateControlCurveShape(
                       node->curveSettings->shape,
-                      value);
+                      value,
+                      node->curveSettings->midpoint);
                 }
                 break;
             case ControlNodeKind::Clamp01:

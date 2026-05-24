@@ -198,6 +198,18 @@ inline ControlGraphValidationReport validateControlGraph(
                 std::to_string(node.id) +
                 " has no curve settings");
         }
+        else if (node.kind == ControlNodeKind::Curve &&
+                 node.curveSettings.has_value() &&
+                 (node.curveSettings->midpoint <= 0.0f ||
+                  node.curveSettings->midpoint >= 1.0f))
+        {
+            addControlGraphValidationMessage(
+              report,
+              ControlGraphValidationSeverity::Warning,
+              "curve control node " +
+                std::to_string(node.id) +
+                " has midpoint outside the open 0..1 range");
+        }
 
         if (node.kind == ControlNodeKind::Scale)
         {

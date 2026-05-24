@@ -10,6 +10,8 @@ namespace
 
 void printRow(float input)
 {
+    constexpr float midpoint = 0.25f;
+
     std::cout << std::setw(5) << input
               << " | "
               << std::setw(6)
@@ -23,6 +25,12 @@ void printRow(float input)
               << " | "
               << std::setw(10)
               << evaluateControlCurveShape(ControlCurveShape::Smoothstep, input)
+              << " | "
+              << std::setw(8)
+              << evaluateControlCurveShape(
+                   ControlCurveShape::Midpoint,
+                   input,
+                   midpoint)
               << "\n";
 }
 
@@ -31,8 +39,8 @@ void printRow(float input)
 int main()
 {
     std::cout << std::fixed << std::setprecision(4);
-    std::cout << "input | linear | ease_in | ease_out | smoothstep\n";
-    std::cout << "------+--------+---------+----------+-----------\n";
+    std::cout << "input | linear | ease_in | ease_out | smoothstep | midpoint\n";
+    std::cout << "------+--------+---------+----------+------------+---------\n";
 
     printRow(0.0f);
     printRow(0.25f);

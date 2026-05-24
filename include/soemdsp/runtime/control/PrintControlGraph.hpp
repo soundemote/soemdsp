@@ -30,7 +30,9 @@ inline void printControlGraph(
                 node.curveSettings.has_value())
             {
                 os << " shape "
-                   << toString(node.curveSettings->shape);
+                   << toString(node.curveSettings->shape)
+                   << " midpoint "
+                   << node.curveSettings->midpoint;
             }
             if (node.kind == ControlNodeKind::Scale &&
                 node.scaleSettings.has_value())

@@ -29,7 +29,9 @@ inline void printControlGraphSnapshot(
             if (node.hasCurveSettings)
             {
                 os << " shape "
-                   << node.curveShape;
+                   << node.curveShape
+                   << " midpoint "
+                   << node.curveMidpoint;
             }
             if (node.hasScaleSettings)
             {

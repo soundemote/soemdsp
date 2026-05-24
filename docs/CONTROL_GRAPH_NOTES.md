@@ -24,6 +24,8 @@ First real shaping exists in the minimal evaluator: linear, ease-in, ease-out, a
 
 Curve behavior can be inspected in `runtime_control_curve_demo`, which prints normalized 0.0-1.0 tables for reasoning about future knob feel.
 
+The midpoint curve shape is a ControlGraph shaping feature distinct from Circuit parameter `midValue`. Future work may use parameter `midValue` to generate or suggest ControlGraph curves, but raw Circuit normalized transport is unchanged.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

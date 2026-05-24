@@ -96,6 +96,8 @@ Implemented runtime capabilities include:
 - ControlGraph Circuit apply still uses normalized transport, so demos keep apply values normalized
 - runtime_control_curve_demo
 - runtime_control_curve_demo previews ControlGraph curve shapes as normalized 0.0-1.0 tables
+- ControlGraph midpoint curve shaping
+- ControlGraph midpoint curve shaping belongs to ControlGraph and does not change raw Circuit normalized transport
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo

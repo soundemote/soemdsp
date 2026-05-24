@@ -26,7 +26,8 @@ enum class ControlCurveShape
     Linear,
     EaseIn,
     EaseOut,
-    Smoothstep
+    Smoothstep,
+    Midpoint
 };
 
 inline const char* toString(ControlCurveShape shape)
@@ -41,6 +42,8 @@ inline const char* toString(ControlCurveShape shape)
             return "ease_out";
         case ControlCurveShape::Smoothstep:
             return "smoothstep";
+        case ControlCurveShape::Midpoint:
+            return "midpoint";
     }
 
     return "linear";
@@ -49,6 +52,7 @@ inline const char* toString(ControlCurveShape shape)
 struct ControlCurveSettings
 {
     ControlCurveShape shape{ ControlCurveShape::Linear };
+    float midpoint{ 0.5f };
 };
 
 struct ControlScaleSettings

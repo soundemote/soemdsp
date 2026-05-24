@@ -21,6 +21,7 @@ struct ControlNodeSnapshotEntry
     std::string targetParameterId;
     bool hasCurveSettings{};
     std::string curveShape;
+    float curveMidpoint{};
     bool hasScaleSettings{};
     float scaleMinValue{};
     float scaleMaxValue{};
@@ -59,6 +60,7 @@ inline ControlGraphSnapshot snapshotControlGraph(
           node.parameterTarget ? node.parameterTarget->parameterId : std::string{},
           node.curveSettings.has_value(),
           node.curveSettings ? toString(node.curveSettings->shape) : std::string{},
+          node.curveSettings ? node.curveSettings->midpoint : 0.5f,
           node.scaleSettings.has_value(),
           node.scaleSettings ? node.scaleSettings->minValue : 0.0f,
           node.scaleSettings ? node.scaleSettings->maxValue : 0.0f });
