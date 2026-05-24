@@ -19,6 +19,8 @@ PrintCircuitSnapshot.hpp provides compact text inspection for CircuitSnapshot da
 
 WriteCircuitSnapshot.hpp can dump CircuitSnapshot text to a file for inspection, sharing, and early export workflows. This is not a committed serialization or save format, and no load path exists yet.
 
+PrintConnections.hpp and WriteConnections.hpp provide connection-only text export for quick graph wiring inspection, diffing, and sharing. This remains debug/export groundwork, not a committed serialization or save format.
+
 CircuitSnapshot is groundwork only. It is not a committed file format, parser, or load/save system.
 
 Serialization is not implemented yet.
