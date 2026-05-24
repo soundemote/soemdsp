@@ -1,12 +1,16 @@
 #include <iostream>
+#include <memory>
 
+#include <soemdsp/runtime/control/ApplyControlGraph.hpp>
 #include <soemdsp/runtime/control/EvaluateControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
+#include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
+using namespace soemdsp::runtime::nodes;
 
 namespace
 {
@@ -65,6 +69,29 @@ ControlGraph createDemoGraph()
     return graph;
 }
 
+Circuit createDemoCircuit()
+{
+    Circuit circuit;
+
+    auto node = std::make_unique<FloatConstant>(0.5f);
+    node->id = 100;
+
+    Parameter cutoff;
+    cutoff.id           = "cutoff";
+    cutoff.name         = "Cutoff";
+    cutoff.value        = 0.5f;
+    cutoff.defaultValue = 0.5f;
+    cutoff.minValue     = 20.0f;
+    cutoff.midValue     = 1000.0f;
+    cutoff.maxValue     = 20000.0f;
+
+    node->parameters.push_back(cutoff);
+    circuit.nodes.push_back(std::move(node));
+    circuit.prepare();
+
+    return circuit;
+}
+
 void printEvaluation(
   const ControlGraphEvaluationResult& result)
 {
@@ -82,11 +109,34 @@ void printEvaluation(
     }
 }
 
+void printApplyResult(
+  const ControlGraphApplyResult& result,
+  const Circuit& circuit)
+{
+    const auto* cutoff = circuit.findParameter(100, "cutoff");
+
+    std::cout << "evaluated: "
+              << (result.evaluated ? "true" : "false")
+              << " | applied: "
+              << (result.applied ? "true" : "false")
+              << " | message: "
+              << result.message
+              << "\n";
+
+    if (cutoff != nullptr)
+    {
+        std::cout << "cutoff value: "
+                  << cutoff->value
+                  << "\n";
+    }
+}
+
 } // namespace
 
 int main()
 {
     const auto graph = createDemoGraph();
+    auto circuit = createDemoCircuit();
     printControlGraph(graph);
     const auto report = makeControlGraphReport(graph);
     printControlGraphReport(report);
@@ -109,5 +159,12 @@ int main()
       evaluateControlGraphLinear(graph, { 1, 0.25f }));
     printEvaluation(
       evaluateControlGraphLinear(graph, { 1, 1.25f }));
+    std::cout << "\n[CONTROL GRAPH APPLY]\n";
+    printApplyResult(
+      applyControlGraphLinearToCircuit(graph, { 1, 0.25f }, circuit),
+      circuit);
+    printApplyResult(
+      applyControlGraphLinearToCircuit(graph, { 1, 1.25f }, circuit),
+      circuit);
     return 0;
 }

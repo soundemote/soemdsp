@@ -10,6 +10,8 @@ The first evaluator is intentionally narrow. It follows a single-output linear c
 
 ParameterTarget metadata is part of the value model. A ParameterTarget node can record the intended Circuit node id and parameter id it may drive later, but actual Circuit binding and mutation remain future work.
 
+The first apply helper uses ParameterTarget metadata and `Circuit::setParameterNormalizedValue()` to prove macro knob -> ControlGraph -> normalized parameter set. This remains a narrow proof helper, not the final execution or binding architecture. Mapping is still raw linear transport and does not use `midValue` yet.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text
