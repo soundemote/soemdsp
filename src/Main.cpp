@@ -25,7 +25,10 @@ int main()
 
     graph.process();
 
-    std::cout << "soemdsp v"
+    std::cout << std::endl
+              << std::endl
+              << std::endl
+              << "soemdsp v"
               << SOEMDSP_VERSION_STRING
               << std::endl;
 

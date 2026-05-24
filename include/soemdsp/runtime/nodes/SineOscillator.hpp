@@ -1,14 +1,16 @@
 #pragma once
 
-#include <soemdsp/Phasor.hpp>
+#include <soemdsp/SampleRate.hpp>
 #include <soemdsp/oscillator/SineWavetable.hpp>
 #include <soemdsp/runtime/Node.hpp>
+#include <soemdsp/semath.hpp>
 
 namespace soemdsp::runtime::nodes {
 
 struct SineOscillator : Node {
-    soemdsp::oscillator::Phasor phasor;
     soemdsp::oscillator::SineWavetable<> wavetable;
+
+    double phase { 0.0 };
 
     SineOscillator()
     {
@@ -25,14 +27,11 @@ struct SineOscillator : Node {
         outputs[0].name = "Out";
         outputs[0].type = PortType::Audio;
         outputs[0].direction = PortDirection::Output;
-
-        phasor.setSampleRate(44100.0);
-        phasor.setFrequency(440.0);
     }
 
-    void setSampleRate(double sampleRate)
+    void reset()
     {
-        phasor.setSampleRate(sampleRate);
+        phase = 0.0;
     }
 
     void process() override
@@ -45,13 +44,15 @@ struct SineOscillator : Node {
             return;
         }
 
-        phasor.setFrequency(frequency.value);
+        const double increment =
+            soemdsp::SampleRate::frequencyToIncrement(frequency.value);
 
         for (std::size_t i = 0; i < out.audioFrames; ++i)
         {
-            const auto phase = phasor.getUnipolarValue();
-            out.audioBuffer[i] = static_cast<float>(wavetable.sin(phase));
-            phasor.increment();
+            out.audioBuffer[i] =
+                static_cast<float>(wavetable.sin(phase));
+
+            phase = soemdsp::math::wrap(phase + increment);
         }
     }
 };

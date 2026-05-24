@@ -1,33 +1,40 @@
 #pragma once
-
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <string>
-
-namespace soemdsp::runtime {
-
-enum class PortType : std::uint8_t {
+namespace soemdsp::runtime
+{
+enum class PortType : std::uint8_t
+{
     Float,
     Audio,
     Trigger
 };
-
-enum class PortDirection : std::uint8_t {
+enum class PortDirection : std::uint8_t
+{
     Input,
     Output
 };
+struct Port
+{
+    PortType type{ PortType::Float };
+    PortDirection direction{ PortDirection::Input };
 
-struct Port {
-    PortType type { PortType::Float };
-    PortDirection direction { PortDirection::Input };
     std::string name;
+    float value{ 0.0f };
 
-    float value { 0.0f };
+    float* audioBuffer{ nullptr };
+    std::size_t audioFrames{ 0 };
 
-    float* audioBuffer { nullptr };
-    std::size_t audioFrames { 0 };
+    void* backing{ nullptr };
 
-    void* backing { nullptr };
+    bool isAudio() const
+    {
+        return type == PortType::Audio;
+    }
+    bool isFloat() const
+    {
+        return type == PortType::Float;
+    }
 };
-
-} // namespace soemdsp::runtime
+} //namespace soemdsp::runtime
