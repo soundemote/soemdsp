@@ -16,6 +16,8 @@ Target validation is separate from ControlGraph structural validation. It checks
 
 Safe apply is the preferred helper for demos and tools that want to mutate Circuit parameters. It gates structural validation and target validation before applying; warnings currently do not block apply, but errors do.
 
+ControlGraph apply reports package structural validation, target validation, and apply results together as future editor and tooling groundwork.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

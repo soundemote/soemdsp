@@ -3,10 +3,10 @@
 
 #include <soemdsp/runtime/control/ApplyControlGraph.hpp>
 #include <soemdsp/runtime/control/EvaluateControlGraph.hpp>
+#include <soemdsp/runtime/control/PrintControlGraphApplyReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
-#include <soemdsp/runtime/control/SafeApplyControlGraph.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -133,27 +133,10 @@ void printApplyResult(
     }
 }
 
-void printSafeApplyResult(
-  const ControlGraphSafeApplyResult& result,
+void printApplyReportCutoff(
   const Circuit& circuit)
 {
     const auto* cutoff = circuit.findParameter(100, "cutoff");
-
-    std::cout << "graph valid: "
-              << (result.graphValid ? "true" : "false")
-              << "\n"
-              << "targets valid: "
-              << (result.targetsValid ? "true" : "false")
-              << "\n"
-              << "evaluated: "
-              << (result.evaluated ? "true" : "false")
-              << "\n"
-              << "applied: "
-              << (result.applied ? "true" : "false")
-              << "\n"
-              << "message: "
-              << result.message
-              << "\n";
 
     if (cutoff != nullptr)
     {
@@ -161,6 +144,14 @@ void printSafeApplyResult(
                   << cutoff->value
                   << "\n";
     }
+}
+
+void printApplyReport(
+  const ControlGraphApplyReport& report,
+  const Circuit& circuit)
+{
+    printControlGraphApplyReport(report);
+    printApplyReportCutoff(circuit);
 }
 
 } // namespace
@@ -202,9 +193,8 @@ int main()
       applyControlGraphLinearToCircuit(graph, { 1, 1.25f }, circuit),
       circuit);
     circuit.resetParameterValueByName(100, "cutoff");
-    std::cout << "\n[CONTROL GRAPH SAFE APPLY]\n";
-    printSafeApplyResult(
-      safeApplyControlGraphLinearToCircuit(graph, { 1, 0.25f }, circuit),
+    printApplyReport(
+      makeControlGraphApplyReport(graph, { 1, 0.25f }, circuit),
       circuit);
     return 0;
 }

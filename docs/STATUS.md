@@ -87,6 +87,8 @@ Implemented runtime capabilities include:
 - ControlGraph target validation checks ParameterTarget metadata without applying values
 - safe ControlGraph apply helper
 - safe ControlGraph apply gates structural validation and target validation before applying
+- ControlGraph apply report
+- ControlGraph apply report captures graph validation, target validation, and apply result for tools/editors
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
