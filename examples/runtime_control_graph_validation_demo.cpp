@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <optional>
 
 #include <soemdsp/runtime/control/PrintControlGraphApplyReport.hpp>
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
@@ -52,6 +53,25 @@ ControlGraph createInvalidGraph()
       480.0f,
       0.0f,
       ControlParameterTarget{ 999, "missing_cutoff" } });
+
+    graph.nodes.push_back({
+      4,
+      ControlNodeKind::Scale,
+      "Missing Scale Settings",
+      "Scale node without settings",
+      640.0f,
+      0.0f });
+
+    graph.nodes.push_back({
+      5,
+      ControlNodeKind::Scale,
+      "Inverted Scale Range",
+      "Scale node with minValue greater than maxValue",
+      800.0f,
+      0.0f,
+      std::nullopt,
+      std::nullopt,
+      ControlScaleSettings{ 1.0f, 0.0f } });
 
     graph.connections.push_back({
       1,

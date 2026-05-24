@@ -26,6 +26,19 @@ inline void printControlGraphSnapshot(
                << " ("
                << node.kind
                << ")";
+            if (node.hasCurveSettings)
+            {
+                os << " shape "
+                   << node.curveShape;
+            }
+            if (node.hasScaleSettings)
+            {
+                os << " range ["
+                   << node.scaleMinValue
+                   << ", "
+                   << node.scaleMaxValue
+                   << "]";
+            }
             if (node.hasParameterTarget)
             {
                 os << " -> node "

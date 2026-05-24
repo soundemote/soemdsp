@@ -20,6 +20,8 @@ ControlGraph apply reports package structural validation, target validation, and
 
 ControlGraph apply reports can be exported as text for future editor and tool diagnostics.
 
+First real shaping exists in the minimal evaluator: linear, ease-in, ease-out, and smoothstep curve shapes. Scale settings also exist, but final normalized/raw target semantics are still being refined.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text

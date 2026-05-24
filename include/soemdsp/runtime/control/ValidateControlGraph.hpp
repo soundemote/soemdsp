@@ -187,6 +187,53 @@ inline ControlGraphValidationReport validateControlGraph(
                     " has an empty target parameter id");
             }
         }
+
+        if (node.kind == ControlNodeKind::Curve &&
+            !node.curveSettings.has_value())
+        {
+            addControlGraphValidationMessage(
+              report,
+              ControlGraphValidationSeverity::Warning,
+              "curve control node " +
+                std::to_string(node.id) +
+                " has no curve settings");
+        }
+
+        if (node.kind == ControlNodeKind::Scale)
+        {
+            if (!node.scaleSettings.has_value())
+            {
+                addControlGraphValidationMessage(
+                  report,
+                  ControlGraphValidationSeverity::Warning,
+                  "scale control node " +
+                    std::to_string(node.id) +
+                    " has no scale settings");
+            }
+            else
+            {
+                const auto& settings = *node.scaleSettings;
+                if (settings.minValue == settings.maxValue)
+                {
+                    addControlGraphValidationMessage(
+                      report,
+                      ControlGraphValidationSeverity::Warning,
+                      "scale control node " +
+                        std::to_string(node.id) +
+                        " has equal min and max values");
+                }
+
+                if (settings.minValue > settings.maxValue)
+                {
+                    addControlGraphValidationMessage(
+                      report,
+                      ControlGraphValidationSeverity::Warning,
+                      "scale control node " +
+                        std::to_string(node.id) +
+                        " has minValue greater than maxValue");
+                }
+            }
+        }
     }
 
     for (const auto& connection : graph.connections)

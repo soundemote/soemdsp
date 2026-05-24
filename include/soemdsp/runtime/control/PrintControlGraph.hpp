@@ -26,6 +26,21 @@ inline void printControlGraph(
                << " ("
                << toString(node.kind)
                << ")";
+            if (node.kind == ControlNodeKind::Curve &&
+                node.curveSettings.has_value())
+            {
+                os << " shape "
+                   << toString(node.curveSettings->shape);
+            }
+            if (node.kind == ControlNodeKind::Scale &&
+                node.scaleSettings.has_value())
+            {
+                os << " range ["
+                   << node.scaleSettings->minValue
+                   << ", "
+                   << node.scaleSettings->maxValue
+                   << "]";
+            }
             if (node.kind == ControlNodeKind::ParameterTarget &&
                 node.parameterTarget.has_value())
             {

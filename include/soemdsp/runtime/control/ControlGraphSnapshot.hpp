@@ -19,6 +19,11 @@ struct ControlNodeSnapshotEntry
     bool hasParameterTarget{};
     NodeId targetNodeId{};
     std::string targetParameterId;
+    bool hasCurveSettings{};
+    std::string curveShape;
+    bool hasScaleSettings{};
+    float scaleMinValue{};
+    float scaleMaxValue{};
 };
 
 struct ControlConnectionSnapshotEntry
@@ -51,7 +56,12 @@ inline ControlGraphSnapshot snapshotControlGraph(
           node.editorY,
           node.parameterTarget.has_value(),
           node.parameterTarget ? node.parameterTarget->nodeId : NodeId{},
-          node.parameterTarget ? node.parameterTarget->parameterId : std::string{} });
+          node.parameterTarget ? node.parameterTarget->parameterId : std::string{},
+          node.curveSettings.has_value(),
+          node.curveSettings ? toString(node.curveSettings->shape) : std::string{},
+          node.scaleSettings.has_value(),
+          node.scaleSettings ? node.scaleSettings->minValue : 0.0f,
+          node.scaleSettings ? node.scaleSettings->maxValue : 0.0f });
     }
 
     for (const auto& connection : graph.connections)

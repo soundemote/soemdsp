@@ -21,6 +21,42 @@ enum class ControlNodeKind
     Split
 };
 
+enum class ControlCurveShape
+{
+    Linear,
+    EaseIn,
+    EaseOut,
+    Smoothstep
+};
+
+inline const char* toString(ControlCurveShape shape)
+{
+    switch (shape)
+    {
+        case ControlCurveShape::Linear:
+            return "linear";
+        case ControlCurveShape::EaseIn:
+            return "ease_in";
+        case ControlCurveShape::EaseOut:
+            return "ease_out";
+        case ControlCurveShape::Smoothstep:
+            return "smoothstep";
+    }
+
+    return "linear";
+}
+
+struct ControlCurveSettings
+{
+    ControlCurveShape shape{ ControlCurveShape::Linear };
+};
+
+struct ControlScaleSettings
+{
+    float minValue{ 0.0f };
+    float maxValue{ 1.0f };
+};
+
 struct ControlParameterTarget
 {
     NodeId nodeId{};
@@ -36,6 +72,8 @@ struct ControlNode
     float editorX{};
     float editorY{};
     std::optional<ControlParameterTarget> parameterTarget;
+    std::optional<ControlCurveSettings> curveSettings;
+    std::optional<ControlScaleSettings> scaleSettings;
 };
 
 struct ControlConnection

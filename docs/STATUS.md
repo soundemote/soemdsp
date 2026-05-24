@@ -91,6 +91,9 @@ Implemented runtime capabilities include:
 - ControlGraph apply report captures graph validation, target validation, and apply result for tools/editors
 - ControlGraph apply report text export
 - ControlGraph demos can write apply report files for inspection
+- ControlGraph Curve and Scale settings
+- ControlGraph evaluator supports simple curve shaping and scale mapping
+- ControlGraph Circuit apply still uses normalized transport, so demos keep apply values normalized
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo

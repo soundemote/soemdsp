@@ -56,10 +56,14 @@ ControlGraph createDemoGraph()
       makeNode(1, ControlNodeKind::MacroKnob, "Brightness", 0.0f, 0.0f));
     graph.nodes.push_back(
       makeNode(2, ControlNodeKind::Curve, "S Curve", 180.0f, 0.0f));
+    graph.nodes.back().curveSettings =
+      ControlCurveSettings{ ControlCurveShape::Smoothstep };
     graph.nodes.push_back(
       makeNode(3, ControlNodeKind::Clamp01, "Clamp", 360.0f, 0.0f));
     graph.nodes.push_back(
       makeNode(4, ControlNodeKind::Scale, "Cutoff Scale", 540.0f, 0.0f));
+    graph.nodes.back().scaleSettings =
+      ControlScaleSettings{ 0.0f, 1.0f };
     graph.nodes.push_back(
       makeNode(5, ControlNodeKind::ParameterTarget, "Osc Cutoff", 720.0f, 0.0f));
     graph.nodes.back().parameterTarget = ControlParameterTarget{ 100, "cutoff" };
@@ -162,6 +166,11 @@ void printApplyReport(
               << "\n";
 }
 
+void printExpectedCutoff()
+{
+    std::cout << "expected cutoff for 0.25 smoothstep: 3141.875\n";
+}
+
 } // namespace
 
 int main()
@@ -204,5 +213,6 @@ int main()
     printApplyReport(
       makeControlGraphApplyReport(graph, { 1, 0.25f }, circuit),
       circuit);
+    printExpectedCutoff();
     return 0;
 }

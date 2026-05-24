@@ -89,13 +89,39 @@ inline ControlGraphEvaluationResult evaluateControlGraphLinear(
         switch (node->kind)
         {
             case ControlNodeKind::MacroKnob:
-            case ControlNodeKind::Curve:
-            case ControlNodeKind::Scale:
             case ControlNodeKind::Smooth:
             case ControlNodeKind::Split:
                 break;
+            case ControlNodeKind::Curve:
+                if (node->curveSettings.has_value())
+                {
+                    value = std::clamp(value, 0.0f, 1.0f);
+                    switch (node->curveSettings->shape)
+                    {
+                        case ControlCurveShape::Linear:
+                            break;
+                        case ControlCurveShape::EaseIn:
+                            value = value * value;
+                            break;
+                        case ControlCurveShape::EaseOut:
+                            value = 1.0f - ((1.0f - value) * (1.0f - value));
+                            break;
+                        case ControlCurveShape::Smoothstep:
+                            value = value * value * (3.0f - (2.0f * value));
+                            break;
+                    }
+                }
+                break;
             case ControlNodeKind::Clamp01:
                 value = std::clamp(value, 0.0f, 1.0f);
+                break;
+            case ControlNodeKind::Scale:
+                if (node->scaleSettings.has_value())
+                {
+                    const auto& settings = *node->scaleSettings;
+                    value = settings.minValue +
+                            (value * (settings.maxValue - settings.minValue));
+                }
                 break;
             case ControlNodeKind::Invert:
                 value = 1.0f - value;
