@@ -8,6 +8,7 @@
 
 #include <soemdsp/runtime/debug/ConsoleStyle.hpp>
 #include <soemdsp/runtime/serialization/PrintCircuitSnapshot.hpp>
+#include <soemdsp/runtime/serialization/WriteCircuitSnapshot.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 namespace
@@ -208,6 +209,14 @@ void printSnapshot(const Circuit& circuit)
               << circuitSnapshot.connections.size()
               << "\n";
     printCircuitSnapshot(circuitSnapshot);
+
+    const auto wroteSnapshot =
+      writeCircuitSnapshotTextFile(
+        circuitSnapshot,
+        "runtime_parameter_setter_demo.snapshot.txt");
+    std::cout << "snapshot file: "
+              << (wroteSnapshot ? "wrote" : "failed")
+              << "\n";
 
     console::debug(std::cout, "presentation-only demo output");
 }

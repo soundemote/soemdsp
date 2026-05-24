@@ -37,6 +37,9 @@ Implemented runtime capabilities include:
 - PrintCircuitSnapshot.hpp text export helper
 - CircuitSnapshot can be inspected as compact text
 - CircuitSnapshot text inspection is debug/export groundwork, not a committed serialization format
+- WriteCircuitSnapshot.hpp text file writer
+- CircuitSnapshot can be dumped to a text file for inspection and early export workflows
+- CircuitSnapshot text file dumping is not a committed serialization/save format, and no load path exists yet
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet
