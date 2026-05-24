@@ -104,6 +104,7 @@ Implemented runtime capabilities include:
 - runtime_control_midpoint_apply_demo proves parameter min/mid/max can shape a ControlGraph so 0.5 hits the musical midpoint
 - runtime_control_midpoint_apply_demo writes/uses apply report diagnostics
 - midpoint apply report diagnostics provide inspection proof for min/mid/max shaped control application
+- docs/CONTROL_GRAPH_MILESTONE.md documents the macro-control-to-runtime-parameter milestone
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
