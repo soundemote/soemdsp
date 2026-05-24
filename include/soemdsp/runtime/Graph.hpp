@@ -14,6 +14,20 @@ struct Graph
 
     std::vector<std::unique_ptr<Node>> nodes;
     std::vector<Connection> connections;
+
+    void connect(Node& sourceNode,
+             Port& sourcePort,
+             Node& destinationNode,
+             Port& destinationPort)
+{
+    connections.push_back({
+        &sourceNode,
+        &sourcePort,
+        &destinationNode,
+        &destinationPort
+    });
+}
+
     void process()
     {
         audioBuffers.clear();

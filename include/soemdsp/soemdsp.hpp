@@ -42,4 +42,7 @@
 #include <soemdsp/runtime/nodes/Multiply.hpp>
 #include <soemdsp/runtime/nodes/AudioConstant.hpp>
 #include <soemdsp/runtime/nodes/AudioAdd.hpp>
+#include <soemdsp/runtime/nodes/AudioMultiply.hpp>
+#include <soemdsp/runtime/nodes/SineOscillator.hpp>
+
 #include <soemdsp/version.hpp>

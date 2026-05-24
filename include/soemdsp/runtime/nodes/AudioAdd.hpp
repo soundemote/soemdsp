@@ -21,6 +21,10 @@ struct AudioAdd : Node {
         inputs[0].direction = PortDirection::Input;
         inputs[1].direction = PortDirection::Input;
         outputs[0].direction = PortDirection::Output;
+
+        inputs[0].name = "A";
+        inputs[1].name = "B";
+        outputs[0].name = "Out";
     }
 
     void process() override

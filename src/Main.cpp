@@ -1,43 +1,27 @@
-#include <soemdsp/soemdsp.hpp>
-
 #include <iostream>
 #include <memory>
+#include <soemdsp/soemdsp.hpp>
 
 int main()
 {
+    //Shorten namespace typing
     using namespace soemdsp::runtime;
     using namespace soemdsp::runtime::nodes;
 
+    //Main graph object that owns:
+    //- nodes
+    //- connections
+    //- audio buffers
     Graph graph;
 
-    auto a = std::make_unique<AudioConstant>(0.25f);
-    auto b = std::make_unique<AudioConstant>(0.50f);
-    auto add = std::make_unique<AudioAdd>();
+    auto osc = std::make_unique<SineOscillator>();
 
-    auto* aOut = &a->outputs[0];
-    auto* bOut = &b->outputs[0];
+    auto* freqIn = &osc->inputs[0];
+    auto* oscOut = &osc->outputs[0];
 
-    auto* addIn0 = &add->inputs[0];
-    auto* addIn1 = &add->inputs[1];
-    auto* addOut = &add->outputs[0];
+    freqIn->value = 440.0f;
 
-    graph.nodes.push_back(std::move(a));   // 0
-    graph.nodes.push_back(std::move(b));   // 1
-    graph.nodes.push_back(std::move(add)); // 2
-
-    graph.connections.push_back({
-        graph.nodes[0].get(),
-        aOut,
-        graph.nodes[2].get(),
-        addIn0
-    });
-
-    graph.connections.push_back({
-        graph.nodes[1].get(),
-        bOut,
-        graph.nodes[2].get(),
-        addIn1
-    });
+    graph.nodes.push_back(std::move(osc));
 
     graph.process();
 
@@ -45,11 +29,13 @@ int main()
               << SOEMDSP_VERSION_STRING
               << std::endl;
 
-    std::cout << "[AUDIO] ";
+    std::cout << "[SINE] ";
     for (std::size_t i = 0; i < 8; ++i)
     {
-        std::cout << addOut->audioBuffer[i] << " ";
+        std::cout << oscOut->audioBuffer[i] << " ";
     }
+    std::cout << std::endl;
+
     std::cout << std::endl;
 
     return 0;

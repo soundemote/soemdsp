@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <string>
 
 namespace soemdsp::runtime {
 
@@ -19,6 +20,7 @@ enum class PortDirection : std::uint8_t {
 struct Port {
     PortType type { PortType::Float };
     PortDirection direction { PortDirection::Input };
+    std::string name;
 
     float value { 0.0f };
 
