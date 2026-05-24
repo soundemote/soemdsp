@@ -30,11 +30,17 @@ int main()
     circuit.prepare();
 
     std::cout << std::fixed << std::setprecision(2);
+    std::cout << "parameter count: "
+              << circuit.parameterCount()
+              << "\n";
 
     std::cout << "[BEFORE]\n";
     std::cout << "dirty: "
               << std::boolalpha
               << circuit.isParameterDirty(gainNode->id, "gain")
+              << "\n";
+    std::cout << "dirty count: "
+              << circuit.dirtyParameterCount()
               << "\n";
     printCircuit(circuit);
 
@@ -44,6 +50,9 @@ int main()
     std::cout << "dirty: "
               << circuit.isParameterDirty(gainNode->id, "gain")
               << "\n";
+    std::cout << "dirty count: "
+              << circuit.dirtyParameterCount()
+              << "\n";
     printCircuit(circuit);
 
     circuit.resetParameterValue(gainNode->id, "gain");
@@ -52,6 +61,9 @@ int main()
     std::cout << "dirty: "
               << circuit.isParameterDirty(gainNode->id, "gain")
               << "\n";
+    std::cout << "dirty count: "
+              << circuit.dirtyParameterCount()
+              << "\n";
     printCircuit(circuit);
 
     circuit.setParameterNormalizedValue(gainNode->id, "gain", 0.25f);
@@ -59,6 +71,9 @@ int main()
     std::cout << "\n[AFTER NORMALIZED SET]\n";
     std::cout << "dirty: "
               << circuit.isParameterDirty(gainNode->id, "gain")
+              << "\n";
+    std::cout << "dirty count: "
+              << circuit.dirtyParameterCount()
               << "\n";
     printCircuit(circuit);
 

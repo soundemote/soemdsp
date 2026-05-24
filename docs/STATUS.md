@@ -21,6 +21,8 @@ Implemented runtime capabilities include:
 - parameter dirty/default helpers
 - parameter dirty/default comparison uses exact float comparison for now
 - parameter dirty/default helpers support future editor reset, highlight, and preset diff behavior
+- parameter count helpers
+- dirty parameter count supports future editor badges, preset diff UI, and save-state indicators
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

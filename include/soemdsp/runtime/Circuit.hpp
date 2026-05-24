@@ -368,6 +368,52 @@ struct Circuit
         return parameter->value != parameter->defaultValue;
     }
 
+    std::size_t parameterCount() const
+    {
+        std::size_t count = 0;
+
+        for (const auto& node : nodes)
+        {
+            count += node->parameters.size();
+        }
+
+        return count;
+    }
+
+    std::size_t dirtyParameterCount() const
+    {
+        std::size_t count = 0;
+
+        for (const auto& node : nodes)
+        {
+            for (const auto& parameter : node->parameters)
+            {
+                if (parameter.value != parameter.defaultValue)
+                {
+                    ++count;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    bool hasDirtyParameters() const
+    {
+        for (const auto& node : nodes)
+        {
+            for (const auto& parameter : node->parameters)
+            {
+                if (parameter.value != parameter.defaultValue)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     void allocateBuffers()
     {
         audioBuffers.clear();
