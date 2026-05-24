@@ -21,3 +21,7 @@ target_link_libraries(runtime_control_curve_demo soemdsp)
 add_executable(runtime_control_midpoint_apply_demo runtime_control_midpoint_apply_demo.cpp)
 
 target_link_libraries(runtime_control_midpoint_apply_demo soemdsp)
+
+add_executable(runtime_dsp_binding_demo runtime_dsp_binding_demo.cpp)
+
+target_link_libraries(runtime_dsp_binding_demo soemdsp)

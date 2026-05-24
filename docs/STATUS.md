@@ -125,6 +125,9 @@ Implemented runtime capabilities include:
 - DSP binding layer is documented but intentionally not implemented
 - docs/DSP_BINDING_MILESTONE_PLAN.md documents the first DSP binding prototype direction
 - DSP binding is the next big-ticket architecture track after the ControlGraph milestone
+- first DSP binding value model
+- runtime_dsp_binding_demo
+- DSP binding value model is metadata only, with no DSP execution yet
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

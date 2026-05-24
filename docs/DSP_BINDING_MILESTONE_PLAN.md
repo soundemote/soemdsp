@@ -11,6 +11,8 @@ Runtime graph nodes should eventually wrap, describe, bind, and schedule low-lev
 ## First prototype target
 The first practical prototype should be a tiny binding around a simple object inspired by `reference/dsp/noise.hpp`.
 
+The first value model layer now exists as `DspObjectBinding` and `DspParameterBinding`. It describes intended runtime-parameter-to-DSP-object targets, while execution, apply, and scheduling remain future work.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
