@@ -246,6 +246,84 @@ struct Circuit
         return true;
     }
 
+    float getParameterNormalizedValue(NodeId nodeId, ParameterId parameterId) const
+    {
+        const auto* parameter = findParameter(nodeId, parameterId);
+        if (!parameter)
+        {
+            return 0.0f;
+        }
+
+        const float range = parameter->maxValue - parameter->minValue;
+        if (range == 0.0f)
+        {
+            return 0.0f;
+        }
+
+        return (parameter->value - parameter->minValue) / range;
+    }
+
+    float getParameterNormalizedValueByName(NodeId nodeId, std::string_view name) const
+    {
+        const auto* parameter = findParameterByName(nodeId, name);
+        if (!parameter)
+        {
+            return 0.0f;
+        }
+
+        const float range = parameter->maxValue - parameter->minValue;
+        if (range == 0.0f)
+        {
+            return 0.0f;
+        }
+
+        return (parameter->value - parameter->minValue) / range;
+    }
+
+    bool setParameterNormalizedValue(NodeId nodeId, ParameterId parameterId, float normalizedValue)
+    {
+        const auto* parameter = findParameter(nodeId, parameterId);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        const float range = parameter->maxValue - parameter->minValue;
+        if (range == 0.0f)
+        {
+            return setParameterValue(nodeId, parameterId, parameter->minValue);
+        }
+
+        const float normalized =
+          std::clamp(normalizedValue, 0.0f, 1.0f);
+        const float value =
+          parameter->minValue + (normalized * range);
+
+        return setParameterValue(nodeId, parameterId, value);
+    }
+
+    bool setParameterNormalizedValueByName(NodeId nodeId, std::string_view name, float normalizedValue)
+    {
+        const auto* parameter = findParameterByName(nodeId, name);
+        if (!parameter)
+        {
+            return false;
+        }
+
+        const float range = parameter->maxValue - parameter->minValue;
+        if (range == 0.0f)
+        {
+            return setParameterValueByName(nodeId, name, parameter->minValue);
+        }
+
+        const float normalized =
+          std::clamp(normalizedValue, 0.0f, 1.0f);
+        const float value =
+          parameter->minValue + (normalized * range);
+
+        return setParameterValueByName(nodeId, name, value);
+    }
+
     void allocateBuffers()
     {
         audioBuffers.clear();

@@ -29,7 +29,7 @@ int main()
 
     circuit.prepare();
 
-    std::cout << std::fixed << std::setprecision(1);
+    std::cout << std::fixed << std::setprecision(2);
 
     std::cout << "[BEFORE]\n";
     printCircuit(circuit);
@@ -42,6 +42,11 @@ int main()
     circuit.resetParameterValue(gainNode->id, "gain");
 
     std::cout << "\n[AFTER RESET]\n";
+    printCircuit(circuit);
+
+    circuit.setParameterNormalizedValue(gainNode->id, "gain", 0.25f);
+
+    std::cout << "\n[AFTER NORMALIZED SET]\n";
     printCircuit(circuit);
 
     return 0;

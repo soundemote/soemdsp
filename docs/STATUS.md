@@ -16,8 +16,11 @@ Implemented runtime capabilities include:
 - parameter values clamp to minValue/maxValue
 - parameter reset helpers
 - parameter reset uses defaultValue clamped to minValue/maxValue
+- normalized parameter helpers
+- normalized parameter mapping is currently linear
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
+- parameter midValue is intentionally not used by normalized helpers yet
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 
