@@ -69,6 +69,8 @@ Implemented runtime capabilities include:
 - ControlGraph value model
 - runtime_control_graph_demo
 - ControlGraph is future macro/control-shaping groundwork with no execution yet
+- ControlGraph validation diagnostics
+- runtime_control_graph_validation_demo
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo

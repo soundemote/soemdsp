@@ -1,4 +1,5 @@
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
+#include <soemdsp/runtime/control/PrintControlGraphValidation.hpp>
 
 using namespace soemdsp::runtime;
 
@@ -64,5 +65,7 @@ int main()
 {
     const auto graph = createDemoGraph();
     printControlGraph(graph);
+    const auto report = validateControlGraph(graph);
+    printControlGraphValidation(report);
     return 0;
 }

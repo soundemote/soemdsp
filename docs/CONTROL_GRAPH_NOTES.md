@@ -4,6 +4,8 @@ ControlGraph is future groundwork for macro controls and control-shaping graphs.
 
 The first ControlGraph value model exists in `include/soemdsp/runtime/control/ControlGraph.hpp`. It captures control nodes and connections only. Execution, evaluation, parameter binding, serialization, and editor behavior remain future work.
 
+The value model also has basic validation diagnostics for duplicate node IDs, empty node names, missing connection endpoints, and empty connection port IDs. Execution and binding remain future work.
+
 The core idea is that an editor/user knob can output normalized 0.0-1.0 control, pass through a graph of shaping nodes, and drive one or more target parameters:
 
 ```text
