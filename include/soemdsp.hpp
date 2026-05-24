@@ -32,3 +32,10 @@
 #include <soemdsp/plugin/parameterhelper.hpp>
 
 // clang-format on
+
+#include <soemdsp/runtime/Port.hpp>
+#include <soemdsp/runtime/Node.hpp>
+#include <soemdsp/runtime/Connection.hpp>
+#include <soemdsp/runtime/Graph.hpp>
+#include <soemdsp/runtime/nodes/Constant.hpp>
+#include <soemdsp/runtime/nodes/Add.hpp>
