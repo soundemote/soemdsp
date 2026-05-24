@@ -50,6 +50,7 @@
 #include <soemdsp/runtime/nodes/AudioMultiplyAdd.hpp>
 #include <soemdsp/runtime/nodes/AudioOutput.hpp>
 #include <soemdsp/runtime/nodes/AudioCopy.hpp>
+#include <soemdsp/runtime/debug/ExportText.hpp>
 #include <soemdsp/runtime/debug/FindNodes.hpp>
 #include <soemdsp/runtime/debug/PrintCircuit.hpp>
 #include <soemdsp/runtime/debug/PrintLayout.hpp>
