@@ -1,4 +1,8 @@
 #pragma once
+// Reference-only low-level DSP object north-star.
+// This is not part of the runtime API yet.
+// "wires" means externally owned DSP memory, not graph/editor connections.
+
 #include <cstdint>
 namespace soemdsp::random
 {
@@ -26,7 +30,7 @@ inline double range(double min, double max, double u) noexcept
 } //namespace detail
 struct SplitMix64
 {
-    //wire
+    //external DSP memory accessors
     inline std::uint64_t& state_() noexcept { return wires[base + 0]; } //internal state
     inline std::uint64_t& seed_()  noexcept { return wires[base + 1]; } //reset source
     //function
@@ -62,7 +66,7 @@ struct SplitMix64
 };
 struct LCG64
 {
-    //wire
+    //external DSP memory accessors
     inline std::uint64_t& state_() noexcept { return wires[base + 0]; } //internal state
     inline std::uint64_t& seed_() noexcept { return wires[base + 1]; } //reset source
     //function
@@ -97,7 +101,7 @@ struct LCG64
 };
 struct XorShift64Star
 {
-    //wire
+    //external DSP memory accessors
     inline std::uint64_t& state_() noexcept { return wires[base + 0]; } //internal state
     inline std::uint64_t& seed_() noexcept { return wires[base + 1]; } //reset source
     //function

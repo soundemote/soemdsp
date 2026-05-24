@@ -34,6 +34,8 @@ Implemented runtime capabilities include:
 - reference/dsp/noise.hpp exists as the low-level DSP object north-star reference
 - docs/DSP_OBJECT_CONTRACT.md documents low-level DSP object design principles
 - DSP object reference files are reference-only and not part of the build/runtime yet
+- duplicate reference/noise.hpp upload copy was removed after moving the reference to reference/dsp/noise.hpp
+- DSP_OBJECT_CONTRACT distinguishes low-level DSP objects, runtime graph nodes, and a future binding layer
 
 Reflection metadata exists for nodes:
 - name
