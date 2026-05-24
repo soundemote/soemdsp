@@ -172,28 +172,9 @@ int main()
 
     printConnections(circuit);
 
-    std::cout << "[LFO] ";
-    for (std::size_t i = 0; i < 8; ++i)
-    {
-        std::cout << lfoOut->audioBuffer[i] << " ";
-    }
-    std::cout << "\n";
-
-    std::cout << "[MOD] ";
-    for (std::size_t i = 0; i < 8; ++i)
-    {
-        std::cout << modOut->audioBuffer[i] << " ";
-    }
-    std::cout << "\n";
-
-    auto* finalOut = circuit.outputBuffer();
-
-    std::cout << "[OUT] ";
-    for (std::size_t i = 0; i < 8; ++i)
-    {
-        std::cout << finalOut[i] << " ";
-    }
-    std::cout << "\n";
+    printAudio("LFO", lfoOut->audioBuffer, 8);
+    printAudio("MOD", modOut->audioBuffer, 8);
+    printAudio("OUT", circuit.outputBuffer(), 8);
 
     return 0;
 }
