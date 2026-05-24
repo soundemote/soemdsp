@@ -30,16 +30,19 @@ soemdsp is a modular DSP/runtime/reflection system evolving toward:
 - Avoid premature abstraction
 - Keep debug tooling lightweight
 - Prefer reflection-friendly architecture
+- Keep runtime/editor boundaries clean
+- Focus on runtime correctness, graph architecture, parameters, serialization/export groundwork, validation, DSP object contracts, editor-ready metadata, and plugin-prototyping foundations
 
 ## Git Workflow
 - Codex may:
   - git add
   - git commit
-  - inspect branches/status/log
-- Codex should NOT:
-  - git push
+  - git push when Architect or the active task explicitly allows it
+  - inspect repo
+- Codex may NOT:
   - force-reset branches
   - rewrite history
+  - force-push
 unless Architect explicitly instructs it.
 
 ## Reporting Rules
@@ -63,3 +66,20 @@ The project is intentionally evolving toward:
 Do not over-engineer.
 Do not introduce heavy dependencies without approval.
 Preserve momentum toward a playable modular environment.
+
+Console/demo polish is timeboxed and complete enough. Return to big-ticket runtime/editor/serialization architecture unless Architect or Vision explicitly asks for more presentation work.
+
+Asciiscope will eventually consume soemdsp math, DSP objects, signal primitives, or shared concepts for visuals. Scope is the separate agent for Asciiscope visuals, animations, and social-media-facing console/ASCII output. Do not drift soemdsp work into social polish unless Vision or Architect explicitly asks.
+
+## Stamp Protocol
+Only use stamps on Vision <-> Codex handoff messages.
+
+Final line format:
+[Codex stamp: xxxx]
+
+Rules:
+- Stamp must be the final line.
+- Use 4-6 lowercase letters/numbers.
+- Do not reuse the previous nearby stamp.
+- The stamp has no architectural meaning.
+- Do not stamp normal chat with Architect unless it is a copy/paste handoff report.
