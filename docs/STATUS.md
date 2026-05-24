@@ -130,6 +130,8 @@ Implemented runtime capabilities include:
 - DSP binding value model is metadata only, with no DSP execution yet
 - DSP binding validation diagnostics
 - runtime_dsp_binding_validation_demo
+- DSP binding target validation against Circuit
+- DSP binding target validation checks binding metadata against actual runtime parameters without applying values
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
