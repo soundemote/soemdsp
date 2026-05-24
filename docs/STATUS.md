@@ -38,6 +38,9 @@ Implemented runtime capabilities include:
 - styled terminal demo output is presentation-only and not core runtime behavior
 - runtime_parameter_setter_demo supports --loop for real terminal recordings
 - runtime_parameter_setter_demo supports --no-color for plain terminal output
+- runtime_parameter_setter_demo has a tiny local asciiscope-style animated waveform in --loop mode
+- terminal waveform is inspired by Soundemote Asciiscope but does not vendor/import it
+- terminal waveform remains demo presentation only
 - reference/dsp/noise.hpp exists as the low-level DSP object north-star reference
 - docs/DSP_OBJECT_CONTRACT.md documents low-level DSP object design principles
 - DSP object reference files are reference-only and not part of the build/runtime yet
