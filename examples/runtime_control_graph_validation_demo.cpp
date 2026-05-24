@@ -1,11 +1,15 @@
 #include <iostream>
+#include <memory>
 
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
+#include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
+#include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
+using namespace soemdsp::runtime::nodes;
 
 namespace
 {
@@ -38,6 +42,15 @@ ControlGraph createInvalidGraph()
       320.0f,
       0.0f });
 
+    graph.nodes.push_back({
+      3,
+      ControlNodeKind::ParameterTarget,
+      "Missing Circuit Target",
+      "ParameterTarget pointing to missing Circuit parameter",
+      480.0f,
+      0.0f,
+      ControlParameterTarget{ 999, "missing_cutoff" } });
+
     graph.connections.push_back({
       1,
       "",
@@ -47,12 +60,39 @@ ControlGraph createInvalidGraph()
     return graph;
 }
 
+Circuit createValidationCircuit()
+{
+    Circuit circuit;
+
+    auto node = std::make_unique<FloatConstant>(0.5f);
+    node->id = 100;
+
+    Parameter cutoff;
+    cutoff.id           = "cutoff";
+    cutoff.name         = "Cutoff";
+    cutoff.value        = 0.5f;
+    cutoff.defaultValue = 0.5f;
+    cutoff.minValue     = 20.0f;
+    cutoff.midValue     = 1000.0f;
+    cutoff.maxValue     = 20000.0f;
+
+    node->parameters.push_back(cutoff);
+    circuit.nodes.push_back(std::move(node));
+    circuit.prepare();
+
+    return circuit;
+}
+
 } // namespace
 
 int main()
 {
     const auto graph = createInvalidGraph();
+    const auto circuit = createValidationCircuit();
     printControlGraph(graph);
+    const auto targetValidation =
+      validateControlGraphTargets(graph, circuit);
+    printControlGraphTargetValidation(targetValidation);
     const auto report = makeControlGraphReport(graph);
     printControlGraphReport(report);
     const auto wroteSnapshot =

@@ -5,6 +5,7 @@
 #include <soemdsp/runtime/control/EvaluateControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphReport.hpp>
+#include <soemdsp/runtime/control/PrintControlGraphTargetValidation.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 #include <soemdsp/runtime/control/WriteControlGraphReport.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -138,6 +139,9 @@ int main()
     const auto graph = createDemoGraph();
     auto circuit = createDemoCircuit();
     printControlGraph(graph);
+    const auto targetValidation =
+      validateControlGraphTargets(graph, circuit);
+    printControlGraphTargetValidation(targetValidation);
     const auto report = makeControlGraphReport(graph);
     printControlGraphReport(report);
     const auto wroteSnapshot =

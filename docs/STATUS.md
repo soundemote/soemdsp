@@ -83,6 +83,8 @@ Implemented runtime capabilities include:
 - ControlGraph can apply a linear evaluated ParameterTarget to Circuit parameters
 - ControlGraph apply helper proves macro knob to control graph to normalized parameter set
 - ControlGraph apply mapping is still raw linear and does not use midValue yet
+- ControlGraph target validation against Circuit
+- ControlGraph target validation checks ParameterTarget metadata without applying values
 - runtime parameter setter demo
 - parameter setter demo proves clamped metadata mutation through Circuit helpers
 - runtime_validation_demo
