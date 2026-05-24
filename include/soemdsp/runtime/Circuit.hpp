@@ -25,16 +25,40 @@ struct Circuit
         return output ? output->audioBuffer : nullptr;
     }
 
-    void connect(Node& sourceNode,
-                 Port& sourcePort,
-                 Node& destinationNode,
-                 Port& destinationPort)
+bool connect(Node& sourceNode,
+             Port& sourcePort,
+             Node& destinationNode,
+             Port& destinationPort)
+{
+    if (sourcePort.direction != PortDirection::Output)
     {
-        connections.push_back({ &sourceNode,
-                                &sourcePort,
-                                &destinationNode,
-                                &destinationPort });
+        return false;
     }
+
+    if (destinationPort.direction != PortDirection::Input)
+    {
+        return false;
+    }
+
+    if (sourcePort.type != destinationPort.type)
+    {
+        const bool audioToFloat =
+            sourcePort.type == PortType::Audio &&
+            destinationPort.type == PortType::Float;
+
+        if (!audioToFloat)
+        {
+            return false;
+        }
+    }
+
+    connections.push_back({ &sourceNode,
+                            &sourcePort,
+                            &destinationNode,
+                            &destinationPort });
+
+    return true;
+}
 
     void allocateBuffers()
     {
