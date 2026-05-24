@@ -49,5 +49,6 @@
 #include <soemdsp/runtime/nodes/MultiplyAdd.hpp>
 #include <soemdsp/runtime/nodes/AudioMultiplyAdd.hpp>
 #include <soemdsp/runtime/nodes/AudioOutput.hpp>
+#include <soemdsp/runtime/nodes/AudioCopy.hpp>
 
 #include <soemdsp/version.hpp>
