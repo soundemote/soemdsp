@@ -1,5 +1,9 @@
+#include <iostream>
+
 #include <soemdsp/runtime/control/PrintControlGraph.hpp>
 #include <soemdsp/runtime/control/PrintControlGraphValidation.hpp>
+#include <soemdsp/runtime/control/PrintControlGraphSnapshot.hpp>
+#include <soemdsp/runtime/control/WriteControlGraphSnapshot.hpp>
 
 using namespace soemdsp::runtime;
 
@@ -67,5 +71,14 @@ int main()
     printControlGraph(graph);
     const auto report = validateControlGraph(graph);
     printControlGraphValidation(report);
+    const auto snapshot = snapshotControlGraph(graph);
+    printControlGraphSnapshot(snapshot);
+    const auto wroteSnapshot =
+      writeControlGraphSnapshotTextFile(
+        snapshot,
+        "runtime_control_graph_demo.control_snapshot.txt");
+    std::cout << "control snapshot file: "
+              << (wroteSnapshot ? "wrote" : "failed")
+              << "\n";
     return 0;
 }
