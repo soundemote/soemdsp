@@ -1,4 +1,4 @@
-// AudioOutput.hpp
+//AudioOutput.hpp
 #pragma once
 
 #include <soemdsp/runtime/Node.hpp>
@@ -9,16 +9,18 @@ struct AudioOutput : Node
 {
     AudioOutput()
     {
-        inputs.emplace_back(PortType::Audio);
+        inputs.emplace_back(
+          PortType::Audio,
+          PortDirection::Input);
     }
 
-void process() override
-{
-    // sink node
-}
+    void process() override
+    {
+    //sink node
+    }
     float* output() noexcept
     {
         return inputs[0].audioBuffer;
     }
 };
-}
+} //namespace soemdsp::runtime::nodes

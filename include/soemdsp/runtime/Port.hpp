@@ -47,5 +47,14 @@ struct Port
     {
         return type == PortType::Float;
     }
+    bool hasAudio() const
+    {
+        return audioBuffer != nullptr;
+    }
+
+    bool hasValue() const
+    {
+        return connected || value != 0.0f;
+    }
 };
 } //namespace soemdsp::runtime
