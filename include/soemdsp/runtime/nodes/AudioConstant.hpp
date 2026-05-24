@@ -12,6 +12,7 @@ struct AudioConstant : Node {
     {
         name = "AudioConstant";
         category = "Generator";
+        description = "Outputs a constant audio signal";
 
         outputs.resize(1);
 

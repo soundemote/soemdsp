@@ -9,6 +9,7 @@ struct Node
 {
     std::string name;
     std::string category;
+    std::string description;
     std::uint64_t id{ 0 };
     std::uint64_t nextPortId{ 1 };
 
@@ -19,6 +20,20 @@ struct Node
     std::vector<Port> outputs;
 
     virtual ~Node() = default;
+
+    virtual std::string displayName() const
+    {
+        return category.empty()
+            ? name
+            : category + "/" + name;
+    }
+
+    virtual std::string summary() const
+    {
+        return description.empty()
+            ? displayName()
+            : displayName() + " - " + description;
+    }
 
     void assignPortIds()
     {

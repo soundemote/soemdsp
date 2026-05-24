@@ -43,5 +43,6 @@
 #include <soemdsp/runtime/nodes/TriggerPrinter.hpp>
 #include <soemdsp/runtime/nodes/TriggerEdge.hpp>
 #include <soemdsp/runtime/debug/PrintGraph.hpp>
+#include <soemdsp/runtime/debug/SortNodes.hpp>
 #include <soemdsp/runtime/debug/PrintAudio.hpp>
 #include <soemdsp/runtime/debug/ValidateCircuit.hpp>

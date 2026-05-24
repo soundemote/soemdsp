@@ -13,6 +13,7 @@ struct TriggerPrinter : Node
     {
         name = "TriggerPrinter";
         category = "Debug";
+        description = "Prints trigger events to console";
 
         inputs.emplace_back(
             PortType::Trigger,

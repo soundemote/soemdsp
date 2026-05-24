@@ -16,9 +16,7 @@ inline void printNodes(const Circuit& circuit)
         std::cout
             << node->id
             << " : "
-            << (node->category.empty() ? "Uncategorized" : node->category)
-            << "/"
-            << node->name
+            << node->displayName()
             << "\n";
     }
 }

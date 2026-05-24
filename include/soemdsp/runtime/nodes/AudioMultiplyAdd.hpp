@@ -11,6 +11,7 @@ struct AudioMultiplyAdd : Node {
     {
         name = "AudioMultiplyAdd";
         category = "Math";
+        description = "Per-sample multiply-add operation";
 
         inputs.resize(3);
         outputs.resize(1);

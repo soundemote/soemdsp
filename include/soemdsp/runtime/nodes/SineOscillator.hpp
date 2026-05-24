@@ -16,6 +16,7 @@ struct SineOscillator : Node {
     {
         name = "SineOscillator";
         category = "Generator";
+        description = "Bandlimited sine oscillator";
 
         inputs.resize(1);
         outputs.resize(1);

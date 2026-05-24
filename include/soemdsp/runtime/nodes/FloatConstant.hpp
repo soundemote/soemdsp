@@ -12,6 +12,7 @@ struct FloatConstant : Node {
     {
         name = "FloatConstant";
         category = "Generator";
+        description = "Outputs a constant control value";
 
         outputs.resize(1);
 

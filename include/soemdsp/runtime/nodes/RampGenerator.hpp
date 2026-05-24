@@ -13,6 +13,7 @@ struct RampGenerator : Node {
     {
         name = "RampGenerator";
         category = "Generator";
+        description = "Outputs a repeating ramp signal";
 
         inputs.resize(1);
         outputs.resize(1);

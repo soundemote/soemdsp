@@ -13,6 +13,7 @@ struct TriggerButton : Node
     {
         name = "TriggerButton";
         category = "Trigger";
+        description = "Manual trigger source";
 
         outputs.emplace_back(
             PortType::Trigger,

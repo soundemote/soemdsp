@@ -13,6 +13,7 @@ struct TriggerEdge : Node
     {
         name = "TriggerEdge";
         category = "Trigger";
+        description = "Detects trigger rising edges";
 
         inputs.emplace_back(
             PortType::Trigger,

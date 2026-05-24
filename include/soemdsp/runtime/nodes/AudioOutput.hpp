@@ -10,6 +10,7 @@ struct AudioOutput : Node
     {
         name = "AudioOutput";
         category = "Output";
+        description = "Final audio sink";
         inputs.emplace_back(PortType::Audio, PortDirection::Input);
         inputs[0].name = "In"; 
     }
