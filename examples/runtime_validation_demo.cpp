@@ -2,6 +2,7 @@
 #include <memory>
 
 #include <soemdsp/runtime/validation/PrintCircuitValidation.hpp>
+#include <soemdsp/runtime/validation/WriteCircuitValidation.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 namespace
@@ -62,6 +63,14 @@ int main()
     const auto report = validateCircuit(circuit);
 
     printCircuitValidation(report);
+
+    const auto wroteValidation =
+      writeCircuitValidationTextFile(
+        report,
+        "runtime_validation_demo.validation.txt");
+    std::cout << "validation file: "
+              << (wroteValidation ? "wrote" : "failed")
+              << "\n";
 
     std::cout << "messageCount: "
               << report.messageCount()

@@ -47,6 +47,9 @@ Implemented runtime capabilities include:
 - Circuit validation checks duplicate node IDs, duplicate parameter IDs, parameter ranges, and straightforward connection endpoint sanity
 - CircuitValidationReport exposes info, warning, error, and total message counts
 - validation print output includes a compact summary line
+- validation text file export
+- runtime_validation_demo writes a validation report file for inspection
+- generated validation report files are not committed
 - parameter midValue is preserved as metadata and is not used for clamping
 - parameter midValue remains UI/perceptual metadata only
 - parameter midValue is intentionally not used by normalized helpers yet

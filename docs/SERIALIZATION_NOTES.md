@@ -23,6 +23,8 @@ PrintConnections.hpp and WriteConnections.hpp provide connection-only text expor
 
 Circuit validation diagnostics exist as groundwork before real load/save. Validation reports graph consistency problems without mutating or auto-fixing circuits.
 
+Validation reports can be exported as text for future load/save diagnostics. This is diagnostic/export groundwork, not a serialization format.
+
 CircuitSnapshot is groundwork only. It is not a committed file format, parser, or load/save system.
 
 Serialization is not implemented yet.
