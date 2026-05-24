@@ -4,6 +4,9 @@
 
 int main()
 {
+    std::cout << "<3 soemdsp v "
+              << SOEMDSP_VERSION_STRING;
+
     using namespace soemdsp::runtime;
     using namespace soemdsp::runtime::nodes;
     using namespace soemdsp::runtime::debug;
@@ -128,13 +131,7 @@ int main()
 
     circuit.prepare();
     validateCircuit(circuit);
-   printNodes(circuit);
-
-    std::cout << "\n\n";
-
-    static_cast<TriggerButton*>(
-      circuit.nodes[7].get())
-      ->trigger();
+    printNodes(circuit);
 
     std::cout << "[PROCESS 1]\n";
 
@@ -156,7 +153,7 @@ int main()
 
     circuit.reset();
 
-    std::cout << "\n[DISCONNECT 5]\n";
+    std::cout << "[DISCONNECT 5]\n";
 
     circuit.disconnect(5);
 
@@ -165,10 +162,6 @@ int main()
     //=====================================================
     //PRINT
     //=====================================================
-
-    std::cout << "<3 soemdsp v "
-              << SOEMDSP_VERSION_STRING 
-              << std::endl;
 
     printConnections(circuit);
 
