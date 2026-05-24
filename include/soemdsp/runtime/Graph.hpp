@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <memory>
 #include <vector>
 #include <soemdsp/runtime/Connection.hpp>
@@ -7,26 +8,48 @@ namespace soemdsp::runtime
 {
 struct Graph
 {
+    static constexpr std::size_t blockSize{ 64 };
+
+    std::vector<std::array<float, blockSize>> audioBuffers;
+
     std::vector<std::unique_ptr<Node>> nodes;
     std::vector<Connection> connections;
     void process()
-{
-    for (auto& node : nodes)
     {
-        // Pull connected values into this node before it runs
-        for (auto& connection : connections)
+        audioBuffers.clear();
+        audioBuffers.reserve(nodes.size());
+        for (auto& node : nodes)
         {
-            if (connection.destinationNode == node.get() &&
-                connection.sourcePort &&
-                connection.destinationPort)
+        //Pull connected values into this node before it runs
+            for (auto& connection : connections)
             {
-                connection.destinationPort->value =
-                    connection.sourcePort->value;
-            }
-        }
+                if (connection.destinationNode == node.get() &&
+                    connection.sourcePort &&
+                    connection.destinationPort)
+                {
+                    connection.destinationPort->value =
+                      connection.sourcePort->value;
 
-        node->process();
+                    connection.destinationPort->audioBuffer =
+                      connection.sourcePort->audioBuffer;
+
+                    connection.destinationPort->audioFrames =
+                      connection.sourcePort->audioFrames;
+                }
+            }
+            for (auto& output : node->outputs)
+            {
+                if (output.type == PortType::Audio)
+                {
+                    audioBuffers.emplace_back();
+
+                    output.audioBuffer = audioBuffers.back().data();
+                    output.audioFrames = blockSize;
+                }
+            }
+
+            node->process();
+        }
     }
-}
 };
 } //namespace soemdsp::runtime
