@@ -37,6 +37,8 @@ Multiple `DspObjectBinding` objects can be applied sequentially by a caller toda
 
 Callers can also inspect mixed per-binding results when applying multiple bindings sequentially, so a successful binding does not hide a later failed binding.
 
+Per-binding apply summaries can be aggregated by callers for demo-level batch status while final scheduler and batch API design remain deferred.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
