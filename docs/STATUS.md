@@ -169,6 +169,7 @@ Implemented runtime capabilities include:
 - demo-local preflight validation can detect an invalid block resync target before external memory is written or a second block is processed
 - runtime_dsp_object_block_phase_report_demo
 - demo-local phase reporting can summarize caller-owned preflight, apply, and process counts around a block pass
+- docs/DSP_EXECUTION_QUESTIONS.md records open scheduler, batch API, and sandbox questions before production execution machinery is introduced
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

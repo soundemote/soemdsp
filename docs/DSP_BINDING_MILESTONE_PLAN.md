@@ -51,6 +51,8 @@ Caller-owned demos can preflight intended block resync bindings before writing a
 
 A demo-local block phase report can summarize the caller-owned preflight, apply, and process phases. This points toward future sandbox/editor status surfaces without adding a scheduler or reusable executor.
 
+`docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
