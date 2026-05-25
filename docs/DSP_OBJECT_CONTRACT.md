@@ -37,4 +37,6 @@ Graph nodes can describe, schedule, and connect DSP behavior without forcing low
 ## Future Binding Layer
 A future binding layer may map runtime graph ports and parameters to low-level DSP object memory, semantic setters, or processing calls.
 
+Externally owned parameter memory slots are valid binding targets. Binding code may copy already-resolved runtime parameter values into those slots at explicit sync points without making the DSP object own graph/editor state.
+
 That layer is not implemented yet. For now, the reference stays separate from the runtime graph and build.

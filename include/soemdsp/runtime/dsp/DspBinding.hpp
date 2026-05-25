@@ -43,6 +43,7 @@ struct DspParameterBinding
     DspBindingTargetKind targetKind{};
     std::string targetName;
     std::uint32_t memoryOffset{};
+    float* memorySlot{};
 };
 
 struct DspObjectBinding

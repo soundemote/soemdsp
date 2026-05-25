@@ -15,6 +15,8 @@ The first value model layer now exists as `DspObjectBinding` and `DspParameterBi
 
 DSP binding now mirrors the Circuit and ControlGraph report pattern with a combined binding report for metadata plus validation diagnostics.
 
+Metadata validation has advanced to a safe parameter value sync proof: Circuit parameter values can be copied through validated binding metadata into externally owned DSP memory slots. Execution, scheduling, and DSP processing remain future work.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

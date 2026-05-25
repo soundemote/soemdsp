@@ -134,6 +134,8 @@ Implemented runtime capabilities include:
 - DSP binding target validation checks binding metadata against actual runtime parameters without applying values
 - DspBindingReport helper
 - DSP binding demos can write combined binding reports
+- first DSP parameter binding apply proof
+- DSP binding apply proof copies Circuit parameter values into externally owned DSP memory slots
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
