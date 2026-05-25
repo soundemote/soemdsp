@@ -33,6 +33,9 @@ Circuit createCircuit()
 int main()
 {
     const auto circuit = createCircuit();
+    float seedMemory = 77.0f;
+    float duplicateSeedMemory = 88.0f;
+    float unsupportedTargetMemory = 99.0f;
     DspObjectBinding binding;
     binding.nodeId = 1;
 
@@ -41,14 +44,16 @@ int main()
       "seed",
       DspBindingTargetKind::MemorySlot,
       "seed",
-      1 });
+      1,
+      &seedMemory });
 
     binding.parameterBindings.push_back({
       1,
       "seed",
       DspBindingTargetKind::MemorySlot,
       "seed_duplicate",
-      2 });
+      2,
+      &duplicateSeedMemory });
 
     binding.parameterBindings.push_back({
       1,
@@ -56,6 +61,14 @@ int main()
       DspBindingTargetKind::SemanticSetter,
       "",
       0 });
+
+    binding.parameterBindings.push_back({
+      1,
+      "other",
+      DspBindingTargetKind::SemanticSetter,
+      "setOther",
+      3,
+      &unsupportedTargetMemory });
 
     const auto report = makeDspBindingReport(binding, circuit);
     printDspBindingReport(report);
