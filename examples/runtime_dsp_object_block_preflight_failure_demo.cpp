@@ -3,9 +3,12 @@
 #include <memory>
 
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
+#include <soemdsp/runtime/dsp/DspBlockPhaseReport.hpp>
 #include <soemdsp/runtime/dsp/PrintDspBindingApplySummary.hpp>
+#include <soemdsp/runtime/dsp/PrintDspBlockPhaseReport.hpp>
 #include <soemdsp/runtime/dsp/ValidateDspBinding.hpp>
 #include <soemdsp/runtime/dsp/ValidateDspBindingTargets.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBlockPhaseReport.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -32,13 +35,6 @@ struct TinyBiasDsp
     {
         return x + (bias != nullptr ? *bias : 0.0f);
     }
-};
-
-struct DemoPreflightResult
-{
-    bool ok{ true };
-    std::size_t bindingsChecked{};
-    std::size_t messageCount{};
 };
 
 std::unique_ptr<FloatConstant> createNodeWithParameter(
@@ -101,56 +97,40 @@ DspObjectBinding createBinding(
     return binding;
 }
 
-DemoPreflightResult preflightBinding(
+void preflightBinding(
+  DspBlockPhaseReport& report,
   const DspObjectBinding& binding,
   const Circuit& circuit)
 {
-    DemoPreflightResult result;
-    result.bindingsChecked = 1;
-
     const auto structuralValidation =
       validateDspObjectBinding(binding);
     const auto targetValidation =
       validateDspObjectBindingTargets(binding, circuit);
 
-    result.ok =
+    report.preflightOk =
+      report.preflightOk &&
       structuralValidation.ok() &&
       targetValidation.ok();
-    result.messageCount =
+    ++report.bindingsChecked;
+    report.preflightMessages +=
       structuralValidation.messageCount() +
       targetValidation.messageCount();
-
-    return result;
 }
 
-DemoPreflightResult combinePreflight(
-  const DemoPreflightResult& a,
-  const DemoPreflightResult& b)
+void applyBinding(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& binding,
+  const Circuit& circuit)
 {
-    DemoPreflightResult result;
-    result.ok = a.ok && b.ok;
-    result.bindingsChecked =
-      a.bindingsChecked + b.bindingsChecked;
-    result.messageCount =
-      a.messageCount + b.messageCount;
-    return result;
-}
+    const auto result =
+      applyDspParameterBindings(binding, circuit);
 
-void printPreflight(
-  const char* label,
-  const DemoPreflightResult& result)
-{
-    std::cout << label
-              << "\n";
-    std::cout << "ok: "
-              << (result.ok ? "true" : "false")
-              << "\n";
-    std::cout << "bindings checked: "
-              << result.bindingsChecked
-              << "\n";
-    std::cout << "messages: "
-              << result.messageCount
-              << "\n";
+    report.applyOk =
+      report.applyOk && result.ok;
+    report.parametersApplied +=
+      result.parametersApplied;
+    report.applyMessages +=
+      result.messages.size();
 }
 
 void printSummary(
@@ -165,6 +145,7 @@ void printSummary(
 
 template <std::size_t Size>
 std::array<float, Size> processBlock(
+  DspBlockPhaseReport& report,
   const TinyGainDsp& gain,
   const TinyBiasDsp& bias,
   const std::array<float, Size>& inputBlock)
@@ -175,9 +156,21 @@ std::array<float, Size> processBlock(
     {
         const auto afterGain = gain.processSample(inputBlock[i]);
         outputBlock[i] = bias.processSample(afterGain);
+        ++report.samplesProcessed;
     }
 
+    report.processOk = true;
     return outputBlock;
+}
+
+template <std::size_t Size>
+std::array<float, Size> processBlock(
+  const TinyGainDsp& gain,
+  const TinyBiasDsp& bias,
+  const std::array<float, Size>& inputBlock)
+{
+    DspBlockPhaseReport ignoredReport;
+    return processBlock(ignoredReport, gain, bias, inputBlock);
 }
 
 template <std::size_t Size>
@@ -264,35 +257,32 @@ int main()
         "bias",
         biasMemory);
 
-    const auto gainPreflight =
-      preflightBinding(gainBinding, circuit);
-    const auto biasPreflight =
-      preflightBinding(invalidBiasBinding, circuit);
-    const auto combinedPreflight =
-      combinePreflight(gainPreflight, biasPreflight);
+    DspBlockPhaseReport secondPassReport;
+    preflightBinding(secondPassReport, gainBinding, circuit);
+    preflightBinding(secondPassReport, invalidBiasBinding, circuit);
 
-    printPreflight("[GAIN PREFLIGHT]", gainPreflight);
-    printPreflight("[BIAS PREFLIGHT]", biasPreflight);
-    printPreflight("[COMBINED PREFLIGHT]", combinedPreflight);
-
-    if (!combinedPreflight.ok)
+    if (!secondPassReport.preflightOk)
     {
         std::cout << "second block skipped: true\n";
     }
     else
     {
-        const auto secondGainApply =
-          applyDspParameterBindings(gainBinding, circuit);
-        printSummary("[SECOND GAIN APPLY]", secondGainApply);
-
-        const auto secondBiasApply =
-          applyDspParameterBindings(invalidBiasBinding, circuit);
-        printSummary("[SECOND BIAS APPLY]", secondBiasApply);
+        applyBinding(secondPassReport, gainBinding, circuit);
+        applyBinding(secondPassReport, invalidBiasBinding, circuit);
 
         const auto secondOutputBlock =
-          processBlock(gain, bias, inputBlock);
+          processBlock(secondPassReport, gain, bias, inputBlock);
         printBlock("second output block:", secondOutputBlock);
     }
+
+    printDspBlockPhaseReport(secondPassReport);
+    const auto wroteReport =
+      writeDspBlockPhaseReportTextFile(
+        secondPassReport,
+        "runtime_dsp_object_block_preflight_failure_demo.txt");
+    std::cout << "phase report file written: "
+              << (wroteReport ? "true" : "false")
+              << "\n";
 
     std::cout << "gainMemory after preflight: "
               << gainMemory

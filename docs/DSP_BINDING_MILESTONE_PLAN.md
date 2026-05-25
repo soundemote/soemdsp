@@ -55,6 +55,8 @@ The block phase report now has a tiny reusable `DspBlockPhaseReport` value type 
 
 `DspBlockPhaseReport` can also be written as a text file for inspection, matching the existing runtime report/export pattern while staying reporting-only.
 
+The preflight failure block demo now uses the same report value to show a failed preflight and skipped process phase without applying external memory changes.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:
