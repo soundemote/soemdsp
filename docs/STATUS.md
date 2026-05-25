@@ -159,6 +159,8 @@ Implemented runtime capabilities include:
 - demo-level batch aggregate proof shows callers can aggregate per-binding apply summaries without a scheduler
 - runtime_dsp_object_manual_chain_demo
 - synced external DSP memory can drive a caller-owned manual chain of low-level DSP objects
+- runtime_dsp_object_manual_chain_resync_demo
+- caller-owned manual DSP chains can resync changed Circuit parameters and process with updated external memory
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

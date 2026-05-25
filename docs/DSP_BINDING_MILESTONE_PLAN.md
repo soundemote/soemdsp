@@ -41,6 +41,8 @@ Per-binding apply summaries can be aggregated by callers for demo-level batch st
 
 Synced external DSP memory can now drive a caller-owned manual processing chain of low-level DSP objects. This proves parameter sync can feed actual object processing while scheduler design remains deferred.
 
+Changed Circuit parameters can be resynced into external DSP memory and then drive updated caller-owned manual processing output, still without introducing scheduler ownership.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
