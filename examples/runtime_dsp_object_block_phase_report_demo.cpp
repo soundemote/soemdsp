@@ -7,6 +7,7 @@
 #include <soemdsp/runtime/dsp/PrintDspBlockPhaseReport.hpp>
 #include <soemdsp/runtime/dsp/ValidateDspBinding.hpp>
 #include <soemdsp/runtime/dsp/ValidateDspBindingTargets.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBlockPhaseReport.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -220,6 +221,13 @@ int main()
     }
 
     printDspBlockPhaseReport(report);
+    const auto wroteReport =
+      writeDspBlockPhaseReportTextFile(
+        report,
+        "runtime_dsp_object_block_phase_report_demo.txt");
+    std::cout << "phase report file written: "
+              << (wroteReport ? "true" : "false")
+              << "\n";
     std::cout << "gainMemory: "
               << gainMemory
               << "\n";

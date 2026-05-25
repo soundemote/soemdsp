@@ -171,6 +171,7 @@ Implemented runtime capabilities include:
 - demo-local phase reporting can summarize caller-owned preflight, apply, and process counts around a block pass
 - DspBlockPhaseReport value type
 - DSP block phase reports provide compact caller-owned preflight/apply/process counts for demos and future sandbox status surfaces
+- DSP block phase reports can be written as text files for inspection
 - docs/DSP_EXECUTION_QUESTIONS.md records open scheduler, batch API, and sandbox questions before production execution machinery is introduced
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material

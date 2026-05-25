@@ -53,6 +53,8 @@ A demo-local block phase report can summarize the caller-owned preflight, apply,
 
 The block phase report now has a tiny reusable `DspBlockPhaseReport` value type and print helper. It reports caller-owned phase counts only; it does not introduce an executor, scheduler, or production batch API.
 
+`DspBlockPhaseReport` can also be written as a text file for inspection, matching the existing runtime report/export pattern while staying reporting-only.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:
