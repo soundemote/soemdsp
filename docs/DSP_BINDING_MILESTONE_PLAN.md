@@ -23,6 +23,8 @@ DSP binding apply results now mirror the text export and reporting pattern used 
 
 The boundary now has a contract-style DSP object proof: a Circuit parameter can sync into externally owned memory, and a low-level DSP object can read that memory without knowing about Circuit or owning graph/editor state.
 
+The one-shot sync proof has advanced to a repeated resync proof: after a Circuit parameter changes through the runtime setter path, the same binding can be applied again to refresh external DSP memory.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
