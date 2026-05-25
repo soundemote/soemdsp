@@ -29,6 +29,8 @@ The binding proof now covers multiple Circuit parameters syncing into multiple e
 
 One DSP object binding can also pull parameter values from multiple Circuit nodes into separate external memory slots for the same low-level DSP object.
 
+DSP binding apply validates all targets before writing memory, so invalid multi-node bindings fail without partially updating external DSP state.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
