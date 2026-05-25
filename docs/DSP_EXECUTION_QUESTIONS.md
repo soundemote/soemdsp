@@ -15,7 +15,9 @@ The current proof ladder shows:
 - Caller-owned DSP object chains can resync changed Circuit parameters.
 - Caller-owned DSP object chains can process fixed blocks.
 - Caller-owned block passes can preflight intended bindings before writing memory.
-- Caller-owned block passes can produce demo-local phase reports for preflight, apply, and process counts.
+- Caller-owned block passes can produce compact phase reports for preflight, apply, and process counts.
+- Caller-owned block phase reports can be printed and written as text files for inspection.
+- Caller-owned block preflight failures can report skipped processing without mutating external DSP memory.
 
 These proofs are deliberately local.
 
@@ -97,6 +99,7 @@ Allowed next moves:
 - clearer docs around ownership and phase boundaries
 - read-only inspection of sandbox/editor needs
 - small value types only if repeated demos make them unavoidable
+- reporting/export helpers that do not own or execute DSP phases
 
 Blocked without explicit Architect/Vision approval:
 
