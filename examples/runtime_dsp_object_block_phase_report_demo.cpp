@@ -3,6 +3,8 @@
 #include <memory>
 
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
+#include <soemdsp/runtime/dsp/DspBlockPhaseReport.hpp>
+#include <soemdsp/runtime/dsp/PrintDspBlockPhaseReport.hpp>
 #include <soemdsp/runtime/dsp/ValidateDspBinding.hpp>
 #include <soemdsp/runtime/dsp/ValidateDspBindingTargets.hpp>
 #include <soemdsp/soemdsp.hpp>
@@ -31,18 +33,6 @@ struct TinyBiasDsp
     {
         return x + (bias != nullptr ? *bias : 0.0f);
     }
-};
-
-struct DemoBlockPhaseReport
-{
-    bool preflightOk{ true };
-    bool applyOk{ true };
-    bool processOk{ false };
-    std::size_t bindingsChecked{};
-    std::size_t preflightMessages{};
-    std::size_t parametersApplied{};
-    std::size_t applyMessages{};
-    std::size_t samplesProcessed{};
 };
 
 std::unique_ptr<FloatConstant> createNodeWithParameter(
@@ -106,7 +96,7 @@ DspObjectBinding createBinding(
 }
 
 void preflightBinding(
-  DemoBlockPhaseReport& report,
+  DspBlockPhaseReport& report,
   const DspObjectBinding& binding,
   const Circuit& circuit)
 {
@@ -126,7 +116,7 @@ void preflightBinding(
 }
 
 void applyBinding(
-  DemoBlockPhaseReport& report,
+  DspBlockPhaseReport& report,
   const DspObjectBinding& binding,
   const Circuit& circuit)
 {
@@ -143,7 +133,7 @@ void applyBinding(
 
 template <std::size_t Size>
 std::array<float, Size> processBlock(
-  DemoBlockPhaseReport& report,
+  DspBlockPhaseReport& report,
   const TinyGainDsp& gain,
   const TinyBiasDsp& bias,
   const std::array<float, Size>& inputBlock)
@@ -159,35 +149,6 @@ std::array<float, Size> processBlock(
 
     report.processOk = true;
     return outputBlock;
-}
-
-void printReport(const DemoBlockPhaseReport& report)
-{
-    std::cout << "[BLOCK PHASE REPORT]\n";
-    std::cout << "preflight ok: "
-              << (report.preflightOk ? "true" : "false")
-              << "\n";
-    std::cout << "apply ok: "
-              << (report.applyOk ? "true" : "false")
-              << "\n";
-    std::cout << "process ok: "
-              << (report.processOk ? "true" : "false")
-              << "\n";
-    std::cout << "bindings checked: "
-              << report.bindingsChecked
-              << "\n";
-    std::cout << "preflight messages: "
-              << report.preflightMessages
-              << "\n";
-    std::cout << "parameters applied: "
-              << report.parametersApplied
-              << "\n";
-    std::cout << "apply messages: "
-              << report.applyMessages
-              << "\n";
-    std::cout << "samples processed: "
-              << report.samplesProcessed
-              << "\n";
 }
 
 template <std::size_t Size>
@@ -238,7 +199,7 @@ int main()
       1.0f
     };
 
-    DemoBlockPhaseReport report;
+    DspBlockPhaseReport report;
 
     std::cout << "[DSP OBJECT BLOCK PHASE REPORT]\n";
 
@@ -258,7 +219,7 @@ int main()
           processBlock(report, gain, bias, inputBlock);
     }
 
-    printReport(report);
+    printDspBlockPhaseReport(report);
     std::cout << "gainMemory: "
               << gainMemory
               << "\n";
