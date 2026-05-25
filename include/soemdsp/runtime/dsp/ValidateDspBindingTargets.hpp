@@ -134,6 +134,31 @@ inline DspBindingTargetValidationReport validateDspObjectBindingTargets(
                 " param " +
                 parameterBinding.parameterId);
         }
+
+        if (parameterBinding.targetKind != DspBindingTargetKind::MemorySlot)
+        {
+            addDspBindingTargetValidationMessage(
+              report,
+              DspBindingValidationSeverity::Error,
+              "dsp parameter binding for node " +
+                std::to_string(parameterBinding.nodeId) +
+                " param " +
+                parameterBinding.parameterId +
+                " uses unsupported target kind");
+            continue;
+        }
+
+        if (parameterBinding.memorySlot == nullptr)
+        {
+            addDspBindingTargetValidationMessage(
+              report,
+              DspBindingValidationSeverity::Error,
+              "dsp parameter binding for node " +
+                std::to_string(parameterBinding.nodeId) +
+                " param " +
+                parameterBinding.parameterId +
+                " has null memory slot");
+        }
     }
 
     return report;

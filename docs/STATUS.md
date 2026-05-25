@@ -138,6 +138,9 @@ Implemented runtime capabilities include:
 - DSP binding apply proof copies Circuit parameter values into externally owned DSP memory slots
 - runtime_dsp_binding_apply_failure_demo
 - DSP binding apply failure demo proves missing Circuit targets and null DSP memory slots fail safely
+- DSP binding target validation rejects null memory slots before apply writes any memory
+- runtime_dsp_binding_apply_null_memory_all_or_nothing_demo
+- DSP binding apply preserves all-or-nothing behavior when a later parameter binding has a null memory slot
 - DSP binding apply results can be written as text reports
 - runtime_dsp_object_parameter_sync_demo
 - first contract-style DSP object memory sync demo proves a low-level DSP object can read externally synced runtime parameter memory

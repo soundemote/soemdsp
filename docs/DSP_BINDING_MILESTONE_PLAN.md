@@ -19,6 +19,8 @@ Metadata validation has advanced to a safe parameter value sync proof: Circuit p
 
 The apply path also has a focused failure demo for missing Circuit parameter targets and null DSP memory slots. These cases fail safely without applying parameters or mutating external memory.
 
+DSP binding target validation now rejects null memory slots before apply writes any external memory. This preserves all-or-nothing behavior when an invalid later parameter binding appears after a valid earlier one.
+
 DSP binding apply results now mirror the text export and reporting pattern used by Circuit, ControlGraph, and binding reports.
 
 The boundary now has a contract-style DSP object proof: a Circuit parameter can sync into externally owned memory, and a low-level DSP object can read that memory without knowing about Circuit or owning graph/editor state.
