@@ -43,6 +43,8 @@ Synced external DSP memory can now drive a caller-owned manual processing chain 
 
 Changed Circuit parameters can be resynced into external DSP memory and then drive updated caller-owned manual processing output, still without introducing scheduler ownership.
 
+Synced external DSP memory can also drive caller-owned manual block processing through low-level DSP objects. The caller owns object instances, processing order, and the sample loop while scheduler design remains deferred.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

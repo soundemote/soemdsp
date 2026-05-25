@@ -161,6 +161,8 @@ Implemented runtime capabilities include:
 - synced external DSP memory can drive a caller-owned manual chain of low-level DSP objects
 - runtime_dsp_object_manual_chain_resync_demo
 - caller-owned manual DSP chains can resync changed Circuit parameters and process with updated external memory
+- runtime_dsp_object_block_processing_demo
+- synced external DSP memory can drive caller-owned manual block processing through low-level DSP objects
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
