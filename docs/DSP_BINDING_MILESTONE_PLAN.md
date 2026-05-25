@@ -39,6 +39,8 @@ Callers can also inspect mixed per-binding results when applying multiple bindin
 
 Per-binding apply summaries can be aggregated by callers for demo-level batch status while final scheduler and batch API design remain deferred.
 
+Synced external DSP memory can now drive a caller-owned manual processing chain of low-level DSP objects. This proves parameter sync can feed actual object processing while scheduler design remains deferred.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

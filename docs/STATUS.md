@@ -157,6 +157,8 @@ Implemented runtime capabilities include:
 - demo-level mixed batch apply proof shows per-binding success and failure remain visible to callers
 - runtime_dsp_binding_apply_batch_aggregate_demo
 - demo-level batch aggregate proof shows callers can aggregate per-binding apply summaries without a scheduler
+- runtime_dsp_object_manual_chain_demo
+- synced external DSP memory can drive a caller-owned manual chain of low-level DSP objects
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
