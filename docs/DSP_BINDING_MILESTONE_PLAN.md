@@ -47,6 +47,8 @@ Synced external DSP memory can also drive caller-owned manual block processing t
 
 Changed Circuit parameters can also be resynced into external DSP memory before another caller-owned block pass. This proves block processing can react to runtime parameter changes without adding a scheduler, production batch API, or graph-owned DSP state.
 
+Caller-owned demos can preflight intended block resync bindings before writing any external memory. If validation fails, the caller can skip the block pass instead of partially updating DSP state. This remains demo-local safety proof, not a production batch API.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

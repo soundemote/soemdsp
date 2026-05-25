@@ -165,6 +165,8 @@ Implemented runtime capabilities include:
 - synced external DSP memory can drive caller-owned manual block processing through low-level DSP objects
 - runtime_dsp_object_block_resync_demo
 - caller-owned block processing can resync changed Circuit parameters into external DSP memory and produce updated block output
+- runtime_dsp_object_block_preflight_failure_demo
+- demo-local preflight validation can detect an invalid block resync target before external memory is written or a second block is processed
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
