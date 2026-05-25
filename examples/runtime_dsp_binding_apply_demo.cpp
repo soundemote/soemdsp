@@ -4,6 +4,7 @@
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
 #include <soemdsp/runtime/dsp/PrintDspBindingApplyResult.hpp>
 #include <soemdsp/runtime/dsp/PrintDspBindingReport.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBindingApplyResult.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -76,6 +77,14 @@ int main()
     const auto applyResult =
       applyDspParameterBindings(binding, circuit);
     printDspBindingApplyResult(applyResult);
+
+    const auto wroteApplyResult =
+      writeDspBindingApplyResultTextFile(
+        applyResult,
+        "runtime_dsp_binding_apply_demo.dsp_binding_apply_result.txt");
+    std::cout << "apply result file written: "
+              << (wroteApplyResult ? "true" : "false")
+              << "\n";
 
     std::cout << "fake dsp cutoff after: "
               << state.cutoff

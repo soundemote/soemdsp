@@ -3,6 +3,7 @@
 
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
 #include <soemdsp/runtime/dsp/PrintDspBindingApplyResult.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBindingApplyResult.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -76,6 +77,13 @@ int main()
         printMemoryValue("external memory before", externalCutoff);
         const auto result = applyDspParameterBindings(binding, circuit);
         printDspBindingApplyResult(result);
+        const auto wroteApplyResult =
+          writeDspBindingApplyResultTextFile(
+            result,
+            "runtime_dsp_binding_apply_failure_demo.missing_target.dsp_binding_apply_result.txt");
+        std::cout << "apply result file written: "
+                  << (wroteApplyResult ? "true" : "false")
+                  << "\n";
         printMemoryValue("external memory after", externalCutoff);
         std::cout << "\n";
     }
@@ -88,6 +96,13 @@ int main()
 
         const auto result = applyDspParameterBindings(binding, circuit);
         printDspBindingApplyResult(result);
+        const auto wroteApplyResult =
+          writeDspBindingApplyResultTextFile(
+            result,
+            "runtime_dsp_binding_apply_failure_demo.null_memory_slot.dsp_binding_apply_result.txt");
+        std::cout << "apply result file written: "
+                  << (wroteApplyResult ? "true" : "false")
+                  << "\n";
     }
 
     return 0;

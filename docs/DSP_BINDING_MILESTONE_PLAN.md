@@ -19,6 +19,8 @@ Metadata validation has advanced to a safe parameter value sync proof: Circuit p
 
 The apply path also has a focused failure demo for missing Circuit parameter targets and null DSP memory slots. These cases fail safely without applying parameters or mutating external memory.
 
+DSP binding apply results now mirror the text export and reporting pattern used by Circuit, ControlGraph, and binding reports.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

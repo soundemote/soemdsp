@@ -138,6 +138,7 @@ Implemented runtime capabilities include:
 - DSP binding apply proof copies Circuit parameter values into externally owned DSP memory slots
 - runtime_dsp_binding_apply_failure_demo
 - DSP binding apply failure demo proves missing Circuit targets and null DSP memory slots fail safely
+- DSP binding apply results can be written as text reports
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
