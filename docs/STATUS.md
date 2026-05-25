@@ -187,6 +187,9 @@ Implemented runtime capabilities include:
 - docs/DSP_EXECUTION_QUESTIONS.md records open scheduler, batch API, and sandbox questions before production execution machinery is introduced
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
+- runtime_audio_sine_wav_demo
+- the runtime Circuit audio path can render a short mono WAV artifact through SineOscillator -> AudioOutput
+- runtime_audio_sine_wav_demo keeps its WAV writer demo-local and does not introduce an audio engine, scheduler, or production file API
 
 Reflection metadata exists for nodes:
 - name

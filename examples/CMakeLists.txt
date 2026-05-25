@@ -113,3 +113,7 @@ target_link_libraries(runtime_dsp_object_block_null_memory_recovery_demo soemdsp
 add_executable(runtime_dsp_object_block_phase_report_demo runtime_dsp_object_block_phase_report_demo.cpp)
 
 target_link_libraries(runtime_dsp_object_block_phase_report_demo soemdsp)
+
+add_executable(runtime_audio_sine_wav_demo runtime_audio_sine_wav_demo.cpp)
+
+target_link_libraries(runtime_audio_sine_wav_demo soemdsp)
