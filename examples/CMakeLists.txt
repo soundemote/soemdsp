@@ -33,3 +33,7 @@ target_link_libraries(runtime_dsp_binding_validation_demo soemdsp)
 add_executable(runtime_dsp_binding_apply_demo runtime_dsp_binding_apply_demo.cpp)
 
 target_link_libraries(runtime_dsp_binding_apply_demo soemdsp)
+
+add_executable(runtime_dsp_binding_apply_failure_demo runtime_dsp_binding_apply_failure_demo.cpp)
+
+target_link_libraries(runtime_dsp_binding_apply_failure_demo soemdsp)

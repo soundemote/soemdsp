@@ -17,6 +17,8 @@ DSP binding now mirrors the Circuit and ControlGraph report pattern with a combi
 
 Metadata validation has advanced to a safe parameter value sync proof: Circuit parameter values can be copied through validated binding metadata into externally owned DSP memory slots. Execution, scheduling, and DSP processing remain future work.
 
+The apply path also has a focused failure demo for missing Circuit parameter targets and null DSP memory slots. These cases fail safely without applying parameters or mutating external memory.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
