@@ -167,6 +167,8 @@ Implemented runtime capabilities include:
 - caller-owned block processing can resync changed Circuit parameters into external DSP memory and produce updated block output
 - runtime_dsp_object_block_preflight_failure_demo
 - demo-local preflight validation can detect an invalid block resync target before external memory is written or a second block is processed
+- runtime_dsp_object_block_phase_report_demo
+- demo-local phase reporting can summarize caller-owned preflight, apply, and process counts around a block pass
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
