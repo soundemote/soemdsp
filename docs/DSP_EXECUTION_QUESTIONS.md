@@ -22,6 +22,7 @@ The current proof ladder shows:
 - Caller-owned block passes can recover after a failed preflight when the binding target is corrected.
 - DSP binding target validation rejects null memory slots before apply writes any external memory.
 - Caller-owned block passes can recover after a failed null-memory preflight when the memory slot is corrected.
+- Unsupported DSP target kinds remain metadata-only and fail validation before apply writes external memory.
 
 These proofs are deliberately local.
 
