@@ -168,6 +168,8 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_block_resync_demo writes separate phase reports for first and resynced block passes
 - runtime_dsp_object_block_preflight_failure_demo
 - demo-local preflight validation can detect an invalid block resync target before external memory is written or a second block is processed
+- runtime_dsp_object_block_preflight_recovery_demo
+- caller-owned block processing can recover after a failed preflight once the binding target is corrected
 - runtime_dsp_object_block_phase_report_demo
 - demo-local phase reporting can summarize caller-owned preflight, apply, and process counts around a block pass
 - DspBlockPhaseReport value type

@@ -51,6 +51,8 @@ The block resync demo now reports each caller-owned block pass with a separate `
 
 Caller-owned demos can preflight intended block resync bindings before writing any external memory. If validation fails, the caller can skip the block pass instead of partially updating DSP state. This remains demo-local safety proof, not a production batch API.
 
+After a failed preflight, a caller can correct the binding and run a later block pass successfully. This proves failed preflight status does not poison caller-owned DSP memory or future processing attempts.
+
 A demo-local block phase report can summarize the caller-owned preflight, apply, and process phases. This points toward future sandbox/editor status surfaces without adding a scheduler or reusable executor.
 
 The block phase report now has a tiny reusable `DspBlockPhaseReport` value type and print helper. It reports caller-owned phase counts only; it does not introduce an executor, scheduler, or production batch API.
