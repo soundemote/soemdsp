@@ -3,7 +3,11 @@
 #include <memory>
 
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
-#include <soemdsp/runtime/dsp/PrintDspBindingApplySummary.hpp>
+#include <soemdsp/runtime/dsp/DspBlockPhaseReport.hpp>
+#include <soemdsp/runtime/dsp/PrintDspBlockPhaseReport.hpp>
+#include <soemdsp/runtime/dsp/ValidateDspBinding.hpp>
+#include <soemdsp/runtime/dsp/ValidateDspBindingTargets.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBlockPhaseReport.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -104,18 +108,45 @@ DspObjectBinding createBiasBinding(float& biasMemory)
     return binding;
 }
 
-void printSummary(
-  const char* label,
-  const DspBindingApplyResult& result)
+void preflightBinding(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& binding,
+  const Circuit& circuit)
 {
-    std::cout << label
-              << "\n";
-    printDspBindingApplySummary(
-      makeDspBindingApplySummary(result));
+    const auto structuralValidation =
+      validateDspObjectBinding(binding);
+    const auto targetValidation =
+      validateDspObjectBindingTargets(binding, circuit);
+
+    report.preflightOk =
+      report.preflightOk &&
+      structuralValidation.ok() &&
+      targetValidation.ok();
+    ++report.bindingsChecked;
+    report.preflightMessages +=
+      structuralValidation.messageCount() +
+      targetValidation.messageCount();
+}
+
+void applyBinding(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& binding,
+  const Circuit& circuit)
+{
+    const auto result =
+      applyDspParameterBindings(binding, circuit);
+
+    report.applyOk =
+      report.applyOk && result.ok;
+    report.parametersApplied +=
+      result.parametersApplied;
+    report.applyMessages +=
+      result.messages.size();
 }
 
 template <std::size_t Size>
 std::array<float, Size> processBlock(
+  DspBlockPhaseReport& report,
   const TinyGainDsp& gain,
   const TinyBiasDsp& bias,
   const std::array<float, Size>& inputBlock)
@@ -126,9 +157,80 @@ std::array<float, Size> processBlock(
     {
         const auto afterGain = gain.processSample(inputBlock[i]);
         outputBlock[i] = bias.processSample(afterGain);
+        ++report.samplesProcessed;
     }
 
+    report.processOk = true;
     return outputBlock;
+}
+
+void preflightBindings(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& gainBinding,
+  const DspObjectBinding& biasBinding,
+  const Circuit& circuit)
+{
+    preflightBinding(report, gainBinding, circuit);
+    preflightBinding(report, biasBinding, circuit);
+}
+
+void applyBindings(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& gainBinding,
+  const DspObjectBinding& biasBinding,
+  const Circuit& circuit)
+{
+    applyBinding(report, gainBinding, circuit);
+    applyBinding(report, biasBinding, circuit);
+}
+
+template <std::size_t Size>
+std::array<float, Size> runBlockPass(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& gainBinding,
+  const DspObjectBinding& biasBinding,
+  const Circuit& circuit,
+  const TinyGainDsp& gain,
+  const TinyBiasDsp& bias,
+  const std::array<float, Size>& inputBlock)
+{
+    preflightBindings(
+      report,
+      gainBinding,
+      biasBinding,
+      circuit);
+
+    if (report.preflightOk)
+    {
+        applyBindings(
+          report,
+          gainBinding,
+          biasBinding,
+          circuit);
+    }
+
+    if (report.preflightOk && report.applyOk)
+    {
+        return processBlock(report, gain, bias, inputBlock);
+    }
+
+    return {};
+}
+
+void printAndWriteReport(
+  const char* label,
+  const DspBlockPhaseReport& report,
+  const char* path)
+{
+    std::cout << label
+              << "\n";
+    printDspBlockPhaseReport(report);
+
+    const auto wroteReport =
+      writeDspBlockPhaseReportTextFile(report, path);
+    std::cout << "phase report file written: "
+              << (wroteReport ? "true" : "false")
+              << "\n";
 }
 
 template <std::size_t Size>
@@ -167,17 +269,21 @@ int main()
 
     std::cout << "[DSP OBJECT BLOCK RESYNC]\n";
 
-    const auto firstGainApply =
-      applyDspParameterBindings(gainBinding, circuit);
-    printSummary("[FIRST GAIN APPLY]", firstGainApply);
-
-    const auto firstBiasApply =
-      applyDspParameterBindings(biasBinding, circuit);
-    printSummary("[FIRST BIAS APPLY]", firstBiasApply);
-
+    DspBlockPhaseReport firstReport;
     const auto firstOutputBlock =
-      processBlock(gain, bias, inputBlock);
+      runBlockPass(
+        firstReport,
+        gainBinding,
+        biasBinding,
+        circuit,
+        gain,
+        bias,
+        inputBlock);
 
+    printAndWriteReport(
+      "[FIRST BLOCK PHASE REPORT]",
+      firstReport,
+      "runtime_dsp_object_block_resync_demo.first.txt");
     std::cout << "first gainMemory: "
               << gainMemory
               << "\n";
@@ -199,17 +305,21 @@ int main()
               << (biasChanged ? "true" : "false")
               << "\n";
 
-    const auto secondGainApply =
-      applyDspParameterBindings(gainBinding, circuit);
-    printSummary("[SECOND GAIN APPLY]", secondGainApply);
-
-    const auto secondBiasApply =
-      applyDspParameterBindings(biasBinding, circuit);
-    printSummary("[SECOND BIAS APPLY]", secondBiasApply);
-
+    DspBlockPhaseReport secondReport;
     const auto secondOutputBlock =
-      processBlock(gain, bias, inputBlock);
+      runBlockPass(
+        secondReport,
+        gainBinding,
+        biasBinding,
+        circuit,
+        gain,
+        bias,
+        inputBlock);
 
+    printAndWriteReport(
+      "[SECOND BLOCK PHASE REPORT]",
+      secondReport,
+      "runtime_dsp_object_block_resync_demo.second.txt");
     std::cout << "second gainMemory: "
               << gainMemory
               << "\n";

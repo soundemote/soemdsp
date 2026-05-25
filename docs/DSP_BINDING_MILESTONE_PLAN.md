@@ -47,6 +47,8 @@ Synced external DSP memory can also drive caller-owned manual block processing t
 
 Changed Circuit parameters can also be resynced into external DSP memory before another caller-owned block pass. This proves block processing can react to runtime parameter changes without adding a scheduler, production batch API, or graph-owned DSP state.
 
+The block resync demo now reports each caller-owned block pass with a separate `DspBlockPhaseReport`, so both the initial pass and the resynced pass expose preflight/apply/process status.
+
 Caller-owned demos can preflight intended block resync bindings before writing any external memory. If validation fails, the caller can skip the block pass instead of partially updating DSP state. This remains demo-local safety proof, not a production batch API.
 
 A demo-local block phase report can summarize the caller-owned preflight, apply, and process phases. This points toward future sandbox/editor status surfaces without adding a scheduler or reusable executor.
