@@ -67,6 +67,8 @@ The block phase report now has a tiny reusable `DspBlockPhaseReport` value type 
 
 The preflight failure block demo now uses the same report value to show a failed preflight and skipped process phase without applying external memory changes.
 
+The binding proof can now produce an audible artifact: `runtime_dsp_object_bound_wav_demo` syncs Circuit frequency and amplitude parameters into caller-owned external memory, lets a caller-owned `TinySineDsp` render samples from that memory, and writes a short demo-local WAV file. This still does not introduce a scheduler, audio engine, production batch API, graph-owned DSP state, or plugin/UI layer.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:

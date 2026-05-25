@@ -190,6 +190,9 @@ Implemented runtime capabilities include:
 - runtime_audio_sine_wav_demo
 - the runtime Circuit audio path can render a short mono WAV artifact through SineOscillator -> AudioOutput
 - runtime_audio_sine_wav_demo keeps its WAV writer demo-local and does not introduce an audio engine, scheduler, or production file API
+- runtime_dsp_object_bound_wav_demo
+- synced Circuit parameter values can drive a caller-owned DSP object that renders an audible WAV artifact
+- runtime_dsp_object_bound_wav_demo keeps rendering, WAV writing, and sample iteration demo-local, with no scheduler, audio engine, or production batch API
 
 Reflection metadata exists for nodes:
 - name
