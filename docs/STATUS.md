@@ -151,6 +151,8 @@ Implemented runtime capabilities include:
 - DSP binding apply validates all targets before writing memory, preserving all-or-nothing behavior for invalid multi-node bindings
 - DSP binding apply summaries
 - DSP binding apply summaries provide compact ok/applied/message counts for demos and tools
+- runtime_dsp_binding_apply_batch_demo
+- multiple DSP object bindings can be applied sequentially by a caller without introducing a scheduler
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

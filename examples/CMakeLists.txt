@@ -61,3 +61,7 @@ target_link_libraries(runtime_dsp_object_multi_node_failure_demo soemdsp)
 add_executable(runtime_dsp_binding_apply_summary_demo runtime_dsp_binding_apply_summary_demo.cpp)
 
 target_link_libraries(runtime_dsp_binding_apply_summary_demo soemdsp)
+
+add_executable(runtime_dsp_binding_apply_batch_demo runtime_dsp_binding_apply_batch_demo.cpp)
+
+target_link_libraries(runtime_dsp_binding_apply_batch_demo soemdsp)

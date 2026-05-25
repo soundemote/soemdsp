@@ -33,6 +33,8 @@ DSP binding apply validates all targets before writing memory, so invalid multi-
 
 DSP binding apply reporting now has both full result text export and compact summary output for tools, demos, and future editor status surfaces.
 
+Multiple `DspObjectBinding` objects can be applied sequentially by a caller today. This is a demo-level batch proof only; final scheduler design remains deferred.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
