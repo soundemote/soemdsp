@@ -69,6 +69,8 @@ The preflight failure block demo now uses the same report value to show a failed
 
 The binding proof can now produce an audible artifact: `runtime_dsp_object_bound_wav_demo` syncs Circuit frequency and amplitude parameters into caller-owned external memory, lets a caller-owned `TinySineDsp` render samples from that memory, and writes a short demo-local WAV file. This still does not introduce a scheduler, audio engine, production batch API, graph-owned DSP state, or plugin/UI layer.
 
+The audible binding proof can also resync: `runtime_dsp_object_bound_wav_resync_demo` renders one half of a WAV from initially synced Circuit parameters, changes those parameters through Circuit setters, reapplies the binding, and renders the second half from updated external DSP memory.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:

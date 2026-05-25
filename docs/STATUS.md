@@ -193,6 +193,9 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_bound_wav_demo
 - synced Circuit parameter values can drive a caller-owned DSP object that renders an audible WAV artifact
 - runtime_dsp_object_bound_wav_demo keeps rendering, WAV writing, and sample iteration demo-local, with no scheduler, audio engine, or production batch API
+- runtime_dsp_object_bound_wav_resync_demo
+- changed Circuit parameter values can be resynced into external DSP memory between two halves of an audible WAV artifact
+- runtime_dsp_object_bound_wav_resync_demo proves audible caller-owned DSP rendering can respond to runtime parameter changes without scheduler or audio engine ownership
 
 Reflection metadata exists for nodes:
 - name

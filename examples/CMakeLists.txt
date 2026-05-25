@@ -121,3 +121,7 @@ target_link_libraries(runtime_audio_sine_wav_demo soemdsp)
 add_executable(runtime_dsp_object_bound_wav_demo runtime_dsp_object_bound_wav_demo.cpp)
 
 target_link_libraries(runtime_dsp_object_bound_wav_demo soemdsp)
+
+add_executable(runtime_dsp_object_bound_wav_resync_demo runtime_dsp_object_bound_wav_resync_demo.cpp)
+
+target_link_libraries(runtime_dsp_object_bound_wav_resync_demo soemdsp)
