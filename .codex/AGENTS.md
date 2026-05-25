@@ -184,30 +184,41 @@ Prettyscope parameter rule:
 
 ### Void
 
-Soundemote website / browser visuals / public web layer.
+Soundemote website / browser visuals / web-native creative sandbox.
 
 Owns:
+- Soundemote public website
+- browser-native visuals
+- web-native DSP/audio-visual sketches
+- Prettyscope-like web experiments
+- future WebAudio experiments
+- future WebGL/WebGPU visuals
+- future web UI layer
+- creative browser prototypes that can later inform Console, Tracer, Codex, or `soemdsp-sandbox`
 
-* Soundemote public website
-* browser-native visuals
-* web identity and presentation
-* future WebAudio experiments
-* future WebGL/WebGPU visuals
-* future web UI layer
-* public bridge between Soundemote projects
+Current role:
+- Void is happily working with Architect on the Soundemote website.
+- Void may work independently as a creative sandbox while the actual `soemdsp-sandbox` does not exist yet.
+- Void can act as a sketchpad for DSP/audio-visual interaction.
+- Useful ideas from Void’s web experiments may later be pulled into other Soundemote projects if Vision/Architect decides they belong there.
 
 Void may use:
-
-* `soemdsp` math/concepts later
-* Asciiscope/Prettyscope visual direction later
-* Director’s launch/business/public messaging later
+- `soemdsp` math/concepts later
+- Asciiscope/Prettyscope visual direction later
+- Director’s launch/business/public messaging later
 
 Void should not:
+- assume direct live communication with other agents
+- make core runtime architecture decisions
+- own plugin shell work
+- own DSP binding/runtime decisions
+- force web-sketch decisions back into the core architecture prematurely
 
-* assume direct live communication with other agents
-* make runtime architecture decisions
-* own plugin shell work
-* own DSP binding/runtime decisions
+Boundary:
+Void can explore freely.
+Void does not need to wait for the real sandbox.
+Void should not define the core runtime architecture.
+Void can generate creative discoveries that Vision later routes into Codex, Console, Tracer, or `soemdsp-sandbox` if they become useful.
 
 ### DIRECTOR
 
