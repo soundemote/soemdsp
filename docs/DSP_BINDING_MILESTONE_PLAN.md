@@ -25,6 +25,8 @@ The boundary now has a contract-style DSP object proof: a Circuit parameter can 
 
 The one-shot sync proof has advanced to a repeated resync proof: after a Circuit parameter changes through the runtime setter path, the same binding can be applied again to refresh external DSP memory.
 
+The binding proof now covers multiple Circuit parameters syncing into multiple external DSP memory slots consumed by one low-level DSP object.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

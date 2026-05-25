@@ -143,6 +143,8 @@ Implemented runtime capabilities include:
 - first contract-style DSP object memory sync demo proves a low-level DSP object can read externally synced runtime parameter memory
 - runtime_dsp_object_parameter_resync_demo
 - repeated DSP binding apply can resync changed Circuit parameter values into external DSP memory
+- runtime_dsp_object_multi_parameter_sync_demo
+- DSP binding can sync multiple Circuit parameters into multiple external DSP memory slots
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 
