@@ -139,6 +139,8 @@ Implemented runtime capabilities include:
 - runtime_dsp_binding_apply_failure_demo
 - DSP binding apply failure demo proves missing Circuit targets and null DSP memory slots fail safely
 - DSP binding apply results can be written as text reports
+- runtime_dsp_object_parameter_sync_demo
+- first contract-style DSP object memory sync demo proves a low-level DSP object can read externally synced runtime parameter memory
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

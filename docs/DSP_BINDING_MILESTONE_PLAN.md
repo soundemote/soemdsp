@@ -21,6 +21,8 @@ The apply path also has a focused failure demo for missing Circuit parameter tar
 
 DSP binding apply results now mirror the text export and reporting pattern used by Circuit, ControlGraph, and binding reports.
 
+The boundary now has a contract-style DSP object proof: a Circuit parameter can sync into externally owned memory, and a low-level DSP object can read that memory without knowing about Circuit or owning graph/editor state.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
