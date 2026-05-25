@@ -141,6 +141,8 @@ Implemented runtime capabilities include:
 - DSP binding target validation rejects null memory slots before apply writes any memory
 - runtime_dsp_binding_apply_null_memory_all_or_nothing_demo
 - DSP binding apply preserves all-or-nothing behavior when a later parameter binding has a null memory slot
+- runtime_dsp_binding_apply_unsupported_target_all_or_nothing_demo
+- DSP binding apply preserves all-or-nothing behavior when a later parameter binding uses an unsupported target kind
 - DSP binding apply results can be written as text reports
 - runtime_dsp_object_parameter_sync_demo
 - first contract-style DSP object memory sync demo proves a low-level DSP object can read externally synced runtime parameter memory

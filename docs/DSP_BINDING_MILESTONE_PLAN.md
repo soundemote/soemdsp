@@ -21,6 +21,8 @@ The apply path also has a focused failure demo for missing Circuit parameter tar
 
 DSP binding target validation now rejects null memory slots before apply writes any external memory. This preserves all-or-nothing behavior when an invalid later parameter binding appears after a valid earlier one.
 
+DSP binding target validation also rejects unsupported target kinds before apply writes external memory. `SemanticSetter`, `InitValue`, `ResetValue`, and `ControlInput` remain metadata-only until explicit support is designed.
+
 DSP binding apply results now mirror the text export and reporting pattern used by Circuit, ControlGraph, and binding reports.
 
 The boundary now has a contract-style DSP object proof: a Circuit parameter can sync into externally owned memory, and a low-level DSP object can read that memory without knowing about Circuit or owning graph/editor state.
