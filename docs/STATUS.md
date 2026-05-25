@@ -153,6 +153,8 @@ Implemented runtime capabilities include:
 - DSP binding apply summaries provide compact ok/applied/message counts for demos and tools
 - runtime_dsp_binding_apply_batch_demo
 - multiple DSP object bindings can be applied sequentially by a caller without introducing a scheduler
+- runtime_dsp_binding_apply_batch_failure_demo
+- demo-level mixed batch apply proof shows per-binding success and failure remain visible to callers
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

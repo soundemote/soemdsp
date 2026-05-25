@@ -35,6 +35,8 @@ DSP binding apply reporting now has both full result text export and compact sum
 
 Multiple `DspObjectBinding` objects can be applied sequentially by a caller today. This is a demo-level batch proof only; final scheduler design remains deferred.
 
+Callers can also inspect mixed per-binding results when applying multiple bindings sequentially, so a successful binding does not hide a later failed binding.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
