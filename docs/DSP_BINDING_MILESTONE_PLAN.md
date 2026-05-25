@@ -13,6 +13,8 @@ The first practical prototype should be a tiny binding around a simple object in
 
 The first value model layer now exists as `DspObjectBinding` and `DspParameterBinding`. It describes intended runtime-parameter-to-DSP-object targets, and it now has basic validation diagnostics. Binding validation is split into structural binding validation and Circuit target validation. Execution, apply, and scheduling remain future work.
 
+DSP binding now mirrors the Circuit and ControlGraph report pattern with a combined binding report for metadata plus validation diagnostics.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state

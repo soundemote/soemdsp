@@ -1,8 +1,7 @@
-#include <soemdsp/runtime/dsp/PrintDspBinding.hpp>
 #include <memory>
 
-#include <soemdsp/runtime/dsp/PrintDspBindingTargetValidation.hpp>
-#include <soemdsp/runtime/dsp/PrintDspBindingValidation.hpp>
+#include <soemdsp/runtime/dsp/PrintDspBindingReport.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBindingReport.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -58,10 +57,15 @@ int main()
       "",
       0 });
 
-    printDspObjectBinding(binding);
-    printDspBindingValidation(validateDspObjectBinding(binding));
-    printDspBindingTargetValidation(
-      validateDspObjectBindingTargets(binding, circuit));
+    const auto report = makeDspBindingReport(binding, circuit);
+    printDspBindingReport(report);
+    const auto wroteReport =
+      writeDspBindingReportTextFile(
+        report,
+        "runtime_dsp_binding_validation_demo.dsp_binding_report.txt");
+    std::cout << "dsp binding report file: "
+              << (wroteReport ? "wrote" : "failed")
+              << "\n";
 
     return 0;
 }
