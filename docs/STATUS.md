@@ -149,6 +149,8 @@ Implemented runtime capabilities include:
 - one DSP object binding can sync parameters from multiple Circuit nodes into separate external memory slots
 - runtime_dsp_object_multi_node_failure_demo
 - DSP binding apply validates all targets before writing memory, preserving all-or-nothing behavior for invalid multi-node bindings
+- DSP binding apply summaries
+- DSP binding apply summaries provide compact ok/applied/message counts for demos and tools
 - reference/dsp/README.md documents the DSP reference folder
 - reference/dsp is documented as reference-only DSP north-star material
 

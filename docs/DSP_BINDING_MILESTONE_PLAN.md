@@ -31,6 +31,8 @@ One DSP object binding can also pull parameter values from multiple Circuit node
 
 DSP binding apply validates all targets before writing memory, so invalid multi-node bindings fail without partially updating external DSP state.
 
+DSP binding apply reporting now has both full result text export and compact summary output for tools, demos, and future editor status surfaces.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
