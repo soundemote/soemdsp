@@ -55,6 +55,8 @@ Caller-owned demos can preflight intended block resync bindings before writing a
 
 After a failed preflight, a caller can correct the binding and run a later block pass successfully. This proves failed preflight status does not poison caller-owned DSP memory or future processing attempts.
 
+The same recovery shape now covers null DSP memory slots: a caller-owned block pass can fail preflight before any memory write, preserve existing external memory, then recover when the memory slot is corrected.
+
 A demo-local block phase report can summarize the caller-owned preflight, apply, and process phases. This points toward future sandbox/editor status surfaces without adding a scheduler or reusable executor.
 
 The block phase report now has a tiny reusable `DspBlockPhaseReport` value type and print helper. It reports caller-owned phase counts only; it does not introduce an executor, scheduler, or production batch API.

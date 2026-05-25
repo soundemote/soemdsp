@@ -173,6 +173,8 @@ Implemented runtime capabilities include:
 - demo-local preflight validation can detect an invalid block resync target before external memory is written or a second block is processed
 - runtime_dsp_object_block_preflight_recovery_demo
 - caller-owned block processing can recover after a failed preflight once the binding target is corrected
+- runtime_dsp_object_block_null_memory_recovery_demo
+- caller-owned block processing can recover after a failed null-memory preflight once the memory slot is corrected
 - runtime_dsp_object_block_phase_report_demo
 - demo-local phase reporting can summarize caller-owned preflight, apply, and process counts around a block pass
 - DspBlockPhaseReport value type
