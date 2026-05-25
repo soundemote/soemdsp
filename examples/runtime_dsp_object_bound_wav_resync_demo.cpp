@@ -9,7 +9,11 @@
 #include <vector>
 
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
-#include <soemdsp/runtime/dsp/PrintDspBindingApplySummary.hpp>
+#include <soemdsp/runtime/dsp/DspBlockPhaseReport.hpp>
+#include <soemdsp/runtime/dsp/PrintDspBlockPhaseReport.hpp>
+#include <soemdsp/runtime/dsp/ValidateDspBinding.hpp>
+#include <soemdsp/runtime/dsp/ValidateDspBindingTargets.hpp>
+#include <soemdsp/runtime/dsp/WriteDspBlockPhaseReport.hpp>
 #include <soemdsp/soemdsp.hpp>
 
 using namespace soemdsp::runtime;
@@ -195,6 +199,7 @@ DspObjectBinding createSineBinding(
 }
 
 void renderFrames(
+  DspBlockPhaseReport& report,
   TinySineDsp& oscillator,
   std::vector<float>& samples,
   std::size_t frameCount)
@@ -202,17 +207,83 @@ void renderFrames(
     for (std::size_t i = 0; i < frameCount; ++i)
     {
         samples.push_back(oscillator.processSample());
+        ++report.samplesProcessed;
+    }
+
+    report.processOk = true;
+}
+
+void preflightBinding(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& binding,
+  const Circuit& circuit)
+{
+    const auto structuralValidation =
+      validateDspObjectBinding(binding);
+    const auto targetValidation =
+      validateDspObjectBindingTargets(binding, circuit);
+
+    report.preflightOk =
+      report.preflightOk &&
+      structuralValidation.ok() &&
+      targetValidation.ok();
+    ++report.bindingsChecked;
+    report.preflightMessages +=
+      structuralValidation.messageCount() +
+      targetValidation.messageCount();
+}
+
+void applyBinding(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& binding,
+  const Circuit& circuit)
+{
+    const auto result =
+      applyDspParameterBindings(binding, circuit);
+
+    report.applyOk =
+      report.applyOk && result.ok;
+    report.parametersApplied +=
+      result.parametersApplied;
+    report.applyMessages +=
+      result.messages.size();
+}
+
+void runRenderPhase(
+  DspBlockPhaseReport& report,
+  const DspObjectBinding& binding,
+  const Circuit& circuit,
+  TinySineDsp& oscillator,
+  std::vector<float>& samples,
+  std::size_t frameCount)
+{
+    preflightBinding(report, binding, circuit);
+
+    if (report.preflightOk)
+    {
+        applyBinding(report, binding, circuit);
+    }
+
+    if (report.preflightOk && report.applyOk)
+    {
+        renderFrames(report, oscillator, samples, frameCount);
     }
 }
 
-void printApplySummary(
+void printAndWriteReport(
   const char* label,
-  const DspBindingApplyResult& result)
+  const DspBlockPhaseReport& report,
+  const char* path)
 {
     std::cout << label
               << "\n";
-    printDspBindingApplySummary(
-      makeDspBindingApplySummary(result));
+    printDspBlockPhaseReport(report);
+
+    const auto wroteReport =
+      writeDspBlockPhaseReportTextFile(report, path);
+    std::cout << "phase report file written: "
+              << (wroteReport ? "true" : "false")
+              << "\n";
 }
 } // namespace
 
@@ -235,18 +306,28 @@ int main()
 
     std::cout << "[DSP OBJECT BOUND WAV RESYNC]\n";
 
-    const auto firstApply =
-      applyDspParameterBindings(binding, circuit);
-    printApplySummary("[FIRST APPLY]", firstApply);
-    if (!firstApply.ok)
+    DspBlockPhaseReport firstReport;
+    runRenderPhase(
+      firstReport,
+      binding,
+      circuit,
+      oscillator,
+      samples,
+      halfFrames);
+    printAndWriteReport(
+      "[FIRST RENDER PHASE REPORT]",
+      firstReport,
+      "runtime_dsp_object_bound_wav_resync_demo.first.txt");
+    if (!firstReport.preflightOk ||
+        !firstReport.applyOk ||
+        !firstReport.processOk)
     {
-        std::cerr << "First binding apply failed; skipping render.\n";
+        std::cerr << "First render phase failed; skipping render.\n";
         return 1;
     }
 
     const float firstFrequency = frequencyMemory;
     const float firstAmplitude = amplitudeMemory;
-    renderFrames(oscillator, samples, halfFrames);
 
     const auto frequencyChanged =
       circuit.setParameterValue(1, "frequency", 440.0f);
@@ -260,18 +341,28 @@ int main()
               << (amplitudeChanged ? "true" : "false")
               << "\n";
 
-    const auto secondApply =
-      applyDspParameterBindings(binding, circuit);
-    printApplySummary("[SECOND APPLY]", secondApply);
-    if (!secondApply.ok)
+    DspBlockPhaseReport secondReport;
+    runRenderPhase(
+      secondReport,
+      binding,
+      circuit,
+      oscillator,
+      samples,
+      totalFrames - samples.size());
+    printAndWriteReport(
+      "[SECOND RENDER PHASE REPORT]",
+      secondReport,
+      "runtime_dsp_object_bound_wav_resync_demo.second.txt");
+    if (!secondReport.preflightOk ||
+        !secondReport.applyOk ||
+        !secondReport.processOk)
     {
-        std::cerr << "Second binding apply failed; skipping render.\n";
+        std::cerr << "Second render phase failed; skipping render.\n";
         return 1;
     }
 
     const float secondFrequency = frequencyMemory;
     const float secondAmplitude = amplitudeMemory;
-    renderFrames(oscillator, samples, totalFrames - samples.size());
 
     const std::string path = "runtime_dsp_object_bound_wav_resync_demo.wav";
     if (!writeMono16Wav(path, samples))
