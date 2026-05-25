@@ -27,6 +27,8 @@ The one-shot sync proof has advanced to a repeated resync proof: after a Circuit
 
 The binding proof now covers multiple Circuit parameters syncing into multiple external DSP memory slots consumed by one low-level DSP object.
 
+One DSP object binding can also pull parameter values from multiple Circuit nodes into separate external memory slots for the same low-level DSP object.
+
 Example milestone:
 - a runtime node represents a small DSP object
 - the DSP object owns no editor state
