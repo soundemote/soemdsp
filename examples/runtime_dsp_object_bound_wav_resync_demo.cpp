@@ -1,12 +1,10 @@
-#include <algorithm>
-#include <array>
 #include <cmath>
-#include <cstdint>
-#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "WriteMono16Wav.hpp"
 
 #include <soemdsp/runtime/dsp/ApplyDspBinding.hpp>
 #include <soemdsp/runtime/dsp/DspBlockPhaseReport.hpp>
@@ -22,8 +20,6 @@ using namespace soemdsp::runtime::nodes;
 namespace
 {
 constexpr int sampleRate = 44100;
-constexpr int channelCount = 1;
-constexpr int bitsPerSample = 16;
 constexpr double seconds = 1.0;
 constexpr double twoPi = 6.28318530717958647692;
 
@@ -49,71 +45,6 @@ struct TinySineDsp
         return sample;
     }
 };
-
-void writeU16(std::ofstream& stream, std::uint16_t value)
-{
-    const std::array<char, 2> bytes {
-        static_cast<char>(value & 0xff),
-        static_cast<char>((value >> 8) & 0xff),
-    };
-
-    stream.write(bytes.data(), bytes.size());
-}
-
-void writeU32(std::ofstream& stream, std::uint32_t value)
-{
-    const std::array<char, 4> bytes {
-        static_cast<char>(value & 0xff),
-        static_cast<char>((value >> 8) & 0xff),
-        static_cast<char>((value >> 16) & 0xff),
-        static_cast<char>((value >> 24) & 0xff),
-    };
-
-    stream.write(bytes.data(), bytes.size());
-}
-
-bool writeMono16Wav(const std::string& path, const std::vector<float>& samples)
-{
-    std::ofstream wav(path, std::ios::binary);
-    if (!wav)
-    {
-        return false;
-    }
-
-    const auto dataBytes =
-      static_cast<std::uint32_t>(samples.size() * sizeof(std::int16_t));
-    const auto byteRate =
-      static_cast<std::uint32_t>(sampleRate * channelCount * bitsPerSample / 8);
-    const auto blockAlign =
-      static_cast<std::uint16_t>(channelCount * bitsPerSample / 8);
-
-    wav.write("RIFF", 4);
-    writeU32(wav, 36 + dataBytes);
-    wav.write("WAVE", 4);
-
-    wav.write("fmt ", 4);
-    writeU32(wav, 16);
-    writeU16(wav, 1);
-    writeU16(wav, channelCount);
-    writeU32(wav, sampleRate);
-    writeU32(wav, byteRate);
-    writeU16(wav, blockAlign);
-    writeU16(wav, bitsPerSample);
-
-    wav.write("data", 4);
-    writeU32(wav, dataBytes);
-
-    for (const float sample : samples)
-    {
-        const float clipped = std::clamp(sample, -1.0f, 1.0f);
-        const auto pcm =
-          static_cast<std::int16_t>(clipped * 32767.0f);
-
-        writeU16(wav, static_cast<std::uint16_t>(pcm));
-    }
-
-    return static_cast<bool>(wav);
-}
 
 std::unique_ptr<FloatConstant> createNodeWithParameter(
   NodeId nodeId,
@@ -365,7 +296,7 @@ int main()
     const float secondAmplitude = amplitudeMemory;
 
     const std::string path = "runtime_dsp_object_bound_wav_resync_demo.wav";
-    if (!writeMono16Wav(path, samples))
+    if (!soemdsp::examples::writeMono16Wav(path, samples, sampleRate))
     {
         std::cerr << "Failed to write " << path << "\n";
         return 1;

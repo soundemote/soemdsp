@@ -71,6 +71,8 @@ The binding proof can now produce an audible artifact: `runtime_dsp_object_bound
 
 The audible binding proof can also resync: `runtime_dsp_object_bound_wav_resync_demo` renders one half of a WAV from initially synced Circuit parameters, changes those parameters through Circuit setters, reapplies the binding, and renders the second half from updated external DSP memory. Each half now reports preflight, apply, and process counts through `DspBlockPhaseReport`, keeping the future sandbox status surface explicit without introducing execution ownership.
 
+The audible demos now share an examples-only mono WAV writer helper. This removes repeated demo code while keeping file rendering outside the runtime API.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:

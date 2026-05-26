@@ -197,6 +197,9 @@ Implemented runtime capabilities include:
 - changed Circuit parameter values can be resynced into external DSP memory between two halves of an audible WAV artifact
 - runtime_dsp_object_bound_wav_resync_demo proves audible caller-owned DSP rendering can respond to runtime parameter changes without scheduler or audio engine ownership
 - runtime_dsp_object_bound_wav_resync_demo reports each audible render half through DspBlockPhaseReport
+- examples/WriteMono16Wav.hpp
+- audible demos share an examples-only mono WAV writer helper
+- the WAV writer helper is not a production runtime API and does not introduce an audio engine
 
 Reflection metadata exists for nodes:
 - name
