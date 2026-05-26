@@ -75,6 +75,8 @@ The audible demos now share an examples-only mono WAV writer helper. This remove
 
 The resync WAV demo now writes a combined demo-local render summary that joins setter status, first/second phase reports, and WAV artifact metadata. This is a sandbox-status proof only; it is not a scheduler, executor, or project serialization format.
 
+The resync WAV demo manifest now also carries structured `parameterResync` values for frequency and amplitude. This lets read-only sandbox shells display parameter changes without scraping the human text summary, while still keeping the manifest inspection-only.
+
 The same resync WAV demo also writes a demo-local HTML audio report with a browser-native audio control and compact phase/artifact status. This is the first mouse-and-ears oriented artifact, while still avoiding a sandbox app, web server, scheduler, audio engine, or production UI.
 
 The resync WAV demo now writes a demo-local JSON artifact manifest that ties together the generated WAV, WAV metadata report, phase reports, text summary, and HTML report. This manifest is for inspection only and is not a patch/project serialization format.

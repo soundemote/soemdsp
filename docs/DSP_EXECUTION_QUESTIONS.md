@@ -22,6 +22,7 @@ The current proof ladder shows:
 - Caller-owned audible resync demos can write combined demo-local summaries that join parameter-change status, phase status, and artifact status.
 - Caller-owned audible resync demos can write demo-local HTML audio reports for browser-native mouse-and-ears inspection.
 - Caller-owned audible resync demos can write demo-local artifact manifests for inspection without becoming patch/project serialization.
+- Caller-owned audible resync manifests can expose structured parameter resync values without requiring sandbox shells to parse text summaries.
 - Caller-owned audible resync demos can link generated artifacts together as one local inspection packet without becoming a sandbox app.
 - Caller-owned audible resync demos can expose a demo-local sandbox handoff contract naming a mouse-and-ears entry point while preserving no-scheduler/no-audio-engine/no-serialization boundaries.
 - `docs/SANDBOX_HANDOFF_CONTRACT.md` documents the current read-only sandbox handoff contract and what a sandbox must not infer from it.

@@ -476,6 +476,22 @@ void writeJsonNumber(
            << "\n";
 }
 
+void writeJsonFloat(
+  std::ostream& stream,
+  int indent,
+  const char* key,
+  float value,
+  bool trailingComma)
+{
+    stream << std::string(static_cast<std::size_t>(indent), ' ')
+           << "\""
+           << key
+           << "\": "
+           << value
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
 void writeJsonString(
   std::ostream& stream,
   int indent,
@@ -532,6 +548,25 @@ void writePhaseManifest(
            << "\n";
 }
 
+void writeParameterResyncManifest(
+  std::ostream& stream,
+  const char* parameterId,
+  bool changed,
+  float firstValue,
+  float secondValue,
+  bool trailingComma)
+{
+    stream << "    \""
+           << parameterId
+           << "\": {\n";
+    writeJsonBool(stream, 6, "changed", changed, true);
+    writeJsonFloat(stream, 6, "first", firstValue, true);
+    writeJsonFloat(stream, 6, "second", secondValue, false);
+    stream << "    }"
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
 bool writeArtifactManifest(
   const char* path,
   const DspBlockPhaseReport& firstReport,
@@ -539,6 +574,10 @@ bool writeArtifactManifest(
   const soemdsp::examples::Mono16WavWriteReport& wavReport,
   bool frequencyChanged,
   bool amplitudeChanged,
+  float firstFrequency,
+  float firstAmplitude,
+  float secondFrequency,
+  float secondAmplitude,
   bool wroteWavReport,
   bool wroteCombinedReport,
   bool wroteHtmlReport)
@@ -580,6 +619,24 @@ bool writeArtifactManifest(
            << (amplitudeChanged ? "true" : "false")
            << "\n"
            << "  },\n"
+           << "  \"parameterResync\": {\n";
+
+    writeParameterResyncManifest(
+      stream,
+      "frequency",
+      frequencyChanged,
+      firstFrequency,
+      secondFrequency,
+      true);
+    writeParameterResyncManifest(
+      stream,
+      "amplitude",
+      amplitudeChanged,
+      firstAmplitude,
+      secondAmplitude,
+      false);
+
+    stream << "  },\n"
            << "  \"phases\": [\n";
 
     const auto firstStartFrame = static_cast<std::size_t>(0);
@@ -841,6 +898,10 @@ int main()
         wavReport,
         frequencyChanged,
         amplitudeChanged,
+        firstFrequency,
+        firstAmplitude,
+        secondFrequency,
+        secondAmplitude,
         wroteWavReport,
         wroteCombinedReport,
         wroteHtmlReport);

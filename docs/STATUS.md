@@ -204,6 +204,7 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_bound_wav_resync_demo writes a demo-local combined render summary joining setter status, both phase reports, and WAV artifact metadata
 - runtime_dsp_object_bound_wav_resync_demo writes a demo-local HTML audio report with browser-native audio controls and phase/artifact status
 - runtime_dsp_object_bound_wav_resync_demo writes a demo-local JSON artifact manifest tying together WAV, phase report, text summary, and HTML report paths/status
+- runtime_dsp_object_bound_wav_resync_demo manifest includes structured parameter resync values for read-only sandbox display
 - runtime_dsp_object_bound_wav_resync_demo HTML report links the generated WAV, manifest, text summary, WAV metadata report, and phase reports as one inspection packet
 - runtime_dsp_object_bound_wav_resync_demo manifest includes a demo-local sandbox handoff contract for mouse-and-ears inspection without scheduling, audio engine ownership, or patch serialization
 - docs/SANDBOX_HANDOFF_CONTRACT.md documents the current read-only sandbox handoff contract and its non-meanings

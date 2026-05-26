@@ -89,6 +89,7 @@ A safe first sandbox consumer may:
 - link or open `sandboxHandoff.entryPoint`
 - show `sandboxHandoff.primaryAudioArtifact`
 - render `artifactLinks` as a display-only artifact list
+- display parameter changes from `parameterResync`
 - display phase status from `phases`
 - display phase ranges from `startFrame` and `endFrame`
 - display artifact status from `wav`
@@ -122,3 +123,11 @@ Phase objects may include `startFrame` and `endFrame` fields.
 These are display ranges for read-only inspection shells. They let a sandbox draw phase spans against the generated WAV without deriving those spans from processing order.
 
 They do not define a scheduler, graph execution order, or reusable processing API.
+
+## Parameter Resync Values
+
+The manifest may include a `parameterResync` object.
+
+This object records demo-local before/after parameter values already used by the generated artifact.
+
+It is read-only display metadata. It does not authorize a sandbox to mutate Circuit, instantiate DSP objects, or treat the manifest as preset/project state.
