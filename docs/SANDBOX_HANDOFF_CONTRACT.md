@@ -100,6 +100,8 @@ A safe first sandbox consumer should not:
 - save the manifest as a project file
 - treat demo-local paths as portable project paths
 
+`docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the current accept/display/reject checklist for a future read-only sandbox shell.
+
 ## Display-Ready Artifact Links
 
 The manifest may include an `artifactLinks` array for UI shells that want to display local inspection artifacts without hardcoding every filename.

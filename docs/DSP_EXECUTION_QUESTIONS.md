@@ -26,6 +26,7 @@ The current proof ladder shows:
 - Caller-owned audible resync demos can expose a demo-local sandbox handoff contract naming a mouse-and-ears entry point while preserving no-scheduler/no-audio-engine/no-serialization boundaries.
 - `docs/SANDBOX_HANDOFF_CONTRACT.md` documents the current read-only sandbox handoff contract and what a sandbox must not infer from it.
 - Caller-owned audible resync manifests can expose display-ready artifact links for read-only sandbox shells without describing execution order.
+- `docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records accept/display/reject rules for a future read-only sandbox manifest consumer.
 - Root-level runtime demo reports and inspection artifacts are ignored by git so hands-on demo runs do not pollute source status.
 - Caller-owned block preflight failures can report skipped processing without mutating external DSP memory.
 - Caller-owned block passes can recover after a failed preflight when the binding target is corrected.

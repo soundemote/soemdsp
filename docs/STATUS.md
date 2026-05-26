@@ -208,6 +208,7 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_bound_wav_resync_demo manifest includes a demo-local sandbox handoff contract for mouse-and-ears inspection without scheduling, audio engine ownership, or patch serialization
 - docs/SANDBOX_HANDOFF_CONTRACT.md documents the current read-only sandbox handoff contract and its non-meanings
 - runtime_dsp_object_bound_wav_resync_demo manifest includes display-ready artifact links for read-only sandbox shells
+- docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md records accept/display/reject rules for a future read-only sandbox manifest consumer
 - root-level runtime demo reports and inspection artifacts are gitignored so running demos does not dirty the repo
 
 Reflection metadata exists for nodes:
