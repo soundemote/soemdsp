@@ -586,6 +586,8 @@ bool writeArtifactManifest(
            << "    \"manifest\": \"runtime_dsp_object_bound_wav_resync_demo.manifest.json\"\n"
            << "  },\n"
            << "  \"sandboxHandoff\": {\n"
+           << "    \"contract\": \"soemdsp-demo-local-sandbox-handoff\",\n"
+           << "    \"contractVersion\": 1,\n"
            << "    \"entryPoint\": \"runtime_dsp_object_bound_wav_resync_demo.html\",\n"
            << "    \"primaryAudioArtifact\": \"runtime_dsp_object_bound_wav_resync_demo.wav\",\n"
            << "    \"inspectionMode\": \"mouse-and-ears\",\n"

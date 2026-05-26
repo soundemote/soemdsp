@@ -81,7 +81,7 @@ The resync WAV demo now writes a demo-local JSON artifact manifest that ties tog
 
 The HTML audio report now links the generated WAV, manifest, text summary, WAV metadata report, and phase reports, making the demo output behave like one local inspection packet rather than a loose set of files.
 
-The artifact manifest now includes a demo-local sandbox handoff contract. It names the HTML report as the mouse-and-ears entry point, names the WAV as the primary audio artifact, and records that the demo does not own scheduling, audio engine behavior, patch serialization, Circuit-owned DSP objects, or DSP-object knowledge of Circuit.
+The artifact manifest now includes a demo-local sandbox handoff contract. It names the HTML report as the mouse-and-ears entry point, names the WAV as the primary audio artifact, and records that the demo does not own scheduling, audio engine behavior, patch serialization, Circuit-owned DSP objects, or DSP-object knowledge of Circuit. `docs/SANDBOX_HANDOFF_CONTRACT.md` documents the current read-only contract and the inferences a future sandbox must not make from it.
 
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 

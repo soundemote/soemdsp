@@ -1,0 +1,100 @@
+# Sandbox Handoff Contract
+
+This document describes the current demo-local artifact handoff between `soemdsp` proofs and a future `soemdsp-sandbox`.
+
+The handoff is read-only inspection metadata. It is not a project format, patch format, scheduler contract, audio engine contract, plugin API, or promise that the sandbox should own DSP object execution.
+
+## Current Contract
+
+The current manifest contract is:
+
+```text
+soemdsp-demo-local-sandbox-handoff
+```
+
+Current version:
+
+```text
+1
+```
+
+The first producer is:
+
+```text
+runtime_dsp_object_bound_wav_resync_demo
+```
+
+It writes:
+
+```text
+runtime_dsp_object_bound_wav_resync_demo.manifest.json
+```
+
+## Required Fields
+
+The `sandboxHandoff` object records:
+
+- `contract`
+- `contractVersion`
+- `entryPoint`
+- `primaryAudioArtifact`
+- `inspectionMode`
+- `callerOwnsProcessingOrder`
+- `callerOwnsDspObjects`
+- `circuitOwnsDspObjects`
+- `dspObjectsKnowCircuit`
+- `serializesPatch`
+- `ownsAudioEngine`
+- `ownsScheduler`
+
+## Meaning
+
+`entryPoint` names the local HTML inspection entry point.
+
+`primaryAudioArtifact` names the local WAV artifact intended for listening.
+
+`inspectionMode` names the intended human inspection style. The current value is:
+
+```text
+mouse-and-ears
+```
+
+The ownership flags must preserve the current boundary:
+
+```text
+Circuit does not own concrete DSP objects.
+DSP objects do not know Circuit.
+Binding is the bridge.
+```
+
+## Non-Meanings
+
+A future sandbox may read this manifest to find local inspection artifacts.
+
+A future sandbox must not infer that this manifest is:
+
+- a patch/project serialization format
+- a scheduler plan
+- an audio engine API
+- a plugin binding API
+- a runtime node ownership model
+- a command to execute DSP processing
+
+## Current Safe Consumer Behavior
+
+A safe first sandbox consumer may:
+
+- read the JSON manifest
+- display `allOk`
+- link or open `sandboxHandoff.entryPoint`
+- show `sandboxHandoff.primaryAudioArtifact`
+- display phase status from `phases`
+- display artifact status from `wav`
+
+A safe first sandbox consumer should not:
+
+- instantiate DSP objects from the manifest
+- schedule processing from the manifest
+- mutate Circuit from the manifest
+- save the manifest as a project file
+- treat demo-local paths as portable project paths
