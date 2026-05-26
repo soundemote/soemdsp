@@ -28,6 +28,7 @@ The current proof ladder shows:
 - `docs/SANDBOX_HANDOFF_CONTRACT.md` documents the current read-only sandbox handoff contract and what a sandbox must not infer from it.
 - Caller-owned audible resync manifests can expose display-ready artifact links for read-only sandbox shells without describing execution order.
 - Caller-owned audible resync manifests can expose explicit phase frame ranges for read-only sandbox display without defining scheduler order.
+- Caller-owned audible resync manifests can expose producer-side per-phase audio measurements for read-only comparison without defining execution authority.
 - `docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records accept/display/reject rules for a future read-only sandbox manifest consumer.
 - Root-level runtime demo reports and inspection artifacts are ignored by git so hands-on demo runs do not pollute source status.
 - Caller-owned block preflight failures can report skipped processing without mutating external DSP memory.

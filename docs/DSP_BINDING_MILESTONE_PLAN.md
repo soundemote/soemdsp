@@ -93,6 +93,8 @@ The manifest also carries the primary WAV channel count, bit depth, and data byt
 
 The manifest now carries explicit `startFrame` and `endFrame` values for each render phase. These are read-only display ranges for sandbox waveform overlays, not scheduler order, graph execution, or project serialization.
 
+The manifest now also carries demo-local `phaseAudioMeasurements` for each render phase: measured frequency, peak, RMS, min, max, and DC offset derived from the samples the caller produced. This lets a read-only sandbox compare producer-side measurements with its own decoded WAV measurements without giving the manifest execution authority.
+
 `docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the smallest safe read-only consumer behavior for a future sandbox shell, including required boundary flags and warning conditions.
 
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.

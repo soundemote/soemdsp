@@ -131,3 +131,9 @@ The manifest may include a `parameterResync` object.
 This object records demo-local before/after parameter values already used by the generated artifact.
 
 It is read-only display metadata. It does not authorize a sandbox to mutate Circuit, instantiate DSP objects, or treat the manifest as preset/project state.
+
+## Phase Audio Measurements
+
+The manifest may include a `phaseAudioMeasurements` array.
+
+Those values are producer-side measurements of the generated artifact only. A sandbox may display them or compare them with independently decoded WAV measurements, but must not treat them as scheduler instructions, DSP state, or project serialization data.

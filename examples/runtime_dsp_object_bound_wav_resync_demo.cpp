@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -46,6 +48,72 @@ struct TinySineDsp
         return sample;
     }
 };
+
+struct PhaseAudioMeasurement
+{
+    double measuredFrequency{};
+    double peak{};
+    double rms{};
+    double min{};
+    double max{};
+    double dcOffset{};
+};
+
+PhaseAudioMeasurement measurePhaseAudio(
+  const std::vector<float>& samples,
+  std::size_t startFrame,
+  std::size_t endFrame)
+{
+    PhaseAudioMeasurement measurement;
+    if (startFrame >= samples.size() || endFrame <= startFrame)
+    {
+        return measurement;
+    }
+
+    endFrame = std::min(endFrame, samples.size());
+
+    double sum = 0.0;
+    double squareSum = 0.0;
+    measurement.min = std::numeric_limits<double>::infinity();
+    measurement.max = -std::numeric_limits<double>::infinity();
+
+    std::vector<double> crossings;
+    double previous = samples[startFrame];
+    for (std::size_t frame = startFrame; frame < endFrame; ++frame)
+    {
+        const double sample = samples[frame];
+        measurement.min = std::min(measurement.min, sample);
+        measurement.max = std::max(measurement.max, sample);
+        measurement.peak = std::max(measurement.peak, std::abs(sample));
+        sum += sample;
+        squareSum += sample * sample;
+
+        if (frame > startFrame && previous < 0.0 && sample >= 0.0)
+        {
+            const double span = sample - previous;
+            const double offset = span == 0.0 ? 0.0 : -previous / span;
+            crossings.push_back(static_cast<double>(frame - 1) + offset);
+        }
+        previous = sample;
+    }
+
+    const auto frames = static_cast<double>(endFrame - startFrame);
+    measurement.dcOffset = sum / frames;
+    measurement.rms = std::sqrt(squareSum / frames);
+
+    if (crossings.size() >= 2)
+    {
+        const double seconds =
+          (crossings.back() - crossings.front()) / sampleRate;
+        if (seconds > 0.0)
+        {
+            measurement.measuredFrequency =
+              static_cast<double>(crossings.size() - 1) / seconds;
+        }
+    }
+
+    return measurement;
+}
 
 std::unique_ptr<FloatConstant> createNodeWithParameter(
   NodeId nodeId,
@@ -492,6 +560,22 @@ void writeJsonFloat(
            << "\n";
 }
 
+void writeJsonDouble(
+  std::ostream& stream,
+  int indent,
+  const char* key,
+  double value,
+  bool trailingComma)
+{
+    stream << std::string(static_cast<std::size_t>(indent), ' ')
+           << "\""
+           << key
+           << "\": "
+           << value
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
 void writeJsonString(
   std::ostream& stream,
   int indent,
@@ -567,11 +651,37 @@ void writeParameterResyncManifest(
            << "\n";
 }
 
+void writePhaseAudioMeasurementManifest(
+  std::ostream& stream,
+  const char* name,
+  const PhaseAudioMeasurement& measurement,
+  bool trailingComma)
+{
+    stream << "    {\n";
+    writeJsonString(stream, 6, "name", name, true);
+    writeJsonDouble(
+      stream,
+      6,
+      "measuredFrequency",
+      measurement.measuredFrequency,
+      true);
+    writeJsonDouble(stream, 6, "peak", measurement.peak, true);
+    writeJsonDouble(stream, 6, "rms", measurement.rms, true);
+    writeJsonDouble(stream, 6, "min", measurement.min, true);
+    writeJsonDouble(stream, 6, "max", measurement.max, true);
+    writeJsonDouble(stream, 6, "dcOffset", measurement.dcOffset, false);
+    stream << "    }"
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
 bool writeArtifactManifest(
   const char* path,
   const DspBlockPhaseReport& firstReport,
   const DspBlockPhaseReport& secondReport,
   const soemdsp::examples::Mono16WavWriteReport& wavReport,
+  const PhaseAudioMeasurement& firstMeasurement,
+  const PhaseAudioMeasurement& secondMeasurement,
   bool frequencyChanged,
   bool amplitudeChanged,
   float firstFrequency,
@@ -657,6 +767,20 @@ bool writeArtifactManifest(
       secondReport,
       secondStartFrame,
       secondEndFrame,
+      false);
+
+    stream << "  ],\n"
+           << "  \"phaseAudioMeasurements\": [\n";
+
+    writePhaseAudioMeasurementManifest(
+      stream,
+      "first",
+      firstMeasurement,
+      true);
+    writePhaseAudioMeasurementManifest(
+      stream,
+      "second",
+      secondMeasurement,
       false);
 
     stream << "  ],\n"
@@ -836,6 +960,13 @@ int main()
 
     const float secondFrequency = frequencyMemory;
     const float secondAmplitude = amplitudeMemory;
+    const auto firstMeasurement =
+      measurePhaseAudio(samples, 0, firstReport.samplesProcessed);
+    const auto secondMeasurement =
+      measurePhaseAudio(
+        samples,
+        firstReport.samplesProcessed,
+        firstReport.samplesProcessed + secondReport.samplesProcessed);
 
     const std::string path = "runtime_dsp_object_bound_wav_resync_demo.wav";
     const auto wavReport =
@@ -896,6 +1027,8 @@ int main()
         firstReport,
         secondReport,
         wavReport,
+        firstMeasurement,
+        secondMeasurement,
         frequencyChanged,
         amplitudeChanged,
         firstFrequency,

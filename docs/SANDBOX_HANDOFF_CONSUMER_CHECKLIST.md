@@ -44,6 +44,7 @@ A read-only consumer may accept the manifest when:
 - `artifactLinks` contains at least one `entry-point`
 - `artifactLinks` contains at least one `audio`
 - `parameterResync` may contain read-only before/after parameter display values
+- `phaseAudioMeasurements` may contain read-only producer-side artifact measurements
 - `phases` contains at least one phase report
 - each phase may include `startFrame` and `endFrame` display ranges matching `samplesProcessed`
 
@@ -56,6 +57,7 @@ A read-only consumer may display:
 - the primary WAV from `sandboxHandoff.primaryAudioArtifact`
 - display-only artifact rows from `artifactLinks`
 - parameter changes from `parameterResync`
+- producer-side audio measurements from `phaseAudioMeasurements`
 - phase status from `phases`
 - phase display ranges from `startFrame` and `endFrame`
 - WAV status from `wav`
@@ -81,6 +83,7 @@ A read-only consumer must not:
 - schedule processing from the manifest
 - mutate Circuit from the manifest
 - write project files from the manifest
+- treat `phaseAudioMeasurements` as DSP state or execution instructions
 - treat demo-local paths as portable project paths
 - infer plugin or host behavior from artifact links
 
