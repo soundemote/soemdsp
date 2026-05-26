@@ -201,6 +201,7 @@ Implemented runtime capabilities include:
 - audible demos share an examples-only mono WAV writer helper
 - the WAV writer helper is not a production runtime API and does not introduce an audio engine
 - audible demos can print and write examples-only mono WAV write reports for future sandbox-style status inspection
+- runtime_dsp_object_bound_wav_resync_demo writes a demo-local combined render summary joining setter status, both phase reports, and WAV artifact metadata
 
 Reflection metadata exists for nodes:
 - name

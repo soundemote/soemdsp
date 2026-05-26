@@ -1,4 +1,5 @@
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -216,6 +217,86 @@ void printAndWriteReport(
               << (wroteReport ? "true" : "false")
               << "\n";
 }
+
+void printDspBlockPhaseReportBody(
+  const DspBlockPhaseReport& report,
+  std::ostream& os)
+{
+    os << "preflight ok: "
+       << (report.preflightOk ? "true" : "false")
+       << "\n"
+       << "apply ok: "
+       << (report.applyOk ? "true" : "false")
+       << "\n"
+       << "process ok: "
+       << (report.processOk ? "true" : "false")
+       << "\n"
+       << "bindings checked: "
+       << report.bindingsChecked
+       << "\n"
+       << "preflight messages: "
+       << report.preflightMessages
+       << "\n"
+       << "parameters applied: "
+       << report.parametersApplied
+       << "\n"
+       << "apply messages: "
+       << report.applyMessages
+       << "\n"
+       << "samples processed: "
+       << report.samplesProcessed
+       << "\n";
+}
+
+bool writeCombinedRenderReport(
+  const char* path,
+  const DspBlockPhaseReport& firstReport,
+  const DspBlockPhaseReport& secondReport,
+  const soemdsp::examples::Mono16WavWriteReport& wavReport,
+  bool frequencyChanged,
+  bool amplitudeChanged,
+  float firstFrequency,
+  float firstAmplitude,
+  float secondFrequency,
+  float secondAmplitude)
+{
+    std::ofstream stream(path);
+    if (!stream.is_open())
+    {
+        return false;
+    }
+
+    stream << "[BOUND WAV RESYNC RENDER REPORT]\n"
+           << "frequency setter ok: "
+           << (frequencyChanged ? "true" : "false")
+           << "\n"
+           << "amplitude setter ok: "
+           << (amplitudeChanged ? "true" : "false")
+           << "\n"
+           << "first half frequency: "
+           << firstFrequency
+           << "\n"
+           << "first half amplitude: "
+           << firstAmplitude
+           << "\n"
+           << "second half frequency: "
+           << secondFrequency
+           << "\n"
+           << "second half amplitude: "
+           << secondAmplitude
+           << "\n\n"
+           << "[FIRST PHASE]\n";
+
+    printDspBlockPhaseReportBody(firstReport, stream);
+
+    stream << "\n[SECOND PHASE]\n";
+    printDspBlockPhaseReportBody(secondReport, stream);
+
+    stream << "\n";
+    soemdsp::examples::printMono16WavWriteReport(wavReport, stream);
+
+    return static_cast<bool>(stream);
+}
 } // namespace
 
 int main()
@@ -315,6 +396,22 @@ int main()
         std::cerr << "Failed to write " << path << "\n";
         return 1;
     }
+
+    const auto wroteCombinedReport =
+      writeCombinedRenderReport(
+        "runtime_dsp_object_bound_wav_resync_demo.summary.txt",
+        firstReport,
+        secondReport,
+        wavReport,
+        frequencyChanged,
+        amplitudeChanged,
+        firstFrequency,
+        firstAmplitude,
+        secondFrequency,
+        secondAmplitude);
+    std::cout << "combined render report file written: "
+              << (wroteCombinedReport ? "true" : "false")
+              << "\n";
 
     std::cout << "first half frequency: "
               << firstFrequency

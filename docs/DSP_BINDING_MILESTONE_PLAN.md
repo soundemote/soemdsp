@@ -73,6 +73,8 @@ The audible binding proof can also resync: `runtime_dsp_object_bound_wav_resync_
 
 The audible demos now share an examples-only mono WAV writer helper. This removes repeated demo code while keeping file rendering outside the runtime API. The helper can also emit a compact write report with path, frame count, sample rate, channel count, bit depth, data bytes, file bytes, and success status for future sandbox-style status inspection.
 
+The resync WAV demo now writes a combined demo-local render summary that joins setter status, first/second phase reports, and WAV artifact metadata. This is a sandbox-status proof only; it is not a scheduler, executor, or project serialization format.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:
