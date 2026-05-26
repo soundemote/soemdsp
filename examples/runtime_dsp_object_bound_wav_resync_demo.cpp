@@ -362,6 +362,7 @@ bool writeHtmlAudioReport(
            << "section{border-top:1px solid #333;padding:18px 0;}\n"
            << "dl{display:grid;grid-template-columns:minmax(160px,240px)1fr;gap:8px 18px;}\n"
            << "dt{color:#aaa;}dd{margin:0;font-family:Consolas,monospace;}\n"
+           << "ul{padding-left:22px;}li{margin:6px 0;}a{color:#8ed2ff;}\n"
            << "</style>\n"
            << "</head>\n"
            << "<body>\n"
@@ -422,6 +423,19 @@ bool writeHtmlAudioReport(
            << wavReport.fileBytes
            << "</dd>\n"
            << "</dl>\n"
+           << "</section>\n"
+           << "<section>\n"
+           << "<h2>Artifact Links</h2>\n"
+           << "<ul>\n"
+           << "<li><a href=\""
+           << wavReport.path
+           << "\">WAV artifact</a></li>\n"
+           << "<li><a href=\"runtime_dsp_object_bound_wav_resync_demo.manifest.json\">Artifact manifest</a></li>\n"
+           << "<li><a href=\"runtime_dsp_object_bound_wav_resync_demo.summary.txt\">Combined text summary</a></li>\n"
+           << "<li><a href=\"runtime_dsp_object_bound_wav_resync_demo.wav.txt\">WAV metadata report</a></li>\n"
+           << "<li><a href=\"runtime_dsp_object_bound_wav_resync_demo.first.txt\">First phase report</a></li>\n"
+           << "<li><a href=\"runtime_dsp_object_bound_wav_resync_demo.second.txt\">Second phase report</a></li>\n"
+           << "</ul>\n"
            << "</section>\n"
            << "</main>\n"
            << "</body>\n"
@@ -568,7 +582,8 @@ bool writeArtifactManifest(
            << "    \"firstPhaseReport\": \"runtime_dsp_object_bound_wav_resync_demo.first.txt\",\n"
            << "    \"secondPhaseReport\": \"runtime_dsp_object_bound_wav_resync_demo.second.txt\",\n"
            << "    \"textSummary\": \"runtime_dsp_object_bound_wav_resync_demo.summary.txt\",\n"
-           << "    \"htmlReport\": \"runtime_dsp_object_bound_wav_resync_demo.html\"\n"
+           << "    \"htmlReport\": \"runtime_dsp_object_bound_wav_resync_demo.html\",\n"
+           << "    \"manifest\": \"runtime_dsp_object_bound_wav_resync_demo.manifest.json\"\n"
            << "  }\n"
            << "}\n";
 

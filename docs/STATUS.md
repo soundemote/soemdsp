@@ -204,6 +204,7 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_bound_wav_resync_demo writes a demo-local combined render summary joining setter status, both phase reports, and WAV artifact metadata
 - runtime_dsp_object_bound_wav_resync_demo writes a demo-local HTML audio report with browser-native audio controls and phase/artifact status
 - runtime_dsp_object_bound_wav_resync_demo writes a demo-local JSON artifact manifest tying together WAV, phase report, text summary, and HTML report paths/status
+- runtime_dsp_object_bound_wav_resync_demo HTML report links the generated WAV, manifest, text summary, WAV metadata report, and phase reports as one inspection packet
 
 Reflection metadata exists for nodes:
 - name

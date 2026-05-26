@@ -79,6 +79,8 @@ The same resync WAV demo also writes a demo-local HTML audio report with a brows
 
 The resync WAV demo now writes a demo-local JSON artifact manifest that ties together the generated WAV, WAV metadata report, phase reports, text summary, and HTML report. This manifest is for inspection only and is not a patch/project serialization format.
 
+The HTML audio report now links the generated WAV, manifest, text summary, WAV metadata report, and phase reports, making the demo output behave like one local inspection packet rather than a loose set of files.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:
