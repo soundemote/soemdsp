@@ -88,6 +88,7 @@ A safe first sandbox consumer may:
 - display `allOk`
 - link or open `sandboxHandoff.entryPoint`
 - show `sandboxHandoff.primaryAudioArtifact`
+- render `artifactLinks` as a display-only artifact list
 - display phase status from `phases`
 - display artifact status from `wav`
 
@@ -98,3 +99,15 @@ A safe first sandbox consumer should not:
 - mutate Circuit from the manifest
 - save the manifest as a project file
 - treat demo-local paths as portable project paths
+
+## Display-Ready Artifact Links
+
+The manifest may include an `artifactLinks` array for UI shells that want to display local inspection artifacts without hardcoding every filename.
+
+Each item records:
+
+- `label`
+- `kind`
+- `path`
+
+These links are still local inspection metadata. They do not describe execution order, patch contents, ownership, plugin wiring, or scheduling.

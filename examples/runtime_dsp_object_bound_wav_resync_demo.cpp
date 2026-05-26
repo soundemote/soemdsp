@@ -487,6 +487,22 @@ void writeJsonString(
            << "\n";
 }
 
+void writeArtifactLinkManifest(
+  std::ostream& stream,
+  const char* label,
+  const char* kind,
+  const char* path,
+  bool trailingComma)
+{
+    stream << "    {\n";
+    writeJsonString(stream, "label", label, true);
+    writeJsonString(stream, "kind", kind, true);
+    writeJsonString(stream, "path", path, false);
+    stream << "    }"
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
 void writePhaseManifest(
   std::ostream& stream,
   const char* name,
@@ -585,6 +601,52 @@ bool writeArtifactManifest(
            << "    \"htmlReport\": \"runtime_dsp_object_bound_wav_resync_demo.html\",\n"
            << "    \"manifest\": \"runtime_dsp_object_bound_wav_resync_demo.manifest.json\"\n"
            << "  },\n"
+           << "  \"artifactLinks\": [\n";
+
+    writeArtifactLinkManifest(
+      stream,
+      "HTML report",
+      "entry-point",
+      "runtime_dsp_object_bound_wav_resync_demo.html",
+      true);
+    writeArtifactLinkManifest(
+      stream,
+      "WAV artifact",
+      "audio",
+      wavReport.path.c_str(),
+      true);
+    writeArtifactLinkManifest(
+      stream,
+      "Artifact manifest",
+      "manifest",
+      "runtime_dsp_object_bound_wav_resync_demo.manifest.json",
+      true);
+    writeArtifactLinkManifest(
+      stream,
+      "Combined text summary",
+      "text-summary",
+      "runtime_dsp_object_bound_wav_resync_demo.summary.txt",
+      true);
+    writeArtifactLinkManifest(
+      stream,
+      "WAV metadata report",
+      "wav-report",
+      "runtime_dsp_object_bound_wav_resync_demo.wav.txt",
+      true);
+    writeArtifactLinkManifest(
+      stream,
+      "First phase report",
+      "phase-report",
+      "runtime_dsp_object_bound_wav_resync_demo.first.txt",
+      true);
+    writeArtifactLinkManifest(
+      stream,
+      "Second phase report",
+      "phase-report",
+      "runtime_dsp_object_bound_wav_resync_demo.second.txt",
+      false);
+
+    stream << "  ],\n"
            << "  \"sandboxHandoff\": {\n"
            << "    \"contract\": \"soemdsp-demo-local-sandbox-handoff\",\n"
            << "    \"contractVersion\": 1,\n"

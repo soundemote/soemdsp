@@ -83,6 +83,8 @@ The HTML audio report now links the generated WAV, manifest, text summary, WAV m
 
 The artifact manifest now includes a demo-local sandbox handoff contract. It names the HTML report as the mouse-and-ears entry point, names the WAV as the primary audio artifact, and records that the demo does not own scheduling, audio engine behavior, patch serialization, Circuit-owned DSP objects, or DSP-object knowledge of Circuit. `docs/SANDBOX_HANDOFF_CONTRACT.md` documents the current read-only contract and the inferences a future sandbox must not make from it.
 
+The manifest also includes a display-ready `artifactLinks` array so a future sandbox shell can render the local inspection packet without hardcoding artifact filenames. These links remain inspection metadata only.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:
