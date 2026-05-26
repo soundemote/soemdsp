@@ -20,6 +20,7 @@ The current proof ladder shows:
 - Caller-owned resync demos can report each block pass independently before and after parameter changes.
 - Caller-owned audible demos can print and write compact WAV write reports for artifact status inspection.
 - Caller-owned audible resync demos can write combined demo-local summaries that join parameter-change status, phase status, and artifact status.
+- Caller-owned audible resync demos can write demo-local HTML audio reports for browser-native mouse-and-ears inspection.
 - Caller-owned block preflight failures can report skipped processing without mutating external DSP memory.
 - Caller-owned block passes can recover after a failed preflight when the binding target is corrected.
 - DSP binding target validation rejects null memory slots before apply writes any external memory.

@@ -75,6 +75,8 @@ The audible demos now share an examples-only mono WAV writer helper. This remove
 
 The resync WAV demo now writes a combined demo-local render summary that joins setter status, first/second phase reports, and WAV artifact metadata. This is a sandbox-status proof only; it is not a scheduler, executor, or project serialization format.
 
+The same resync WAV demo also writes a demo-local HTML audio report with a browser-native audio control and compact phase/artifact status. This is the first mouse-and-ears oriented artifact, while still avoiding a sandbox app, web server, scheduler, audio engine, or production UI.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:

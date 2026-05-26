@@ -297,6 +297,138 @@ bool writeCombinedRenderReport(
 
     return static_cast<bool>(stream);
 }
+
+void writePhaseHtml(
+  std::ofstream& stream,
+  const char* heading,
+  const DspBlockPhaseReport& report)
+{
+    stream << "<section>\n"
+           << "<h2>"
+           << heading
+           << "</h2>\n"
+           << "<dl>\n"
+           << "<dt>preflight ok</dt><dd>"
+           << (report.preflightOk ? "true" : "false")
+           << "</dd>\n"
+           << "<dt>apply ok</dt><dd>"
+           << (report.applyOk ? "true" : "false")
+           << "</dd>\n"
+           << "<dt>process ok</dt><dd>"
+           << (report.processOk ? "true" : "false")
+           << "</dd>\n"
+           << "<dt>bindings checked</dt><dd>"
+           << report.bindingsChecked
+           << "</dd>\n"
+           << "<dt>parameters applied</dt><dd>"
+           << report.parametersApplied
+           << "</dd>\n"
+           << "<dt>samples processed</dt><dd>"
+           << report.samplesProcessed
+           << "</dd>\n"
+           << "</dl>\n"
+           << "</section>\n";
+}
+
+bool writeHtmlAudioReport(
+  const char* path,
+  const DspBlockPhaseReport& firstReport,
+  const DspBlockPhaseReport& secondReport,
+  const soemdsp::examples::Mono16WavWriteReport& wavReport,
+  bool frequencyChanged,
+  bool amplitudeChanged,
+  float firstFrequency,
+  float firstAmplitude,
+  float secondFrequency,
+  float secondAmplitude)
+{
+    std::ofstream stream(path);
+    if (!stream.is_open())
+    {
+        return false;
+    }
+
+    stream << "<!doctype html>\n"
+           << "<html lang=\"en\">\n"
+           << "<head>\n"
+           << "<meta charset=\"utf-8\">\n"
+           << "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+           << "<title>Bound WAV Resync Demo</title>\n"
+           << "<style>\n"
+           << "body{margin:0;font-family:Arial,sans-serif;background:#111;color:#f1f1f1;line-height:1.45;}\n"
+           << "main{max-width:880px;margin:0 auto;padding:32px;}\n"
+           << "h1,h2{font-weight:600;}\n"
+           << "audio{width:100%;margin:16px 0 24px;}\n"
+           << "section{border-top:1px solid #333;padding:18px 0;}\n"
+           << "dl{display:grid;grid-template-columns:minmax(160px,240px)1fr;gap:8px 18px;}\n"
+           << "dt{color:#aaa;}dd{margin:0;font-family:Consolas,monospace;}\n"
+           << "</style>\n"
+           << "</head>\n"
+           << "<body>\n"
+           << "<main>\n"
+           << "<h1>Bound WAV Resync Demo</h1>\n"
+           << "<audio controls preload=\"metadata\" src=\""
+           << wavReport.path
+           << "\"></audio>\n"
+           << "<section>\n"
+           << "<h2>Render</h2>\n"
+           << "<dl>\n"
+           << "<dt>frequency setter ok</dt><dd>"
+           << (frequencyChanged ? "true" : "false")
+           << "</dd>\n"
+           << "<dt>amplitude setter ok</dt><dd>"
+           << (amplitudeChanged ? "true" : "false")
+           << "</dd>\n"
+           << "<dt>first half frequency</dt><dd>"
+           << firstFrequency
+           << "</dd>\n"
+           << "<dt>first half amplitude</dt><dd>"
+           << firstAmplitude
+           << "</dd>\n"
+           << "<dt>second half frequency</dt><dd>"
+           << secondFrequency
+           << "</dd>\n"
+           << "<dt>second half amplitude</dt><dd>"
+           << secondAmplitude
+           << "</dd>\n"
+           << "</dl>\n"
+           << "</section>\n";
+
+    writePhaseHtml(stream, "First Phase", firstReport);
+    writePhaseHtml(stream, "Second Phase", secondReport);
+
+    stream << "<section>\n"
+           << "<h2>WAV Artifact</h2>\n"
+           << "<dl>\n"
+           << "<dt>wrote</dt><dd>"
+           << (wavReport.wrote ? "true" : "false")
+           << "</dd>\n"
+           << "<dt>path</dt><dd>"
+           << wavReport.path
+           << "</dd>\n"
+           << "<dt>sample rate</dt><dd>"
+           << wavReport.sampleRate
+           << "</dd>\n"
+           << "<dt>channels</dt><dd>"
+           << wavReport.channelCount
+           << "</dd>\n"
+           << "<dt>bit depth</dt><dd>"
+           << wavReport.bitsPerSample
+           << "</dd>\n"
+           << "<dt>frames</dt><dd>"
+           << wavReport.frames
+           << "</dd>\n"
+           << "<dt>file bytes</dt><dd>"
+           << wavReport.fileBytes
+           << "</dd>\n"
+           << "</dl>\n"
+           << "</section>\n"
+           << "</main>\n"
+           << "</body>\n"
+           << "</html>\n";
+
+    return static_cast<bool>(stream);
+}
 } // namespace
 
 int main()
@@ -411,6 +543,22 @@ int main()
         secondAmplitude);
     std::cout << "combined render report file written: "
               << (wroteCombinedReport ? "true" : "false")
+              << "\n";
+
+    const auto wroteHtmlReport =
+      writeHtmlAudioReport(
+        "runtime_dsp_object_bound_wav_resync_demo.html",
+        firstReport,
+        secondReport,
+        wavReport,
+        frequencyChanged,
+        amplitudeChanged,
+        firstFrequency,
+        firstAmplitude,
+        secondFrequency,
+        secondAmplitude);
+    std::cout << "html audio report file written: "
+              << (wroteHtmlReport ? "true" : "false")
               << "\n";
 
     std::cout << "first half frequency: "
