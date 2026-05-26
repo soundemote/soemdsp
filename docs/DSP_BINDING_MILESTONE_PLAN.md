@@ -87,6 +87,8 @@ The manifest also includes a display-ready `artifactLinks` array so a future san
 
 The manifest writer now keeps nested phase and artifact link objects consistently indented. This is artifact readability only; it does not change the manifest contract or introduce a serialization layer.
 
+The manifest also carries the primary WAV channel count, bit depth, and data byte count from the demo-local WAV write report so a read-only sandbox can validate basic audio metadata without inventing an audio engine.
+
 `docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the smallest safe read-only consumer behavior for a future sandbox shell, including required boundary flags and warning conditions.
 
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.

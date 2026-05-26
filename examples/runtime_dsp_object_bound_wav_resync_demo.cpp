@@ -592,8 +592,17 @@ bool writeArtifactManifest(
            << "    \"sampleRate\": "
            << wavReport.sampleRate
            << ",\n"
+           << "    \"channels\": "
+           << wavReport.channelCount
+           << ",\n"
+           << "    \"bitDepth\": "
+           << wavReport.bitsPerSample
+           << ",\n"
            << "    \"frames\": "
            << wavReport.frames
+           << ",\n"
+           << "    \"dataBytes\": "
+           << wavReport.dataBytes
            << ",\n"
            << "    \"fileBytes\": "
            << wavReport.fileBytes
