@@ -23,6 +23,7 @@ The current proof ladder shows:
 - Caller-owned audible resync demos can write demo-local HTML audio reports for browser-native mouse-and-ears inspection.
 - Caller-owned audible resync demos can write demo-local artifact manifests for inspection without becoming patch/project serialization.
 - Caller-owned audible resync demos can link generated artifacts together as one local inspection packet without becoming a sandbox app.
+- Caller-owned audible resync demos can expose a demo-local sandbox handoff contract naming a mouse-and-ears entry point while preserving no-scheduler/no-audio-engine/no-serialization boundaries.
 - Root-level runtime demo reports and inspection artifacts are ignored by git so hands-on demo runs do not pollute source status.
 - Caller-owned block preflight failures can report skipped processing without mutating external DSP memory.
 - Caller-owned block passes can recover after a failed preflight when the binding target is corrected.

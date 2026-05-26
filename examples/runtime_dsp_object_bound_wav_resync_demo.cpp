@@ -584,6 +584,18 @@ bool writeArtifactManifest(
            << "    \"textSummary\": \"runtime_dsp_object_bound_wav_resync_demo.summary.txt\",\n"
            << "    \"htmlReport\": \"runtime_dsp_object_bound_wav_resync_demo.html\",\n"
            << "    \"manifest\": \"runtime_dsp_object_bound_wav_resync_demo.manifest.json\"\n"
+           << "  },\n"
+           << "  \"sandboxHandoff\": {\n"
+           << "    \"entryPoint\": \"runtime_dsp_object_bound_wav_resync_demo.html\",\n"
+           << "    \"primaryAudioArtifact\": \"runtime_dsp_object_bound_wav_resync_demo.wav\",\n"
+           << "    \"inspectionMode\": \"mouse-and-ears\",\n"
+           << "    \"callerOwnsProcessingOrder\": true,\n"
+           << "    \"callerOwnsDspObjects\": true,\n"
+           << "    \"circuitOwnsDspObjects\": false,\n"
+           << "    \"dspObjectsKnowCircuit\": false,\n"
+           << "    \"serializesPatch\": false,\n"
+           << "    \"ownsAudioEngine\": false,\n"
+           << "    \"ownsScheduler\": false\n"
            << "  }\n"
            << "}\n";
 
