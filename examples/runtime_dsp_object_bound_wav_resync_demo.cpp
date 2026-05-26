@@ -446,11 +446,13 @@ bool writeHtmlAudioReport(
 
 void writeJsonBool(
   std::ostream& stream,
+  int indent,
   const char* key,
   bool value,
   bool trailingComma)
 {
-    stream << "    \""
+    stream << std::string(static_cast<std::size_t>(indent), ' ')
+           << "\""
            << key
            << "\": "
            << (value ? "true" : "false")
@@ -460,11 +462,13 @@ void writeJsonBool(
 
 void writeJsonNumber(
   std::ostream& stream,
+  int indent,
   const char* key,
   std::size_t value,
   bool trailingComma)
 {
-    stream << "    \""
+    stream << std::string(static_cast<std::size_t>(indent), ' ')
+           << "\""
            << key
            << "\": "
            << value
@@ -474,11 +478,13 @@ void writeJsonNumber(
 
 void writeJsonString(
   std::ostream& stream,
+  int indent,
   const char* key,
   const char* value,
   bool trailingComma)
 {
-    stream << "    \""
+    stream << std::string(static_cast<std::size_t>(indent), ' ')
+           << "\""
            << key
            << "\": \""
            << value
@@ -495,9 +501,9 @@ void writeArtifactLinkManifest(
   bool trailingComma)
 {
     stream << "    {\n";
-    writeJsonString(stream, "label", label, true);
-    writeJsonString(stream, "kind", kind, true);
-    writeJsonString(stream, "path", path, false);
+    writeJsonString(stream, 6, "label", label, true);
+    writeJsonString(stream, 6, "kind", kind, true);
+    writeJsonString(stream, 6, "path", path, false);
     stream << "    }"
            << (trailingComma ? "," : "")
            << "\n";
@@ -509,15 +515,15 @@ void writePhaseManifest(
   const DspBlockPhaseReport& report,
   bool trailingComma)
 {
-    stream << "  {\n";
-    writeJsonString(stream, "name", name, true);
-    writeJsonBool(stream, "preflightOk", report.preflightOk, true);
-    writeJsonBool(stream, "applyOk", report.applyOk, true);
-    writeJsonBool(stream, "processOk", report.processOk, true);
-    writeJsonNumber(stream, "bindingsChecked", report.bindingsChecked, true);
-    writeJsonNumber(stream, "parametersApplied", report.parametersApplied, true);
-    writeJsonNumber(stream, "samplesProcessed", report.samplesProcessed, false);
-    stream << "  }"
+    stream << "    {\n";
+    writeJsonString(stream, 6, "name", name, true);
+    writeJsonBool(stream, 6, "preflightOk", report.preflightOk, true);
+    writeJsonBool(stream, 6, "applyOk", report.applyOk, true);
+    writeJsonBool(stream, 6, "processOk", report.processOk, true);
+    writeJsonNumber(stream, 6, "bindingsChecked", report.bindingsChecked, true);
+    writeJsonNumber(stream, 6, "parametersApplied", report.parametersApplied, true);
+    writeJsonNumber(stream, 6, "samplesProcessed", report.samplesProcessed, false);
+    stream << "    }"
            << (trailingComma ? "," : "")
            << "\n";
 }

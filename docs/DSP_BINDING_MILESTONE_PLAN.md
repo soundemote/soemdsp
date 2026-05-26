@@ -85,6 +85,8 @@ The artifact manifest now includes a demo-local sandbox handoff contract. It nam
 
 The manifest also includes a display-ready `artifactLinks` array so a future sandbox shell can render the local inspection packet without hardcoding artifact filenames. These links remain inspection metadata only.
 
+The manifest writer now keeps nested phase and artifact link objects consistently indented. This is artifact readability only; it does not change the manifest contract or introduce a serialization layer.
+
 `docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the smallest safe read-only consumer behavior for a future sandbox shell, including required boundary flags and warning conditions.
 
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
