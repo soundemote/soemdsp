@@ -87,6 +87,8 @@ The artifact manifest now includes a demo-local sandbox handoff contract. It nam
 
 The manifest also includes a display-ready `artifactLinks` array so a sandbox shell can render the local inspection packet without hardcoding artifact filenames. These links remain inspection metadata only.
 
+Phase report artifact links now include a demo-local `phase` field so read-only consumers can prove each manifest phase has exactly one matching report artifact without inferring phase identity from filenames.
+
 The manifest writer now keeps nested phase and artifact link objects consistently indented. This is artifact readability only; it does not change the manifest contract or introduce a serialization layer.
 
 The manifest also carries the primary WAV channel count, bit depth, and data byte count from the demo-local WAV write report so a read-only sandbox can validate basic audio metadata without inventing an audio engine.

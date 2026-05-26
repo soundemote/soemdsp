@@ -2,7 +2,7 @@
 
 This checklist describes the smallest safe read-only consumer for the current demo-local sandbox handoff manifest.
 
-It is for a future `soemdsp-sandbox` shell. It is not an implementation requirement for `soemdsp` runtime code, and it does not introduce a JSON parser, scheduler, audio engine, plugin layer, or project format.
+It is for the read-only `soemdsp-sandbox` shell. It is not an implementation requirement for `soemdsp` runtime code, and it does not introduce a JSON parser, scheduler, audio engine, plugin layer, or project format.
 
 ## Input
 
@@ -43,6 +43,8 @@ A read-only consumer may accept the manifest when:
 - `sandboxHandoff.ownsScheduler` is `false`
 - `artifactLinks` contains at least one `entry-point`
 - `artifactLinks` contains at least one `audio`
+- each `phase-report` artifact link names a phase
+- each manifest phase has exactly one matching `phase-report` artifact link
 - `parameterResync` may contain read-only before/after parameter display values
 - `phaseAudioMeasurements` may contain read-only producer-side artifact measurements
 - `phases` contains at least one phase report
@@ -74,6 +76,8 @@ A read-only consumer should reject or warn when:
 - audio engine ownership is true
 - patch serialization is true
 - expected entry point or audio artifact paths are missing
+- phase-report artifact links are missing phase names
+- phase-report artifact links do not match manifest phase names
 
 ## Must Not Do
 
@@ -89,4 +93,4 @@ A read-only consumer must not:
 
 ## Current Verification Shape
 
-Until `soemdsp-sandbox` exists locally, verification can parse the generated manifest with external tooling and assert the fields above. That verifies the artifact packet without adding a production JSON dependency to `soemdsp`.
+`soemdsp-sandbox` parses the generated manifest with external tooling and asserts the fields above. That verifies the artifact packet without adding a production JSON dependency to `soemdsp`.

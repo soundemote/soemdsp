@@ -598,12 +598,17 @@ void writeArtifactLinkManifest(
   const char* label,
   const char* kind,
   const char* path,
-  bool trailingComma)
+  bool trailingComma,
+  const char* phase = nullptr)
 {
     stream << "    {\n";
     writeJsonString(stream, 6, "label", label, true);
     writeJsonString(stream, 6, "kind", kind, true);
-    writeJsonString(stream, 6, "path", path, false);
+    writeJsonString(stream, 6, "path", path, phase != nullptr);
+    if (phase != nullptr)
+    {
+        writeJsonString(stream, 6, "phase", phase, false);
+    }
     stream << "    }"
            << (trailingComma ? "," : "")
            << "\n";
@@ -855,13 +860,15 @@ bool writeArtifactManifest(
       "First phase report",
       "phase-report",
       "runtime_dsp_object_bound_wav_resync_demo.first.txt",
-      true);
+      true,
+      "first");
     writeArtifactLinkManifest(
       stream,
       "Second phase report",
       "phase-report",
       "runtime_dsp_object_bound_wav_resync_demo.second.txt",
-      false);
+      false,
+      "second");
 
     stream << "  ],\n"
            << "  \"sandboxHandoff\": {\n"

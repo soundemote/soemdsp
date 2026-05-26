@@ -209,6 +209,7 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_bound_wav_resync_demo manifest includes a demo-local sandbox handoff contract for mouse-and-ears inspection without scheduling, audio engine ownership, or patch serialization
 - docs/SANDBOX_HANDOFF_CONTRACT.md documents the current read-only sandbox handoff contract and its non-meanings
 - runtime_dsp_object_bound_wav_resync_demo manifest includes display-ready artifact links for read-only sandbox shells
+- runtime_dsp_object_bound_wav_resync_demo phase-report artifact links include explicit phase names for read-only report coverage checks
 - runtime_dsp_object_bound_wav_resync_demo writes the artifact manifest with consistent nested indentation for direct inspection
 - runtime_dsp_object_bound_wav_resync_demo manifest includes channel count, bit depth, and data byte metadata for the primary WAV artifact
 - runtime_dsp_object_bound_wav_resync_demo manifest includes explicit phase start/end frame display ranges for read-only sandbox waveform overlays

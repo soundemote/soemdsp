@@ -114,6 +114,10 @@ Each item records:
 - `kind`
 - `path`
 
+For `phase-report` items, each item also records:
+
+- `phase`
+
 These links are still local inspection metadata. They do not describe execution order, patch contents, ownership, plugin wiring, or scheduling.
 
 ## Phase Display Ranges
