@@ -90,6 +90,7 @@ A safe first sandbox consumer may:
 - show `sandboxHandoff.primaryAudioArtifact`
 - render `artifactLinks` as a display-only artifact list
 - display phase status from `phases`
+- display phase ranges from `startFrame` and `endFrame`
 - display artifact status from `wav`
 
 A safe first sandbox consumer should not:
@@ -113,3 +114,11 @@ Each item records:
 - `path`
 
 These links are still local inspection metadata. They do not describe execution order, patch contents, ownership, plugin wiring, or scheduling.
+
+## Phase Display Ranges
+
+Phase objects may include `startFrame` and `endFrame` fields.
+
+These are display ranges for read-only inspection shells. They let a sandbox draw phase spans against the generated WAV without deriving those spans from processing order.
+
+They do not define a scheduler, graph execution order, or reusable processing API.

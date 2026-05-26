@@ -210,6 +210,7 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_bound_wav_resync_demo manifest includes display-ready artifact links for read-only sandbox shells
 - runtime_dsp_object_bound_wav_resync_demo writes the artifact manifest with consistent nested indentation for direct inspection
 - runtime_dsp_object_bound_wav_resync_demo manifest includes channel count, bit depth, and data byte metadata for the primary WAV artifact
+- runtime_dsp_object_bound_wav_resync_demo manifest includes explicit phase start/end frame display ranges for read-only sandbox waveform overlays
 - docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md records accept/display/reject rules for a future read-only sandbox manifest consumer
 - root-level runtime demo reports and inspection artifacts are gitignored so running demos does not dirty the repo
 

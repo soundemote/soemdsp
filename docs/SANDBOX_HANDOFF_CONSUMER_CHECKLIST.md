@@ -44,6 +44,7 @@ A read-only consumer may accept the manifest when:
 - `artifactLinks` contains at least one `entry-point`
 - `artifactLinks` contains at least one `audio`
 - `phases` contains at least one phase report
+- each phase may include `startFrame` and `endFrame` display ranges matching `samplesProcessed`
 
 ## Display
 
@@ -54,6 +55,7 @@ A read-only consumer may display:
 - the primary WAV from `sandboxHandoff.primaryAudioArtifact`
 - display-only artifact rows from `artifactLinks`
 - phase status from `phases`
+- phase display ranges from `startFrame` and `endFrame`
 - WAV status from `wav`
 
 ## Reject Or Warn

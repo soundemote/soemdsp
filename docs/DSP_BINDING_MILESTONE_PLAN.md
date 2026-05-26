@@ -89,6 +89,8 @@ The manifest writer now keeps nested phase and artifact link objects consistentl
 
 The manifest also carries the primary WAV channel count, bit depth, and data byte count from the demo-local WAV write report so a read-only sandbox can validate basic audio metadata without inventing an audio engine.
 
+The manifest now carries explicit `startFrame` and `endFrame` values for each render phase. These are read-only display ranges for sandbox waveform overlays, not scheduler order, graph execution, or project serialization.
+
 `docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the smallest safe read-only consumer behavior for a future sandbox shell, including required boundary flags and warning conditions.
 
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.

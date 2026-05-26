@@ -513,6 +513,8 @@ void writePhaseManifest(
   std::ostream& stream,
   const char* name,
   const DspBlockPhaseReport& report,
+  std::size_t startFrame,
+  std::size_t endFrame,
   bool trailingComma)
 {
     stream << "    {\n";
@@ -522,7 +524,9 @@ void writePhaseManifest(
     writeJsonBool(stream, 6, "processOk", report.processOk, true);
     writeJsonNumber(stream, 6, "bindingsChecked", report.bindingsChecked, true);
     writeJsonNumber(stream, 6, "parametersApplied", report.parametersApplied, true);
-    writeJsonNumber(stream, 6, "samplesProcessed", report.samplesProcessed, false);
+    writeJsonNumber(stream, 6, "samplesProcessed", report.samplesProcessed, true);
+    writeJsonNumber(stream, 6, "startFrame", startFrame, true);
+    writeJsonNumber(stream, 6, "endFrame", endFrame, false);
     stream << "    }"
            << (trailingComma ? "," : "")
            << "\n";
@@ -578,8 +582,25 @@ bool writeArtifactManifest(
            << "  },\n"
            << "  \"phases\": [\n";
 
-    writePhaseManifest(stream, "first", firstReport, true);
-    writePhaseManifest(stream, "second", secondReport, false);
+    const auto firstStartFrame = static_cast<std::size_t>(0);
+    const auto firstEndFrame = firstReport.samplesProcessed;
+    const auto secondStartFrame = firstEndFrame;
+    const auto secondEndFrame = firstEndFrame + secondReport.samplesProcessed;
+
+    writePhaseManifest(
+      stream,
+      "first",
+      firstReport,
+      firstStartFrame,
+      firstEndFrame,
+      true);
+    writePhaseManifest(
+      stream,
+      "second",
+      secondReport,
+      secondStartFrame,
+      secondEndFrame,
+      false);
 
     stream << "  ],\n"
            << "  \"wav\": {\n"
