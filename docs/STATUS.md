@@ -200,6 +200,7 @@ Implemented runtime capabilities include:
 - examples/WriteMono16Wav.hpp
 - audible demos share an examples-only mono WAV writer helper
 - the WAV writer helper is not a production runtime API and does not introduce an audio engine
+- audible demos can print and write examples-only mono WAV write reports for future sandbox-style status inspection
 
 Reflection metadata exists for nodes:
 - name

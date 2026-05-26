@@ -167,7 +167,21 @@ int main()
     const auto samples = renderSamples(oscillator);
 
     const std::string path = "runtime_dsp_object_bound_wav_demo.wav";
-    if (!soemdsp::examples::writeMono16Wav(path, samples, sampleRate))
+    const auto wavReport =
+      soemdsp::examples::writeMono16WavWithReport(
+        path,
+        samples,
+        sampleRate);
+    soemdsp::examples::printMono16WavWriteReport(wavReport);
+    const auto wroteReport =
+      soemdsp::examples::writeMono16WavWriteReportTextFile(
+        wavReport,
+        "runtime_dsp_object_bound_wav_demo.wav.txt");
+    std::cout << "wav report file written: "
+              << (wroteReport ? "true" : "false")
+              << "\n";
+
+    if (!wavReport.wrote)
     {
         std::cerr << "Failed to write " << path << "\n";
         return 1;
@@ -178,15 +192,6 @@ int main()
               << "\n";
     std::cout << "amplitudeMemory after apply: "
               << amplitudeMemory
-              << "\n";
-    std::cout << "rendered wav: "
-              << path
-              << "\n";
-    std::cout << "sample rate: "
-              << sampleRate
-              << "\n";
-    std::cout << "frames: "
-              << samples.size()
               << "\n";
     std::cout << "source: Circuit parameters -> binding -> external memory -> TinySineDsp\n";
 

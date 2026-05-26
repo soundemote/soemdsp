@@ -4,6 +4,8 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
+#include <iostream>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -79,6 +81,79 @@ inline bool writeMono16Wav(
     }
 
     return static_cast<bool>(wav);
+}
+
+struct Mono16WavWriteReport
+{
+    bool wrote{};
+    std::string path;
+    int sampleRate{};
+    int channelCount{ 1 };
+    int bitsPerSample{ 16 };
+    std::size_t frames{};
+    std::size_t dataBytes{};
+    std::size_t fileBytes{};
+};
+
+inline Mono16WavWriteReport writeMono16WavWithReport(
+  const std::string& path,
+  const std::vector<float>& samples,
+  int sampleRate)
+{
+    Mono16WavWriteReport report;
+    report.path = path;
+    report.sampleRate = sampleRate;
+    report.frames = samples.size();
+    report.dataBytes = samples.size() * sizeof(std::int16_t);
+    report.fileBytes = 44 + report.dataBytes;
+    report.wrote = writeMono16Wav(path, samples, sampleRate);
+
+    return report;
+}
+
+inline void printMono16WavWriteReport(
+  const Mono16WavWriteReport& report,
+  std::ostream& os = std::cout)
+{
+    os << "[MONO 16 WAV WRITE REPORT]\n"
+       << "wrote: "
+       << (report.wrote ? "true" : "false")
+       << "\n"
+       << "path: "
+       << report.path
+       << "\n"
+       << "sample rate: "
+       << report.sampleRate
+       << "\n"
+       << "channels: "
+       << report.channelCount
+       << "\n"
+       << "bit depth: "
+       << report.bitsPerSample
+       << "\n"
+       << "frames: "
+       << report.frames
+       << "\n"
+       << "data bytes: "
+       << report.dataBytes
+       << "\n"
+       << "file bytes: "
+       << report.fileBytes
+       << "\n";
+}
+
+inline bool writeMono16WavWriteReportTextFile(
+  const Mono16WavWriteReport& report,
+  const std::string& path)
+{
+    std::ofstream stream(path);
+    if (!stream.is_open())
+    {
+        return false;
+    }
+
+    printMono16WavWriteReport(report, stream);
+    return true;
 }
 
 } // namespace soemdsp::examples

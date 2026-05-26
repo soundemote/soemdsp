@@ -11,8 +11,6 @@
 namespace
 {
 constexpr int sampleRate = 44100;
-constexpr int channelCount = 1;
-constexpr int bitsPerSample = 16;
 constexpr float amplitude = 0.35f;
 constexpr double seconds = 1.0;
 } // namespace
@@ -73,17 +71,26 @@ int main()
     }
 
     const std::string path = "runtime_audio_sine_wav_demo.wav";
-    if (!soemdsp::examples::writeMono16Wav(path, rendered, sampleRate))
+    const auto wavReport =
+      soemdsp::examples::writeMono16WavWithReport(
+        path,
+        rendered,
+        sampleRate);
+    soemdsp::examples::printMono16WavWriteReport(wavReport);
+    const auto wroteReport =
+      soemdsp::examples::writeMono16WavWriteReportTextFile(
+        wavReport,
+        "runtime_audio_sine_wav_demo.wav.txt");
+    std::cout << "wav report file written: "
+              << (wroteReport ? "true" : "false")
+              << "\n";
+
+    if (!wavReport.wrote)
     {
         std::cerr << "Failed to write " << path << "\n";
         return 1;
     }
 
-    std::cout << "rendered wav: " << path << "\n";
-    std::cout << "sample rate: " << sampleRate << "\n";
-    std::cout << "frames: " << rendered.size() << "\n";
-    std::cout << "channels: " << channelCount << "\n";
-    std::cout << "bit depth: " << bitsPerSample << "\n";
     std::cout << "source: runtime Circuit -> SineOscillator -> AudioOutput\n";
 
     return 0;

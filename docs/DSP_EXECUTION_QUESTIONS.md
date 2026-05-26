@@ -18,6 +18,7 @@ The current proof ladder shows:
 - Caller-owned block passes can produce compact phase reports for preflight, apply, and process counts.
 - Caller-owned block phase reports can be printed and written as text files for inspection.
 - Caller-owned resync demos can report each block pass independently before and after parameter changes.
+- Caller-owned audible demos can print and write compact WAV write reports for artifact status inspection.
 - Caller-owned block preflight failures can report skipped processing without mutating external DSP memory.
 - Caller-owned block passes can recover after a failed preflight when the binding target is corrected.
 - DSP binding target validation rejects null memory slots before apply writes any external memory.
