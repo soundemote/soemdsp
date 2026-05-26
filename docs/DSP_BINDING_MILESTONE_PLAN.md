@@ -77,6 +77,8 @@ The resync WAV demo now writes a combined demo-local render summary that joins s
 
 The same resync WAV demo also writes a demo-local HTML audio report with a browser-native audio control and compact phase/artifact status. This is the first mouse-and-ears oriented artifact, while still avoiding a sandbox app, web server, scheduler, audio engine, or production UI.
 
+The resync WAV demo now writes a demo-local JSON artifact manifest that ties together the generated WAV, WAV metadata report, phase reports, text summary, and HTML report. This manifest is for inspection only and is not a patch/project serialization format.
+
 `docs/DSP_EXECUTION_QUESTIONS.md` records the scheduler, batch API, and sandbox questions that must be answered before the demo-local proofs become production execution machinery.
 
 Example milestone:

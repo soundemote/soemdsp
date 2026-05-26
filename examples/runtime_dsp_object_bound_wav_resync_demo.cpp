@@ -429,6 +429,151 @@ bool writeHtmlAudioReport(
 
     return static_cast<bool>(stream);
 }
+
+void writeJsonBool(
+  std::ostream& stream,
+  const char* key,
+  bool value,
+  bool trailingComma)
+{
+    stream << "    \""
+           << key
+           << "\": "
+           << (value ? "true" : "false")
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
+void writeJsonNumber(
+  std::ostream& stream,
+  const char* key,
+  std::size_t value,
+  bool trailingComma)
+{
+    stream << "    \""
+           << key
+           << "\": "
+           << value
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
+void writeJsonString(
+  std::ostream& stream,
+  const char* key,
+  const char* value,
+  bool trailingComma)
+{
+    stream << "    \""
+           << key
+           << "\": \""
+           << value
+           << "\""
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
+void writePhaseManifest(
+  std::ostream& stream,
+  const char* name,
+  const DspBlockPhaseReport& report,
+  bool trailingComma)
+{
+    stream << "  {\n";
+    writeJsonString(stream, "name", name, true);
+    writeJsonBool(stream, "preflightOk", report.preflightOk, true);
+    writeJsonBool(stream, "applyOk", report.applyOk, true);
+    writeJsonBool(stream, "processOk", report.processOk, true);
+    writeJsonNumber(stream, "bindingsChecked", report.bindingsChecked, true);
+    writeJsonNumber(stream, "parametersApplied", report.parametersApplied, true);
+    writeJsonNumber(stream, "samplesProcessed", report.samplesProcessed, false);
+    stream << "  }"
+           << (trailingComma ? "," : "")
+           << "\n";
+}
+
+bool writeArtifactManifest(
+  const char* path,
+  const DspBlockPhaseReport& firstReport,
+  const DspBlockPhaseReport& secondReport,
+  const soemdsp::examples::Mono16WavWriteReport& wavReport,
+  bool frequencyChanged,
+  bool amplitudeChanged,
+  bool wroteWavReport,
+  bool wroteCombinedReport,
+  bool wroteHtmlReport)
+{
+    std::ofstream stream(path);
+    if (!stream.is_open())
+    {
+        return false;
+    }
+
+    const bool allOk =
+      frequencyChanged &&
+      amplitudeChanged &&
+      firstReport.preflightOk &&
+      firstReport.applyOk &&
+      firstReport.processOk &&
+      secondReport.preflightOk &&
+      secondReport.applyOk &&
+      secondReport.processOk &&
+      wavReport.wrote &&
+      wroteWavReport &&
+      wroteCombinedReport &&
+      wroteHtmlReport;
+
+    stream << "{\n"
+           << "  \"demo\": \"runtime_dsp_object_bound_wav_resync_demo\",\n"
+           << "  \"kind\": \"demo-local-bound-wav-resync-artifacts\",\n"
+           << "  \"runtimeApi\": false,\n"
+           << "  \"scheduler\": false,\n"
+           << "  \"audioEngine\": false,\n"
+           << "  \"allOk\": "
+           << (allOk ? "true" : "false")
+           << ",\n"
+           << "  \"parameterSetters\": {\n"
+           << "    \"frequency\": "
+           << (frequencyChanged ? "true" : "false")
+           << ",\n"
+           << "    \"amplitude\": "
+           << (amplitudeChanged ? "true" : "false")
+           << "\n"
+           << "  },\n"
+           << "  \"phases\": [\n";
+
+    writePhaseManifest(stream, "first", firstReport, true);
+    writePhaseManifest(stream, "second", secondReport, false);
+
+    stream << "  ],\n"
+           << "  \"wav\": {\n"
+           << "    \"path\": \""
+           << wavReport.path
+           << "\",\n"
+           << "    \"wrote\": "
+           << (wavReport.wrote ? "true" : "false")
+           << ",\n"
+           << "    \"sampleRate\": "
+           << wavReport.sampleRate
+           << ",\n"
+           << "    \"frames\": "
+           << wavReport.frames
+           << ",\n"
+           << "    \"fileBytes\": "
+           << wavReport.fileBytes
+           << "\n"
+           << "  },\n"
+           << "  \"artifacts\": {\n"
+           << "    \"wavReport\": \"runtime_dsp_object_bound_wav_resync_demo.wav.txt\",\n"
+           << "    \"firstPhaseReport\": \"runtime_dsp_object_bound_wav_resync_demo.first.txt\",\n"
+           << "    \"secondPhaseReport\": \"runtime_dsp_object_bound_wav_resync_demo.second.txt\",\n"
+           << "    \"textSummary\": \"runtime_dsp_object_bound_wav_resync_demo.summary.txt\",\n"
+           << "    \"htmlReport\": \"runtime_dsp_object_bound_wav_resync_demo.html\"\n"
+           << "  }\n"
+           << "}\n";
+
+    return static_cast<bool>(stream);
+}
 } // namespace
 
 int main()
@@ -559,6 +704,21 @@ int main()
         secondAmplitude);
     std::cout << "html audio report file written: "
               << (wroteHtmlReport ? "true" : "false")
+              << "\n";
+
+    const auto wroteArtifactManifest =
+      writeArtifactManifest(
+        "runtime_dsp_object_bound_wav_resync_demo.manifest.json",
+        firstReport,
+        secondReport,
+        wavReport,
+        frequencyChanged,
+        amplitudeChanged,
+        wroteWavReport,
+        wroteCombinedReport,
+        wroteHtmlReport);
+    std::cout << "artifact manifest file written: "
+              << (wroteArtifactManifest ? "true" : "false")
               << "\n";
 
     std::cout << "first half frequency: "
