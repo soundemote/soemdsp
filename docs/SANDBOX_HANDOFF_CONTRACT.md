@@ -1,6 +1,6 @@
 # Sandbox Handoff Contract
 
-This document describes the current demo-local artifact handoff between `soemdsp` proofs and a future `soemdsp-sandbox`.
+This document describes the current demo-local artifact handoff between `soemdsp` proofs and the read-only `soemdsp-sandbox` consumer.
 
 The handoff is read-only inspection metadata. It is not a project format, patch format, scheduler contract, audio engine contract, plugin API, or promise that the sandbox should own DSP object execution.
 
@@ -69,9 +69,9 @@ Binding is the bridge.
 
 ## Non-Meanings
 
-A future sandbox may read this manifest to find local inspection artifacts.
+A sandbox may read this manifest to find local inspection artifacts.
 
-A future sandbox must not infer that this manifest is:
+A sandbox must not infer that this manifest is:
 
 - a patch/project serialization format
 - a scheduler plan
@@ -102,7 +102,7 @@ A safe first sandbox consumer should not:
 - save the manifest as a project file
 - treat demo-local paths as portable project paths
 
-`docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the current accept/display/reject checklist for a future read-only sandbox shell.
+`docs/SANDBOX_HANDOFF_CONSUMER_CHECKLIST.md` records the current accept/display/reject checklist for a read-only sandbox shell.
 
 ## Display-Ready Artifact Links
 

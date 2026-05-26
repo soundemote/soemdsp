@@ -98,7 +98,7 @@ Until these answers are clear, keep batch behavior demo-local.
 
 ## Sandbox Questions
 
-Before `soemdsp-sandbox` depends on this layer, answer:
+Before `soemdsp-sandbox` moves beyond read-only artifact inspection and depends on this layer for execution, answer:
 
 - What should a sandbox node own?
 - What should a sandbox patch/project serialize?

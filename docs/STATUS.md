@@ -243,4 +243,5 @@ Debug helpers exist:
 ## Next Direction
 - move toward editor-ready graph metadata
 - then serialization
-- then playable audio sandbox
+- keep strengthening the read-only mouse-and-ears sandbox handoff
+- then move toward a controlled playable audio sandbox
