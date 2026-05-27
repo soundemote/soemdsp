@@ -17,6 +17,8 @@ enum class MetaType {
     //decimal
     decimal,
     decimal_bipolar,
+    amplitude,
+    decibels,
     frequency,
     pitch,
     seconds,
@@ -49,6 +51,10 @@ struct WireTypeTraits {
             return { "lin", 0.0, 0.0, 1.0 };
         case MetaType::decimal_bipolar:
             return { "lin", 0.0, -1.0, 1.0 };
+        case MetaType::amplitude:
+            return { "amp", 1.0, 0.0, 3.0 };
+        case MetaType::decibels:
+            return { "dB", 0.0, -60.0, 12.0 };
         case MetaType::frequency:
             return { "Hz", 1000.0, 0.0, 20000.0 };
         case MetaType::pitch:
