@@ -52,9 +52,9 @@ struct WireTypeTraits {
         switch (t) {
         //decimal
         case MetaType::decimal:
-            return { "lin", 0.0, 0.0, 1.0 };
+            return { "", 0.0, 0.0, 1.0 };
         case MetaType::decimal_bipolar:
-            return { "lin", 0.0, -1.0, 1.0, {}, true };
+            return { "", 0.0, -1.0, 1.0, {}, true };
         case MetaType::amplitude:
             return { "amp", 1.0, 0.0, 3.0 };
         case MetaType::decibels:
