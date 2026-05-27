@@ -49,6 +49,7 @@ struct WireTypeTraits {
     bool showPlusMinus{};
     bool displayChoices{};
     bool wraparound{};
+    bool linearSmoothing{ true };
 
     static constexpr const WireTypeTraits get(MetaType t) noexcept {
         switch (t) {
@@ -73,21 +74,21 @@ struct WireTypeTraits {
             return { "amp", 1.0, 0.0, 1.0 };
         //integer
         case MetaType::descrete:
-            return { "idx", 0.0, 0.0, 9.0 };
+            return { "idx", 0.0, 0.0, 9.0, {}, false, false, false, false };
         case MetaType::integer_bipolar:
-            return { "idx", 0.0, -9.0, 9.0, {}, true };
+            return { "idx", 0.0, -9.0, 9.0, {}, true, false, false, false };
         //choice
         case MetaType::waveform:
-            return { "", 0.0, 0.0, 9.0, choice::waveform, false, true };
+            return { "", 0.0, 0.0, 9.0, choice::waveform, false, true, false, false };
         //boolean
         case MetaType::bypass:
-            return { "bypass", 0.0, 0.0, 1.0, choice::bypass, false, true };
+            return { "bypass", 0.0, 0.0, 1.0, choice::bypass, false, true, false, false };
         case MetaType::plusminus:
-            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true, true };
+            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true, true, false, false };
         case MetaType::onoff:
-            return { "onoff", 1.0, 0.0, 1.0, choice::onoff, false, true };
+            return { "onoff", 1.0, 0.0, 1.0, choice::onoff, false, true, false, false };
         case MetaType::momentary:
-            return { "momentary", 0.0, 0.0, 1.0, choice::momentary, false, true };
+            return { "momentary", 0.0, 0.0, 1.0, choice::momentary, false, true, false, false };
         default:
             return { "undfined", 0.0, 0.0, 0.0 };
         }
@@ -102,6 +103,7 @@ struct WireMeta {
     bool showPlusMinus{};
     bool displayChoices{};
     bool wraparound{};
+    bool linearSmoothing{ true };
     double def_{};
     double min_{};
     double max_{};
@@ -117,7 +119,8 @@ struct WireMeta {
       , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
       , showPlusMinus(WireTypeTraits::get(type).showPlusMinus)
       , displayChoices(WireTypeTraits::get(type).displayChoices)
-      , wraparound(WireTypeTraits::get(type).wraparound) {}
+      , wraparound(WireTypeTraits::get(type).wraparound)
+      , linearSmoothing(WireTypeTraits::get(type).linearSmoothing) {}
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isBipolar() const noexcept {
