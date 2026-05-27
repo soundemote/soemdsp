@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <span>
 #include <string_view>
 
@@ -43,6 +44,7 @@ struct WireTypeTraits {
     const double min_{};
     const double max_{};
     std::span<const std::string_view> choice{};
+    bool showPlusMinus{};
 
     static constexpr const WireTypeTraits get(MetaType t) noexcept {
         switch (t) {
@@ -50,15 +52,15 @@ struct WireTypeTraits {
         case MetaType::decimal:
             return { "lin", 0.0, 0.0, 1.0 };
         case MetaType::decimal_bipolar:
-            return { "lin", 0.0, -1.0, 1.0 };
+            return { "lin", 0.0, -1.0, 1.0, {}, true };
         case MetaType::amplitude:
             return { "amp", 1.0, 0.0, 3.0 };
         case MetaType::decibels:
-            return { "dB", 0.0, -60.0, 12.0 };
+            return { "dB", 0.0, -60.0, 12.0, {}, true };
         case MetaType::frequency:
             return { "Hz", 1000.0, 0.0, 20000.0 };
         case MetaType::pitch:
-            return { "st", 0.0, -12.0, 12.0 };
+            return { "st", 0.0, -12.0, 12.0, {}, true };
         case MetaType::seconds:
             return { "s", 0.0, 0.0, 5.0 };
         case MetaType::sustain:
@@ -73,7 +75,7 @@ struct WireTypeTraits {
         case MetaType::bypass:
             return { "bypass", 0.0, 0.0, 1.0, choice::bypass };
         case MetaType::plusminus:
-            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus };
+            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true };
         case MetaType::onoff:
             return { "onoff", 1.0, 0.0, 1.0, choice::onoff };
         case MetaType::momentary:
@@ -89,6 +91,7 @@ struct WireMeta {
     std::string_view desc_;
     MetaType type_;
     std::span<const std::string_view> choices;
+    bool showPlusMinus{};
     double def_{};
     double min_{};
     double max_{};
@@ -101,7 +104,8 @@ struct WireMeta {
       : name_(name)
       , desc_(desc)
       , type_(type)
-      , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice) {}
+      , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
+      , showPlusMinus(WireTypeTraits::get(type).showPlusMinus) {}
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isBipolar() const noexcept {
