@@ -27,6 +27,7 @@ enum class MetaType {
 
     //integer
     descrete,
+    integer_bipolar,
 
     //choice
     waveform,
@@ -56,11 +57,11 @@ struct WireTypeTraits {
         case MetaType::amplitude:
             return { "amp", 1.0, 0.0, 3.0 };
         case MetaType::decibels:
-            return { "dB", 0.0, -60.0, 12.0, {}, true };
+            return { "dB", 0.0, -60.0, 12.0 };
         case MetaType::frequency:
             return { "Hz", 1000.0, 0.0, 20000.0 };
         case MetaType::pitch:
-            return { "st", 0.0, -12.0, 12.0, {}, true };
+            return { "st", 0.0, -12.0, 12.0 };
         case MetaType::seconds:
             return { "s", 0.0, 0.0, 5.0 };
         case MetaType::sustain:
@@ -68,6 +69,8 @@ struct WireTypeTraits {
         //integer
         case MetaType::descrete:
             return { "idx", 0.0, 0.0, 9.0 };
+        case MetaType::integer_bipolar:
+            return { "idx", 0.0, -9.0, 9.0, {}, true };
         //choice
         case MetaType::waveform:
             return { "", 0.0, 0.0, 9.0, choice::waveform };
