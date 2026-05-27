@@ -197,6 +197,10 @@ Implemented runtime capabilities include:
 - changed Circuit parameter values can be resynced into external DSP memory between two halves of an audible WAV artifact
 - runtime_dsp_object_bound_wav_resync_demo proves audible caller-owned DSP rendering can respond to runtime parameter changes without scheduler or audio engine ownership
 - runtime_dsp_object_bound_wav_resync_demo reports each audible render half through DspBlockPhaseReport
+- runtime_dsp_object_circuit_connected_wav_demo
+- C++ Circuit connections can describe a caller-owned TinyOscillatorDsp -> TinyGainDsp -> output chain that renders an audible WAV artifact
+- runtime_dsp_object_circuit_connected_wav_demo keeps Circuit as graph description only; caller-owned DSP objects and caller-owned processing order render the audio
+- runtime_dsp_object_circuit_connected_wav_demo writes a sandbox-compatible artifact packet, including a circuit connection report, so the read-only sandbox can load and play the result
 - examples/WriteMono16Wav.hpp
 - audible demos share an examples-only mono WAV writer helper
 - the WAV writer helper is not a production runtime API and does not introduce an audio engine
