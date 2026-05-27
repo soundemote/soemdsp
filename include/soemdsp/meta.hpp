@@ -21,6 +21,7 @@ enum class MetaType {
     amplitude,
     decibels,
     frequency,
+    phase,
     pitch,
     seconds,
     sustain,
@@ -47,6 +48,7 @@ struct WireTypeTraits {
     std::span<const std::string_view> choice{};
     bool showPlusMinus{};
     bool displayChoices{};
+    bool wraparound{};
 
     static constexpr const WireTypeTraits get(MetaType t) noexcept {
         switch (t) {
@@ -61,6 +63,8 @@ struct WireTypeTraits {
             return { "dB", 0.0, -60.0, 12.0 };
         case MetaType::frequency:
             return { "Hz", 1000.0, 0.0, 20000.0 };
+        case MetaType::phase:
+            return { "cycle", 0.0, 0.0, 1.0, {}, false, false, true };
         case MetaType::pitch:
             return { "st", 0.0, -12.0, 12.0 };
         case MetaType::seconds:
@@ -97,6 +101,7 @@ struct WireMeta {
     std::span<const std::string_view> choices;
     bool showPlusMinus{};
     bool displayChoices{};
+    bool wraparound{};
     double def_{};
     double min_{};
     double max_{};
@@ -111,7 +116,8 @@ struct WireMeta {
       , type_(type)
       , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
       , showPlusMinus(WireTypeTraits::get(type).showPlusMinus)
-      , displayChoices(WireTypeTraits::get(type).displayChoices) {}
+      , displayChoices(WireTypeTraits::get(type).displayChoices)
+      , wraparound(WireTypeTraits::get(type).wraparound) {}
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isBipolar() const noexcept {
