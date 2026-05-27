@@ -75,6 +75,8 @@ The first code-connected audible proof now exists: `runtime_dsp_object_circuit_c
 
 The code-connected audible proof now also emits and verifies an explicit caller-processing-order proof. The manifest states that caller-owned processing order matches the Circuit connections, lists the exact processing steps, and lets the read-only sandbox reject a mismatched order while still keeping all execution ownership outside Circuit.
 
+A second code-connected audible proof now scales that shape by one DSP object: `runtime_dsp_object_circuit_connected_bias_wav_demo` describes `TinyOscillatorDsp -> TinyGainDsp -> TinyBiasDsp -> audio output`, binds frequency/amplitude/bias into caller-owned memory, renders an audible WAV from caller-owned objects, and emits a sandbox packet whose three-step caller processing order matches the Circuit connections. The sandbox verifies the decoded WAV with bias-aware peak and DC offset checks. This remains demo-local execution proof, not scheduler ownership or a production patch executor.
+
 The audible demos now share an examples-only mono WAV writer helper. This removes repeated demo code while keeping file rendering outside the runtime API. The helper can also emit a compact write report with path, frame count, sample rate, channel count, bit depth, data bytes, file bytes, and success status for future sandbox-style status inspection.
 
 The resync WAV demo now writes a combined demo-local render summary that joins setter status, first/second phase reports, and WAV artifact metadata. This is a sandbox-status proof only; it is not a scheduler, executor, or project serialization format.

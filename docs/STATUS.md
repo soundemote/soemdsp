@@ -202,6 +202,10 @@ Implemented runtime capabilities include:
 - runtime_dsp_object_circuit_connected_wav_demo keeps Circuit as graph description only; caller-owned DSP objects and caller-owned processing order render the audio
 - runtime_dsp_object_circuit_connected_wav_demo proves the caller-owned processing order matches the Circuit connection order before accepting the artifact packet
 - runtime_dsp_object_circuit_connected_wav_demo writes a sandbox-compatible artifact packet, including a circuit connection report, so the read-only sandbox can load and play the result
+- runtime_dsp_object_circuit_connected_bias_wav_demo
+- C++ Circuit connections can also describe a caller-owned TinyOscillatorDsp -> TinyGainDsp -> TinyBiasDsp -> output chain
+- runtime_dsp_object_circuit_connected_bias_wav_demo proves the three-step caller-owned processing order matches the Circuit connection order
+- runtime_dsp_object_circuit_connected_bias_wav_demo emits bias-aware phase measurements so the sandbox verifies frequency, peak, and DC offset from the decoded WAV
 - examples/WriteMono16Wav.hpp
 - audible demos share an examples-only mono WAV writer helper
 - the WAV writer helper is not a production runtime API and does not introduce an audio engine
