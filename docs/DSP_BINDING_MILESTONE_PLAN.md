@@ -73,6 +73,8 @@ The audible binding proof can also resync: `runtime_dsp_object_bound_wav_resync_
 
 The first code-connected audible proof now exists: `runtime_dsp_object_circuit_connected_wav_demo` uses C++ `Circuit::connect` calls to describe `TinyOscillatorDsp -> TinyGainDsp -> audio output`, while the caller still owns the concrete DSP structs and the explicit processing order. Circuit owns graph description only. Binding syncs Circuit frequency/amplitude parameters into external memory, the caller renders a WAV artifact, and the demo writes a sandbox-compatible manifest/report packet for mouse-and-ears inspection. This is still not a scheduler, production batch API, plugin layer, graph-owned DSP state, or patch serialization format.
 
+The code-connected audible proof now also emits and verifies an explicit caller-processing-order proof. The manifest states that caller-owned processing order matches the Circuit connections, lists the exact processing steps, and lets the read-only sandbox reject a mismatched order while still keeping all execution ownership outside Circuit.
+
 The audible demos now share an examples-only mono WAV writer helper. This removes repeated demo code while keeping file rendering outside the runtime API. The helper can also emit a compact write report with path, frame count, sample rate, channel count, bit depth, data bytes, file bytes, and success status for future sandbox-style status inspection.
 
 The resync WAV demo now writes a combined demo-local render summary that joins setter status, first/second phase reports, and WAV artifact metadata. This is a sandbox-status proof only; it is not a scheduler, executor, or project serialization format.

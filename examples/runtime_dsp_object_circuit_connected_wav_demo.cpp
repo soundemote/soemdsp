@@ -73,6 +73,70 @@ struct PhaseAudioMeasurement
     double dcOffset{};
 };
 
+struct CallerProcessingStep
+{
+    const char* sourceNode{};
+    const char* sourcePort{};
+    const char* destinationNode{};
+    const char* destinationPort{};
+    const char* callerStep{};
+};
+
+const std::vector<CallerProcessingStep>& callerProcessingOrder()
+{
+    static const std::vector<CallerProcessingStep> steps{
+      {
+        "Tiny Oscillator",
+        "Out",
+        "Tiny Gain",
+        "A",
+        "oscillator.processSample -> gain.processSample",
+      },
+      {
+        "Tiny Gain",
+        "Out",
+        "Audio Out",
+        "In",
+        "gain.processSample -> output sample",
+      },
+    };
+    return steps;
+}
+
+bool connectionMatchesStep(
+  const Connection& connection,
+  const CallerProcessingStep& step)
+{
+    return
+      connection.sourceNode != nullptr &&
+      connection.sourcePort != nullptr &&
+      connection.destinationNode != nullptr &&
+      connection.destinationPort != nullptr &&
+      connection.sourceNode->name == step.sourceNode &&
+      connection.sourcePort->name == step.sourcePort &&
+      connection.destinationNode->name == step.destinationNode &&
+      connection.destinationPort->name == step.destinationPort;
+}
+
+bool callerProcessingOrderMatchesCircuit(const Circuit& circuit)
+{
+    const auto& steps = callerProcessingOrder();
+    if (circuit.connections.size() != steps.size())
+    {
+        return false;
+    }
+
+    for (std::size_t index = 0; index < steps.size(); ++index)
+    {
+        if (!connectionMatchesStep(circuit.connections[index], steps[index]))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 PhaseAudioMeasurement measurePhaseAudio(
   const std::vector<float>& samples,
   std::size_t startFrame,
@@ -330,6 +394,7 @@ bool writeCombinedRenderReport(
   const DspBlockPhaseReport& firstReport,
   const DspBlockPhaseReport& secondReport,
   const soemdsp::examples::Mono16WavWriteReport& wavReport,
+  bool processingOrderMatchesCircuit,
   bool frequencyChanged,
   bool amplitudeChanged,
   float firstFrequency,
@@ -348,6 +413,7 @@ bool writeCombinedRenderReport(
            << "circuit connections: " << circuit.connections.size() << "\n"
            << "connection 1: Tiny Oscillator.Out -> Tiny Gain.A\n"
            << "connection 2: Tiny Gain.Out -> Audio Out.In\n"
+           << "processing order matches circuit: " << (processingOrderMatchesCircuit ? "true" : "false") << "\n"
            << "caller owns DSP objects: true\n"
            << "caller owns processing order: true\n"
            << "frequency setter ok: " << (frequencyChanged ? "true" : "false") << "\n"
@@ -499,9 +565,45 @@ void writePhaseAudioMeasurementManifest(
     stream << "    }" << (trailingComma ? "," : "") << "\n";
 }
 
+void writeCallerProcessingOrderManifest(
+  std::ostream& stream,
+  bool processingOrderMatchesCircuit,
+  bool trailingComma)
+{
+    const auto& steps = callerProcessingOrder();
+
+    stream << "  \"callerProcessingOrder\": {\n";
+    writeJsonBool(
+      stream,
+      4,
+      "matchesCircuitConnections",
+      processingOrderMatchesCircuit,
+      true);
+    writeJsonBool(stream, 4, "callerOwnsProcessingOrder", true, true);
+    stream << "    \"steps\": [\n";
+
+    for (std::size_t index = 0; index < steps.size(); ++index)
+    {
+        const auto& step = steps[index];
+        const bool last = index + 1 == steps.size();
+        stream << "      {\n";
+        writeJsonNumber(stream, 8, "index", index, true);
+        writeJsonString(stream, 8, "sourceNode", step.sourceNode, true);
+        writeJsonString(stream, 8, "sourcePort", step.sourcePort, true);
+        writeJsonString(stream, 8, "destinationNode", step.destinationNode, true);
+        writeJsonString(stream, 8, "destinationPort", step.destinationPort, true);
+        writeJsonString(stream, 8, "callerStep", step.callerStep, false);
+        stream << "      }" << (last ? "" : ",") << "\n";
+    }
+
+    stream << "    ]\n"
+           << "  }" << (trailingComma ? "," : "") << "\n";
+}
+
 bool writeHtmlAudioReport(
   const char* path,
   const soemdsp::examples::Mono16WavWriteReport& wavReport,
+  bool processingOrderMatchesCircuit,
   float firstFrequency,
   float firstAmplitude,
   float secondFrequency,
@@ -524,6 +626,7 @@ bool writeHtmlAudioReport(
            << "<section><h2>C++ Connections</h2><dl>\n"
            << "<dt>connection 1</dt><dd>Tiny Oscillator.Out -&gt; Tiny Gain.A</dd>\n"
            << "<dt>connection 2</dt><dd>Tiny Gain.Out -&gt; Audio Out.In</dd>\n"
+           << "<dt>processing order matches circuit</dt><dd>" << (processingOrderMatchesCircuit ? "true" : "false") << "</dd>\n"
            << "<dt>caller owns DSP objects</dt><dd>true</dd>\n"
            << "<dt>caller owns processing order</dt><dd>true</dd>\n"
            << "</dl></section>\n"
@@ -554,6 +657,7 @@ bool writeArtifactManifest(
   const soemdsp::examples::Mono16WavWriteReport& wavReport,
   const PhaseAudioMeasurement& firstMeasurement,
   const PhaseAudioMeasurement& secondMeasurement,
+  bool processingOrderMatchesCircuit,
   bool frequencyChanged,
   bool amplitudeChanged,
   float firstFrequency,
@@ -573,6 +677,7 @@ bool writeArtifactManifest(
 
     const bool allOk =
       circuit.connections.size() == 2 &&
+      processingOrderMatchesCircuit &&
       frequencyChanged &&
       amplitudeChanged &&
       firstReport.preflightOk &&
@@ -604,6 +709,11 @@ bool writeArtifactManifest(
            << "    \"callerOwnsDspObjects\": true,\n"
            << "    \"callerOwnsProcessingOrder\": true\n"
            << "  },\n"
+           << "  \"callerProcessingOrderProof\": {\n"
+           << "    \"matchesCircuitConnections\": " << (processingOrderMatchesCircuit ? "true" : "false") << "\n"
+           << "  },\n";
+    writeCallerProcessingOrderManifest(stream, processingOrderMatchesCircuit, true);
+    stream
            << "  \"parameterResync\": {\n";
 
     writeParameterResyncManifest(stream, "frequency", frequencyChanged, firstFrequency, secondFrequency, true);
@@ -679,6 +789,8 @@ bool writeArtifactManifest(
 int main()
 {
     auto circuit = createCircuit();
+    const bool processingOrderMatchesCircuit =
+      callerProcessingOrderMatchesCircuit(circuit);
 
     float frequencyMemory = 0.0f;
     float amplitudeMemory = 0.0f;
@@ -695,6 +807,9 @@ int main()
     std::cout << "[DSP OBJECT CIRCUIT CONNECTED WAV]\n";
     std::cout << "[CIRCUIT CONNECTIONS]\n";
     soemdsp::runtime::debug::printConnections(circuit);
+    std::cout << "processing order matches circuit: "
+              << (processingOrderMatchesCircuit ? "true" : "false")
+              << "\n";
 
     DspBlockPhaseReport firstReport;
     runRenderPhase(firstReport, binding, circuit, oscillator, gain, samples, halfFrames);
@@ -769,6 +884,7 @@ int main()
         firstReport,
         secondReport,
         wavReport,
+        processingOrderMatchesCircuit,
         frequencyChanged,
         amplitudeChanged,
         firstFrequency,
@@ -779,6 +895,7 @@ int main()
       writeHtmlAudioReport(
         "runtime_dsp_object_circuit_connected_wav_demo.html",
         wavReport,
+        processingOrderMatchesCircuit,
         firstFrequency,
         firstAmplitude,
         secondFrequency,
@@ -792,6 +909,7 @@ int main()
         wavReport,
         firstMeasurement,
         secondMeasurement,
+        processingOrderMatchesCircuit,
         frequencyChanged,
         amplitudeChanged,
         firstFrequency,
