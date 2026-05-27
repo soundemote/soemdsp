@@ -46,6 +46,7 @@ struct WireTypeTraits {
     const double max_{};
     std::span<const std::string_view> choice{};
     bool showPlusMinus{};
+    bool displayChoices{};
 
     static constexpr const WireTypeTraits get(MetaType t) noexcept {
         switch (t) {
@@ -73,16 +74,16 @@ struct WireTypeTraits {
             return { "idx", 0.0, -9.0, 9.0, {}, true };
         //choice
         case MetaType::waveform:
-            return { "", 0.0, 0.0, 9.0, choice::waveform };
+            return { "", 0.0, 0.0, 9.0, choice::waveform, false, true };
         //boolean
         case MetaType::bypass:
-            return { "bypass", 0.0, 0.0, 1.0, choice::bypass };
+            return { "bypass", 0.0, 0.0, 1.0, choice::bypass, false, true };
         case MetaType::plusminus:
-            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true };
+            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true, true };
         case MetaType::onoff:
-            return { "onoff", 1.0, 0.0, 1.0, choice::onoff };
+            return { "onoff", 1.0, 0.0, 1.0, choice::onoff, false, true };
         case MetaType::momentary:
-            return { "momentary", 0.0, 0.0, 1.0, choice::momentary };
+            return { "momentary", 0.0, 0.0, 1.0, choice::momentary, false, true };
         default:
             return { "undfined", 0.0, 0.0, 0.0 };
         }
@@ -95,6 +96,7 @@ struct WireMeta {
     MetaType type_;
     std::span<const std::string_view> choices;
     bool showPlusMinus{};
+    bool displayChoices{};
     double def_{};
     double min_{};
     double max_{};
@@ -108,7 +110,8 @@ struct WireMeta {
       , desc_(desc)
       , type_(type)
       , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
-      , showPlusMinus(WireTypeTraits::get(type).showPlusMinus) {}
+      , showPlusMinus(WireTypeTraits::get(type).showPlusMinus)
+      , displayChoices(WireTypeTraits::get(type).displayChoices) {}
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isBipolar() const noexcept {
