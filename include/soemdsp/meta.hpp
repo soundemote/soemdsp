@@ -7,7 +7,7 @@
 namespace soemdsp::meta {
 
 namespace choice {
-static constexpr std::string_view waveform[]  = { "Sine", "Saw", "Square", "Noise" };
+static constexpr std::string_view waveform[]  = { "Saw", "Square", "Triangle", "Sine", "Noise" };
 static constexpr std::string_view bypass[]    = { "active", "BYPASSED" };
 static constexpr std::string_view plusminus[] = { "-", "+" };
 static constexpr std::string_view onoff[]     = { "off", "on" };
