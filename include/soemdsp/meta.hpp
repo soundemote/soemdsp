@@ -90,7 +90,7 @@ struct WireTypeTraits {
         case MetaType::momentary:
             return { "momentary", 0.0, 0.0, 1.0, choice::momentary, false, true, false, false };
         default:
-            return { "undfined", 0.0, 0.0, 0.0 };
+            return { "undefined", 0.0, 0.0, 0.0 };
         }
     }
 };
