@@ -79,7 +79,7 @@ struct WireTypeTraits {
             return { "idx", 0.0, -9.0, 9.0, {}, true, false, false, false };
         //choice
         case MetaType::waveform:
-            return { "", 0.0, 0.0, 9.0, choice::waveform, false, true, false, false };
+            return { "", 0.0, 0.0, 4.0, choice::waveform, false, true, false, false };
         //boolean
         case MetaType::bypass:
             return { "bypass", 0.0, 0.0, 1.0, choice::bypass, false, true, false, false };
