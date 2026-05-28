@@ -124,8 +124,10 @@ struct WireMeta {
       , wraparound(WireTypeTraits::get(type).wraparound)
       , linearSmoothing(WireTypeTraits::get(type).linearSmoothing)
       , def_(WireTypeTraits::get(type).def_)
-      , min_(WireTypeTraits::get(type).min_)
-      , max_(WireTypeTraits::get(type).max_) {}
+      , min_(!customchoices.empty() ? 0.0 : WireTypeTraits::get(type).min_)
+      , max_(!customchoices.empty()
+              ? static_cast<double>(customchoices.size() - 1)
+              : WireTypeTraits::get(type).max_) {}
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isBipolar() const noexcept {
@@ -155,4 +157,6 @@ static_assert(WireMeta{ "frequency", "", MetaType::frequency }.min_ == 0.0);
 static_assert(WireMeta{ "frequency", "", MetaType::frequency }.max_ == 20000.0);
 static_assert(WireMeta{ "waveform", "", MetaType::waveform }.choices.size() == 5);
 static_assert(WireMeta{ "waveform", "", MetaType::waveform }.max_ == 4.0);
+static_assert(WireMeta{ "custom", "", MetaType::waveform, choice::onoff }.choices.size() == 2);
+static_assert(WireMeta{ "custom", "", MetaType::waveform, choice::onoff }.max_ == 1.0);
 } //namespace soemdsp::meta
