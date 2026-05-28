@@ -99,6 +99,7 @@ struct WireMeta {
     std::string_view name_;
     std::string_view desc_;
     MetaType type_;
+    std::string_view unit_;
     std::span<const std::string_view> choices;
     bool showPlusMinus{};
     bool displayChoices{};
@@ -116,23 +117,27 @@ struct WireMeta {
       : name_(name)
       , desc_(desc)
       , type_(type)
+      , unit_(WireTypeTraits::get(type).unit_)
       , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
       , showPlusMinus(WireTypeTraits::get(type).showPlusMinus)
       , displayChoices(WireTypeTraits::get(type).displayChoices)
       , wraparound(WireTypeTraits::get(type).wraparound)
-      , linearSmoothing(WireTypeTraits::get(type).linearSmoothing) {}
+      , linearSmoothing(WireTypeTraits::get(type).linearSmoothing)
+      , def_(WireTypeTraits::get(type).def_)
+      , min_(WireTypeTraits::get(type).min_)
+      , max_(WireTypeTraits::get(type).max_) {}
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isBipolar() const noexcept {
-        return WireTypeTraits::get(type_).min_ < 0.0;
+        return min_ < 0.0;
     }
 
     //zero-overhead runtime or compile-time query function
     [[nodiscard]] constexpr bool isNormalized() const noexcept {
         if (isBipolar()) {
-            return WireTypeTraits::get(type_).min_ == -1.0 && WireTypeTraits::get(type_).max_ == 1.0;
+            return min_ == -1.0 && max_ == 1.0;
         } else {
-            return WireTypeTraits::get(type_).min_ == 0.0 && WireTypeTraits::get(type_).max_ == 1.0;
+            return min_ == 0.0 && max_ == 1.0;
         }
     }
 };
@@ -143,4 +148,11 @@ struct ModuleMeta {
     std::string_view desc_;
     std::array<WireMeta, N> wires_;
 };
+
+static_assert(WireMeta{ "frequency", "", MetaType::frequency }.unit_ == "Hz");
+static_assert(WireMeta{ "frequency", "", MetaType::frequency }.def_ == 1000.0);
+static_assert(WireMeta{ "frequency", "", MetaType::frequency }.min_ == 0.0);
+static_assert(WireMeta{ "frequency", "", MetaType::frequency }.max_ == 20000.0);
+static_assert(WireMeta{ "waveform", "", MetaType::waveform }.choices.size() == 5);
+static_assert(WireMeta{ "waveform", "", MetaType::waveform }.max_ == 4.0);
 } //namespace soemdsp::meta
