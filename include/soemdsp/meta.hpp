@@ -123,7 +123,7 @@ struct WireMeta {
       , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
       , showPlusMinus(WireTypeTraits::get(type).showPlusMinus)
       , displayChoices(WireTypeTraits::get(type).displayChoices)
-      , divideChoicesVisibly(WireTypeTraits::get(type).divideChoicesVisibly)
+      , divideChoicesVisibly(!customchoices.empty() ? true : WireTypeTraits::get(type).divideChoicesVisibly)
       , wraparound(WireTypeTraits::get(type).wraparound)
       , linearSmoothing(WireTypeTraits::get(type).linearSmoothing)
       , def_(!customchoices.empty() ? 0.0 : WireTypeTraits::get(type).def_)
