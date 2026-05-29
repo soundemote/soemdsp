@@ -48,6 +48,7 @@ struct WireTypeTraits {
     std::span<const std::string_view> choice{};
     bool showPlusMinus{};
     bool displayChoices{};
+    bool divideChoicesVisibly{};
     bool wraparound{};
     bool linearSmoothing{ true };
 
@@ -65,7 +66,7 @@ struct WireTypeTraits {
         case MetaType::frequency:
             return { "Hz", 1000.0, 0.0, 20000.0 };
         case MetaType::phase:
-            return { "cycle", 0.0, 0.0, 1.0, {}, false, false, true };
+            return { "cycle", 0.0, 0.0, 1.0, {}, false, false, false, true };
         case MetaType::pitch:
             return { "st", 0.0, -12.0, 12.0 };
         case MetaType::seconds:
@@ -74,21 +75,21 @@ struct WireTypeTraits {
             return { "amp", 1.0, 0.0, 1.0 };
         //integer
         case MetaType::descrete:
-            return { "idx", 0.0, 0.0, 9.0, {}, false, false, false, false };
+            return { "idx", 0.0, 0.0, 9.0, {}, false, false, false, false, false };
         case MetaType::integer_bipolar:
-            return { "idx", 0.0, -9.0, 9.0, {}, true, false, false, false };
+            return { "idx", 0.0, -9.0, 9.0, {}, true, false, false, false, false };
         //choice
         case MetaType::waveform:
-            return { "", 0.0, 0.0, 4.0, choice::waveform, false, true, false, false };
+            return { "", 0.0, 0.0, 4.0, choice::waveform, false, true, true, false, false };
         //boolean
         case MetaType::bypass:
-            return { "bypass", 0.0, 0.0, 1.0, choice::bypass, false, true, false, false };
+            return { "bypass", 0.0, 0.0, 1.0, choice::bypass, false, true, true, false, false };
         case MetaType::plusminus:
-            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true, true, false, false };
+            return { "plusminus", -1.0, -1.0, 1.0, choice::plusminus, true, true, true, false, false };
         case MetaType::onoff:
-            return { "onoff", 1.0, 0.0, 1.0, choice::onoff, false, true, false, false };
+            return { "onoff", 1.0, 0.0, 1.0, choice::onoff, false, true, true, false, false };
         case MetaType::momentary:
-            return { "momentary", 0.0, 0.0, 1.0, choice::momentary, false, true, false, false };
+            return { "momentary", 0.0, 0.0, 1.0, choice::momentary, false, true, true, false, false };
         default:
             return { "undefined", 0.0, 0.0, 0.0 };
         }
@@ -103,6 +104,7 @@ struct WireMeta {
     std::span<const std::string_view> choices;
     bool showPlusMinus{};
     bool displayChoices{};
+    bool divideChoicesVisibly{};
     bool wraparound{};
     bool linearSmoothing{ true };
     double def_{};
@@ -121,6 +123,7 @@ struct WireMeta {
       , choices(!customchoices.empty() ? customchoices : WireTypeTraits::get(type).choice)
       , showPlusMinus(WireTypeTraits::get(type).showPlusMinus)
       , displayChoices(WireTypeTraits::get(type).displayChoices)
+      , divideChoicesVisibly(WireTypeTraits::get(type).divideChoicesVisibly)
       , wraparound(WireTypeTraits::get(type).wraparound)
       , linearSmoothing(WireTypeTraits::get(type).linearSmoothing)
       , def_(!customchoices.empty() ? 0.0 : WireTypeTraits::get(type).def_)
