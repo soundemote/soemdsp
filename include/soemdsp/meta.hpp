@@ -51,6 +51,7 @@ struct WireTypeTraits {
     bool divideChoicesVisibly{};
     bool wraparound{};
     bool linearSmoothing{ true };
+    int maxDigits{ 3 };
 
     static constexpr const WireTypeTraits get(MetaType t) noexcept {
         switch (t) {
@@ -64,7 +65,7 @@ struct WireTypeTraits {
         case MetaType::decibels:
             return { "dB", 0.0, -60.0, 12.0 };
         case MetaType::frequency:
-            return { "Hz", 1000.0, 0.0, 20000.0 };
+            return { "Hz", 440.0, 0.0, 20000.0, {}, false, false, false, false, true, 5 };
         case MetaType::phase:
             return { "cycle", 0.0, 0.0, 1.0, {}, false, false, false, true };
         case MetaType::pitch:
@@ -107,6 +108,7 @@ struct WireMeta {
     bool divideChoicesVisibly{};
     bool wraparound{};
     bool linearSmoothing{ true };
+    int maxDigits{ 3 };
     double def_{};
     double min_{};
     double max_{};
@@ -126,6 +128,7 @@ struct WireMeta {
       , divideChoicesVisibly(!customchoices.empty() ? true : WireTypeTraits::get(type).divideChoicesVisibly)
       , wraparound(WireTypeTraits::get(type).wraparound)
       , linearSmoothing(WireTypeTraits::get(type).linearSmoothing)
+      , maxDigits(WireTypeTraits::get(type).maxDigits)
       , def_(!customchoices.empty() ? 0.0 : WireTypeTraits::get(type).def_)
       , min_(!customchoices.empty() ? 0.0 : WireTypeTraits::get(type).min_)
       , max_(!customchoices.empty()
@@ -155,9 +158,11 @@ struct ModuleMeta {
 };
 
 static_assert(WireMeta{ "frequency", "", MetaType::frequency }.unit_ == "Hz");
-static_assert(WireMeta{ "frequency", "", MetaType::frequency }.def_ == 1000.0);
+static_assert(WireMeta{ "frequency", "", MetaType::frequency }.def_ == 440.0);
 static_assert(WireMeta{ "frequency", "", MetaType::frequency }.min_ == 0.0);
 static_assert(WireMeta{ "frequency", "", MetaType::frequency }.max_ == 20000.0);
+static_assert(WireMeta{ "frequency", "", MetaType::frequency }.maxDigits == 5);
+static_assert(WireMeta{ "amplitude", "", MetaType::amplitude }.maxDigits == 3);
 static_assert(WireMeta{ "waveform", "", MetaType::waveform }.choices.size() == 5);
 static_assert(WireMeta{ "waveform", "", MetaType::waveform }.max_ == 4.0);
 static_assert(WireMeta{ "custom", "", MetaType::waveform, choice::onoff }.choices.size() == 2);

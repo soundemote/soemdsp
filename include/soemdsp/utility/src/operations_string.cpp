@@ -91,111 +91,105 @@ string time(double seconds, int precision) {
     }
 }
 
-string limitDecimals(const string& v, int maxDigits, int minDecimalPlaces, int maxDecimalPlaces, bool doRemoveTrailingZeros, bool allowExtraDecimalForLeadingZero) {
-    StringIterator si(v);
-    si.movePast(BLANKS);
-    si.start();
+namespace {
+string incrementWholeDigits(string whole) {
+    if (whole.empty()) {
+        return "1";
+    }
+    for (int i = static_cast<int>(whole.size()) - 1; i >= 0; --i) {
+        if (whole[static_cast<size_t>(i)] != '9') {
+            ++whole[static_cast<size_t>(i)];
+            return whole;
+        }
+        whole[static_cast<size_t>(i)] = '0';
+    }
+    return "1" + whole;
+}
+
+void trimTrailingZeros2(string& value) {
+    while (!value.empty() && value.back() == '0') {
+        value.pop_back();
+    }
+}
+
+void roundLimitedDecimals(string& whole, string& decimals, int decimalPlaces) {
+    if (decimalPlaces <= 0) {
+        whole = incrementWholeDigits(whole);
+        decimals.clear();
+        return;
+    }
+
+    decimals.resize(static_cast<size_t>(decimalPlaces), '0');
+    for (int i = decimalPlaces - 1; i >= 0; --i) {
+        if (decimals[static_cast<size_t>(i)] != '9') {
+            ++decimals[static_cast<size_t>(i)];
+            return;
+        }
+        decimals[static_cast<size_t>(i)] = '0';
+    }
+    whole = incrementWholeDigits(whole);
+}
+} // namespace
+
+string limitDecimals(const string& v, int maxDigits, int minDecimalPlaces, int maxDecimalPlaces, bool removeTrailingZeros, bool allowExtraDecimalForLeadingZero) {
+    size_t index = 0;
+    while (index < v.size() && cha::isWhiteSpace(v[index])) {
+        ++index;
+    }
 
     string sign;
-    string preDotNumber;
-    string dot;
-    string postDotNumber;
-
-    si.consume(SIGNS, 1);
-    sign = si.popMemory();
-
-    si.consume(DIGITS);
-    preDotNumber = si.popMemory();
-    if (allowExtraDecimalForLeadingZero && preDotNumber == "0") {
-        preDotNumber.clear();
-    } else if (preDotNumber.empty()) {
-        preDotNumber = "0";
+    if (index < v.size() && (v[index] == '+' || v[index] == '-')) {
+        sign += v[index];
+        ++index;
     }
 
-    si.consume('.', 1);
-    dot = si.popMemory();
-
-    if (dot.empty()) {
-        return sign + preDotNumber;
+    const size_t wholeStart = index;
+    while (index < v.size() && cha::isDigit(v[index])) {
+        ++index;
     }
 
-    int digitBudget = max(0, maxDigits - static_cast<int>(preDotNumber.size()));
-    si.consume(DIGITS, digitBudget + 1);
-    postDotNumber     = si.popMemory();
-    int decimalBudget = min(digitBudget, maxDecimalPlaces);
-
-    if (decimalBudget < postDotNumber.size()) {
-        /* ROUND NUMBER */
-        if (postDotNumber[decimalBudget] >= '5') {
-            /* ROUND POST DECIMAL NUMBER */
-            int pos = max(0, decimalBudget - 1);
-            while (pos >= 0 && postDotNumber[pos] == '9') {
-                --pos;
-            }
-            /* JUST ROUND FROM THE FIRST DECIMAL */
-            if (pos == 0 && postDotNumber[pos] >= '5' && decimalBudget <= 0) {
-                ++preDotNumber[preDotNumber.size() - 1];
-                postDotNumber.clear();
-            } else if (pos == -1) {
-                /* ROUND PRE DECIMAL NUMBER */
-                pos = preDotNumber.size() - 1;
-                while (pos > 0 && preDotNumber[pos] == '9') {
-                    --pos;
-                }
-                if (pos >= 0) {
-                    /* RETURN INTEGER */
-                    if (preDotNumber[pos] != '9') {
-                        ++preDotNumber[pos];
-                        size_t sz = preDotNumber.size();
-                        /* ZERO OUT ALL 9s AFTER INCREASING NON-9 DIGIT */
-                        for (int i = pos + 1; i < preDotNumber.size(); ++i) {
-                            preDotNumber[i] = '0';
-                        }
-                    } else {
-                        int originalPreDotNumberSize = preDotNumber.size();
-                        preDotNumber                 = '1';
-                        str::padRight(preDotNumber, "0", originalPreDotNumberSize + 1);
-                        --digitBudget;
-                    }
-                    if (!doRemoveTrailingZeros && minDecimalPlaces >= 0) {
-                        postDotNumber.clear();
-                        padRight(postDotNumber, "0", min(digitBudget, minDecimalPlaces));
-                        if (!postDotNumber.empty()) {
-                            return sign + preDotNumber + '.' + postDotNumber;
-                        }
-                    }
-                    return sign + preDotNumber;
-                }
-            } else {
-                /* RETURN DECIMAL */
-                postDotNumber.resize(pos + 1);
-                ++postDotNumber[pos];
-                if (allowExtraDecimalForLeadingZero && preDotNumber == "0" && minDecimalPlaces >= digitBudget) {
-                    ++digitBudget;
-                    if (!doRemoveTrailingZeros) {
-                        padRight(postDotNumber, "0", digitBudget);
-                    }
-                    return sign + '.' + postDotNumber;
-                }
-                if (!doRemoveTrailingZeros) {
-                    padRight(postDotNumber, "0", min(digitBudget, minDecimalPlaces));
-                }
-                return sign + preDotNumber + '.' + postDotNumber;
-            }
-        } else {
-            postDotNumber.resize(decimalBudget);
-        }
+    string whole = v.substr(wholeStart, index - wholeStart);
+    const bool omitLeadingZero = allowExtraDecimalForLeadingZero && whole == "0";
+    if (omitLeadingZero) {
+        whole.clear();
+    } else if (whole.empty()) {
+        whole = "0";
     }
 
-    if (doRemoveTrailingZeros && !postDotNumber.empty()) {
-        removeTrailingZeros(postDotNumber);
+    if (index >= v.size() || v[index] != '.') {
+        return sign + whole;
+    }
+    ++index;
+
+    const int boundedMaxDigits       = max(0, maxDigits);
+    const int boundedMinDecimals     = max(0, minDecimalPlaces);
+    const int boundedMaxDecimals     = max(0, maxDecimalPlaces);
+    int digitBudget                  = max(0, boundedMaxDigits - static_cast<int>(whole.size()));
+    int decimalPlaces                = min(digitBudget, boundedMaxDecimals);
+    string decimals;
+    decimals.reserve(static_cast<size_t>(decimalPlaces));
+    for (int i = 0; i < decimalPlaces && index < v.size() && cha::isDigit(v[index]); ++i, ++index) {
+        decimals += v[index];
+    }
+    const bool shouldRound = index < v.size() && cha::isDigit(v[index]) && v[index] >= '5';
+
+    if (shouldRound) {
+        roundLimitedDecimals(whole, decimals, decimalPlaces);
+        digitBudget   = max(0, boundedMaxDigits - static_cast<int>(whole.size()));
+        decimalPlaces = min({ static_cast<int>(decimals.size()), digitBudget, boundedMaxDecimals });
+        decimals.resize(static_cast<size_t>(decimalPlaces));
+    }
+
+    if (removeTrailingZeros) {
+        trimTrailingZeros2(decimals);
     } else {
-        padRight(postDotNumber, "0", min(digitBudget, minDecimalPlaces));
+        padRight(decimals, "0", min(digitBudget, boundedMinDecimals));
     }
 
-    if (postDotNumber.empty()) {
-        return sign + preDotNumber;
+    if (decimals.empty()) {
+        return sign + whole;
     }
-    return sign + preDotNumber + '.' + postDotNumber;
+    const bool omitWhole = omitLeadingZero && whole.empty();
+    return sign + (omitWhole ? string{} : whole) + "." + decimals;
 }
 } // namespace soemdsp::str

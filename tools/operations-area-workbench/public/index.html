@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operations Area Workbench</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="workbench">
+    <section class="pane area-pane" aria-label="Operations area editor">
+      <header class="toolbar">
+        <h1>operations area</h1>
+        <div class="actions">
+          <button id="undoButton" type="button">Undo</button>
+          <button id="redoButton" type="button">Redo</button>
+          <button id="resetButton" type="button">Reset</button>
+          <button id="scriptToggleButton" type="button" aria-pressed="false">Show Script</button>
+        </div>
+      </header>
+      <div class="area-body">
+        <div
+          id="areaCanvas"
+          class="area-canvas"
+          role="application"
+          aria-label="Operations area canvas"></div>
+      </div>
+      <output id="areaReadout" class="readout"></output>
+    </section>
+
+    <div
+      id="splitter"
+      class="splitter"
+      role="separator"
+      aria-label="Resize drawing and script panes"
+      aria-orientation="vertical"
+      tabindex="0"></div>
+
+    <section class="pane script-pane" aria-label="Operations area script">
+      <header class="toolbar">
+        <h2>script</h2>
+        <button id="copyButton" type="button">Copy</button>
+      </header>
+      <textarea id="areaScript" spellcheck="false" aria-label="Editable operations area script"></textarea>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
