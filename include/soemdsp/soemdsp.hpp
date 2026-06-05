@@ -10,6 +10,9 @@
 #include <soemdsp/semath.hpp>
 #include <soemdsp/semidi.hpp>
 
+// Dynamics
+#include <soemdsp/dynamics/FlowerChildEnvelopeFollower.hpp>
+
 // Utility
 #include <soemdsp/utility/EnumArray.hpp>
 #include <soemdsp/musical/BeatDivision.hpp>
@@ -22,6 +25,10 @@
 #include <soemdsp/utility/operations_char.hpp>
 #include <soemdsp/utility/operations_string.hpp>
 #include <soemdsp/utility/operations_vector.hpp>
+
+// Modulator
+#include <soemdsp/modulator/AnalogVocoder.hpp>
+#include <soemdsp/modulator/Vactrol.hpp>
 
 // Plugin
 #include <soemdsp/musical/Transport.hpp>

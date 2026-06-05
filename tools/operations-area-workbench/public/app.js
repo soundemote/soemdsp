@@ -1,33 +1,63 @@
-const defaultScript = "export { };";
+const uiItemWidth = 120;
+const uiItemHeight = 44;
 
 const state = {
   history: [],
   historyIndex: -1,
+  contextPoint: null,
+  nextUiItemNumber: 1,
   scriptVisible: false,
   splitDrag: null,
   splitRatio: 0.5,
+  uiItems: [],
 };
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, Number.isFinite(value) ? value : min));
 }
 
+function cloneUiItems(uiItems) {
+  return uiItems.map((item) => ({ ...item }));
+}
+
 function scriptElement() {
   return document.getElementById("areaScript");
+}
+
+function areaCanvasElement() {
+  return document.getElementById("areaCanvas");
+}
+
+function actionsMenuElement() {
+  return document.getElementById("actionsMenu");
+}
+
+function scriptFromState() {
+  const uiItemsJson = JSON.stringify(state.uiItems, null, 2);
+  return `const uiItems = ${uiItemsJson};\n\nexport { uiItems };\n`;
+}
+
+function syncScriptFromState() {
+  scriptElement().value = scriptFromState();
 }
 
 function snapshot() {
   return {
     script: scriptElement().value,
+    uiItems: cloneUiItems(state.uiItems),
+    nextUiItemNumber: state.nextUiItemNumber,
   };
 }
 
 function sameSnapshot(a, b) {
-  return a?.script === b?.script;
+  return a?.script === b?.script &&
+    JSON.stringify(a?.uiItems) === JSON.stringify(b?.uiItems);
 }
 
 function restoreSnapshot(nextSnapshot) {
-  scriptElement().value = nextSnapshot?.script || defaultScript;
+  state.uiItems = cloneUiItems(nextSnapshot?.uiItems || []);
+  state.nextUiItemNumber = nextSnapshot?.nextUiItemNumber || 1;
+  scriptElement().value = nextSnapshot?.script || scriptFromState();
   render();
 }
 
@@ -46,11 +76,26 @@ function recordHistory() {
 function render() {
   const script = scriptElement();
   if (!script.value.trim()) {
-    script.value = defaultScript;
+    syncScriptFromState();
   }
+  renderUiItems();
   script.classList.remove("invalid");
   document.getElementById("areaReadout").value = "operations area ready";
   renderHistoryButtons();
+}
+
+function renderUiItems() {
+  const areaCanvas = areaCanvasElement();
+  areaCanvas.querySelectorAll(".ui-item").forEach((element) => element.remove());
+  for (const item of state.uiItems) {
+    const element = document.createElement("div");
+    element.className = "ui-item";
+    element.style.left = `${item.x}px`;
+    element.style.top = `${item.y}px`;
+    element.textContent = item.label;
+    element.setAttribute("aria-label", item.label);
+    areaCanvas.append(element);
+  }
 }
 
 function renderHistoryButtons() {
@@ -76,7 +121,9 @@ function renderScriptLayout() {
 }
 
 function resetWorkbench() {
-  scriptElement().value = defaultScript;
+  state.uiItems = [];
+  state.nextUiItemNumber = 1;
+  syncScriptFromState();
   render();
   recordHistory();
 }
@@ -109,6 +156,48 @@ async function copyScript() {
 function toggleScriptPane() {
   state.scriptVisible = !state.scriptVisible;
   renderScriptLayout();
+}
+
+function canvasPointFromEvent(event) {
+  const bounds = areaCanvasElement().getBoundingClientRect();
+  return {
+    x: clamp(event.clientX - bounds.left, 0, bounds.width),
+    y: clamp(event.clientY - bounds.top, 0, bounds.height),
+  };
+}
+
+function showActionsMenu(event) {
+  event.preventDefault();
+  const point = canvasPointFromEvent(event);
+  state.contextPoint = point;
+
+  const menu = actionsMenuElement();
+  menu.style.left = `${point.x}px`;
+  menu.style.top = `${point.y}px`;
+  menu.hidden = false;
+}
+
+function hideActionsMenu() {
+  actionsMenuElement().hidden = true;
+}
+
+function addContextItemToUi() {
+  const point = state.contextPoint || { x: 0, y: 0 };
+  const bounds = areaCanvasElement().getBoundingClientRect();
+  const id = `uiItem${state.nextUiItemNumber}`;
+  state.nextUiItemNumber += 1;
+  state.uiItems.push({
+    id,
+    label: `UI ${state.uiItems.length + 1}`,
+    x: Math.round(clamp(point.x, 0, Math.max(0, bounds.width - uiItemWidth))),
+    y: Math.round(clamp(point.y, 0, Math.max(0, bounds.height - uiItemHeight))),
+    w: uiItemWidth,
+    h: uiItemHeight,
+  });
+  syncScriptFromState();
+  hideActionsMenu();
+  render();
+  recordHistory();
 }
 
 function beginSplitDrag(event) {
@@ -183,6 +272,11 @@ document.addEventListener("pointermove", dragSplit);
 document.addEventListener("pointerup", endSplitDrag);
 document.addEventListener("pointercancel", endSplitDrag);
 document.addEventListener("keydown", handleDocumentKeydown, { capture: true });
+document.addEventListener("pointerdown", (event) => {
+  if (!actionsMenuElement().hidden && !actionsMenuElement().contains(event.target)) {
+    hideActionsMenu();
+  }
+});
 document.getElementById("scriptToggleButton").addEventListener("click", toggleScriptPane);
 document.getElementById("splitter").addEventListener("pointerdown", beginSplitDrag);
 document.getElementById("splitter").addEventListener("keydown", handleSplitterKeydown);
@@ -190,8 +284,10 @@ document.getElementById("undoButton").addEventListener("click", undo);
 document.getElementById("redoButton").addEventListener("click", redo);
 document.getElementById("resetButton").addEventListener("click", resetWorkbench);
 document.getElementById("copyButton").addEventListener("click", copyScript);
+areaCanvasElement().addEventListener("contextmenu", showActionsMenu);
+document.getElementById("addToUiButton").addEventListener("click", addContextItemToUi);
 scriptElement().addEventListener("input", handleScriptInput);
-scriptElement().value = defaultScript;
+syncScriptFromState();
 renderScriptLayout();
 render();
 recordHistory();
