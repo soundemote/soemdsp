@@ -25,7 +25,7 @@ struct SmootherBase {
         incrementChanged();
     }
     bool needsSmoothing() {
-        return !math::isNear(out_, in_, 1.e-7);
+        return !math::isNear(out_, in_);
     } // NOLINT
 
     // parameters

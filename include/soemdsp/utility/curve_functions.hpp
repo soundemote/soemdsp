@@ -8,7 +8,7 @@
 #include <soemdsp/utility/Cache.hpp>
 
 namespace soemdsp::curve {
-double binaryInverse(std::function<double(double)> curve, double target, double minSearchRange, double maxSearchRange, double precision = 1.e-7, int maxIterations = 20);
+double binaryInverse(std::function<double(double)> curve, double target, double minSearchRange, double maxSearchRange, double precision = constant::kPlanck, int maxIterations = 20);
 
 template<typename curve_t>
 double calculateSkew(double normalizedPosition, double desiredValueForPosition, double min = 0.0, double max = 1.0) {

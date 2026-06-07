@@ -6,6 +6,7 @@
 #include <soemdsp/Phasor.hpp>
 #include <soemdsp/SampleRate.hpp>
 #include <soemdsp/Wire.hpp>
+#include <soemdsp/seconstant.hpp>
 #include <soemdsp/sehelper.hpp>
 #include <soemdsp/semath.hpp>
 #include <soemdsp/semidi.hpp>

@@ -10,6 +10,7 @@
 #include <string>
 #include <string_view>
 
+#include <soemdsp/seconstant.hpp>
 #include <soemdsp/sehelper.hpp>
 
 // calculate constants here : https://www.mathsisfun.com/scientific-calculator.html
@@ -103,7 +104,7 @@ double mapQuantize(T v, T sourceMin, T sourceMax, T targetMin, T targetMax) {
 bool isEven(int v);
 bool isOdd(int v);
 bool isOdd(size_t v);
-bool isNear(double a, double b, double epsilon);
+bool isNear(double a, double b, double epsilon = constant::kPlanck);
 
 // 0 to 1 -> 0 to 1, 1 to 2 -> 1 to 0
 double wrapBidirectional(double phase);

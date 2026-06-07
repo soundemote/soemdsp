@@ -50,7 +50,7 @@ bool isOdd(size_t v) {
     return v % 2 == 1;
 }
 
-bool isNear(double a, double b, double epsilon = 1.e-7) {
+bool isNear(double a, double b, double epsilon) {
     return abs(a - b) < epsilon;
 }
 

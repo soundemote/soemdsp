@@ -15,6 +15,7 @@
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <magic_enum/magic_enum.hpp>
+#include <soemdsp/seconstant.hpp>
 namespace soemdsp::debug {
 #ifndef NDEBUG
 inline void LOG(std::string_view msg, std::source_location loc = std::source_location::current()) {
@@ -81,7 +82,7 @@ template<typename t> void BADVAL(t val) {}
 } //namespace soemdsp::debug
 
 namespace soemdsp::compare {
-static constexpr double COMPARE_ACCURACY = 1.e-7;
+static constexpr double COMPARE_ACCURACY = constant::kPlanck;
 // clang-format off
 inline bool is_equal (double a, double b) { return std::abs(a - b) < COMPARE_ACCURACY; }
 inline bool not_equal(double a, double b) { return std::abs(a - b) >= COMPARE_ACCURACY; }
