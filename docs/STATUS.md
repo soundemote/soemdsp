@@ -118,13 +118,26 @@ Implemented runtime capabilities include:
 - terminal waveform remains demo presentation only
 - reference/dsp/noise.hpp exists as the low-level DSP object north-star reference
 - docs/DSP_OBJECT_CONTRACT.md documents low-level DSP object design principles
-- DSP object reference files are reference-only and not part of the build/runtime yet
+- NoiseAtoms.hpp graduates external-memory noise atoms into include/soemdsp/random (mem+base, syncSeed)
+- SoftClipperAtom.hpp and LookaheadLimiterAtom.hpp add *Changed/syncControlParams coeff caching
+- ModulatedDelay.hpp and Reverb.hpp rewritten as mem+base atoms (Wire/vector versions removed)
+- OnePoleHpAtom.hpp and BiquadCascadeAtom.hpp support Reverb filter path
+- runtime_dsp_object_reverb_atom_demo
+- docs/DSP_ATOM_PARADIGM.md — iteration-1 copy rulebook (kParams, Live vs Control, no connect)
+- dsp/AtomParam.hpp shared param descriptor
+- Reverb/ModulatedDelay: Live values passed as process args; kParams meta in DSP file
+- sandbox soem_reverb: set_params field-gates *Changed; process passes live feedback/lfoAmp
+- reference/dsp/noise.hpp now includes the production NoiseAtoms header
+- DSP_OBJECT_CONTRACT freezes mem+base naming, explicit *Changed updates, DirtyUpdater not default
 - duplicate reference/noise.hpp upload copy was removed after moving the reference to reference/dsp/noise.hpp
 - DSP_OBJECT_CONTRACT distinguishes low-level DSP objects, runtime graph nodes, and a future binding layer
 - docs/DSP_BINDING_NOTES.md documents the future runtime-to-DSP binding layer
-- DSP binding layer is documented but intentionally not implemented
 - docs/DSP_BINDING_MILESTONE_PLAN.md documents the first DSP binding prototype direction
 - DSP binding is the next big-ticket architecture track after the ControlGraph milestone
+- runtime_dsp_object_noise_atom_demo
+- runtime_dsp_object_softclipper_atom_demo
+- runtime_dsp_object_limiter_atom_demo
+- sandbox lookahead_limiter native+JS cache control coeffs on change (version 2)
 - first DSP binding value model
 - runtime_dsp_binding_demo
 - DSP binding value model is metadata only, with no DSP execution yet

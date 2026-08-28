@@ -47,27 +47,37 @@ DSP memory slots are execution-facing state/control storage.
 They may correspond, but they are not automatically the same thing.
 
 ## SplitMix64 Example
-`reference/dsp/noise.hpp` shows `SplitMix64` operating over externally owned memory through `wires` plus `base`.
 
-Conceptually:
+Production atom: `soemdsp::random::atom::SplitMix64` in `include/soemdsp/random/NoiseAtoms.hpp`
+(`reference/dsp/noise.hpp` includes that header).
+
+Operates over externally owned memory through **`mem` + `base`**:
+
 - `base + 0` is state
 - `base + 1` is seed
-- a future runtime node might expose seed as a Parameter
+- a runtime node may expose seed as a Parameter
 - `reset()` copies seed into state
+- `syncSeed()` resets only when `seed_()` differs from the last applied seed
 - editor changes should not directly mutate hidden execution state unless the binding explicitly says so
 
+Current `DspParameterBinding` apply writes `float` slots. For `uint64_t` seed slots, the caller reads the Circuit parameter and writes the integer seed into `mem`, then calls `syncSeed()` / `reset()`.
+
+Selective derived updates use explicit `*Changed()` / `sync*()` methods. Do not default to `DirtyUpdater` `std::function` tables on atoms; see `docs/DSP_OBJECT_CONTRACT.md`.
+
 ## Not Decided Yet
+
 - Whether binding descriptors live beside DSP objects or outside them
 - Whether binding is compile-time, runtime, or hybrid
-- Whether memory slots should keep the name `wires`
+- Whether float-only MemorySlot apply grows typed slots
 - Whether parameters push immediately to DSP memory or are applied at safe sync points
 - How audio-thread safety is handled
 - How scripting sees bound objects
 - How CLAP/web/export layers consume bindings
 
 ## Non-Goals For Now
-- No active DSP execution binding
-- No audio engine changes
+
+- No production scheduler
+- No audio engine ownership in the library demos
 - No plugin parameter integration
 - No serialization format lock-in
 - No UI implementation
