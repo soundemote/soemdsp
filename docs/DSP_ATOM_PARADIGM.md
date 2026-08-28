@@ -1,6 +1,10 @@
 # DSP Atom Paradigm (Iteration 1 — copy this)
 
-Reference modules: `delay/ModulatedDelay.hpp`, `delay/Reverb.hpp`, `dsp/AtomParam.hpp`.
+Reference modules:
+- `delay/ModulatedDelay.hpp`, `delay/Reverb.hpp` — full process atoms
+- `delay/PingPongDelay.hpp` — full process atom
+- `delay/SabrinaReverb.hpp` — **kParams meta** (SIMD runtime still in sandbox)
+- `dsp/AtomParam.hpp`
 
 ## Rules
 
