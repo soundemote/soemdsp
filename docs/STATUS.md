@@ -124,6 +124,8 @@ Implemented runtime capabilities include:
 - OnePoleHpAtom.hpp and BiquadCascadeAtom.hpp support Reverb filter path
 - runtime_dsp_object_reverb_atom_demo
 - docs/DSP_ATOM_PARADIGM.md — iteration-1 copy rulebook (kParams, Live vs Control, no connect)
+- PingPongDelay.hpp / SampleDelay.hpp / SabrinaReverb.hpp / LadderFilterAtom.hpp kParams meta
+- sandbox soft_clipper + ladder_filter cache Control coeffs (sin/cos/tan or tanh scales)
 - dsp/AtomParam.hpp shared param descriptor
 - Reverb/ModulatedDelay: Live values passed as process args; kParams meta in DSP file
 - sandbox soem_reverb: set_params field-gates *Changed; process passes live feedback/lfoAmp
