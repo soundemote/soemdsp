@@ -11,10 +11,13 @@ Reference modules:
 1. **One DSP class per file**, header-only when practical.
 2. **`kParams[]` lives in the DSP file** — keys, label, def/min/max, unit, `Live` vs `Control`, and which `*Changed` to call.
 3. **`mem[base + slot]`** — host/control storage. Caller owns the buffer.
-4. **`Live` params** — read every `process()` (or passed as args into children). **No `connect()` / `pointTo` / per-sample push.**
-5. **`Control` params** — only rebuild in `fooChanged()` / `syncControlParams()` when the value actually changed.
-6. **Fixed caps** — `kMaxDelays`, `kMaxBufferSamples`, etc. Contiguous slabs. No `vector` resize on audio thread.
-7. **Children** — leaf atoms (`ModulatedDelay`, filters). Parent passes **live** values as function arguments.
+4. **`Live` params** — audio-rate / feedback path values read every sample (or passed as args). **No `connect()`.**
+5. **`Control` params** — **not on any update path when idle.** Only enter recalc when the user moves them, a smoother is chasing, or audio-rate mod is wired. Then `fooChanged()` runs **only if the value actually changed** (`hasChanged`).
+6. **Dual dirty lists** (sandbox mirrors soemdsp):
+   - `activeSmoothers` — empty ⇒ spend **zero** CPU smoothing
+   - control `hasChanged` / cached params — idle unmodulated knobs are **not re-read and not `*Changed`**
+7. **Fixed caps** — `kMaxDelays`, `kMaxBufferSamples`, etc. Contiguous slabs. No `vector` resize on audio thread.
+8. **Children** — leaf atoms; parent passes Live values as args.
 
 ## Live vs Control (Reverb)
 
