@@ -1,6 +1,6 @@
 # ⋆⁺₊✧ soemdsp ✧₊⁺⋆ Library Guide 
 
-https://mit-license.org/
+https://mit-license.org/ (Jerobeam code is not MIT)
 
 ```rust
 // library version 0.1.0
